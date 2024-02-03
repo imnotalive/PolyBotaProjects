@@ -1,0 +1,229 @@
+﻿@model PolyBota.Web.Areas.Talep.Models.TalepAmbarModel
+
+@{
+    ViewBag.Title = "StokOnaylananListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="@Model.PagedListSrcn.CurrentPage" id="currentPage" />
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Talep Edilen Yedek Parçalar</h5>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Talep Edilen Yedek Parçalar</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+
+
+                    <h5>
+                        Talep Edilen Yedek Parçalar
+                    </h5>
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <div class="row">
+                            @foreach (var drop in Model.DropItems)
+                            {
+                                string clasAdi = drop.Id == Model.Id.ToString() ? "btn-info" : "btn-secondary";
+
+                                <div class="col-md-6">
+                                    <a href="@Url.Action("StokOnaylananListe",new{katId=drop.Id})" class="btn btn-block @clasAdi"> @drop.Tanim</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="">
+                            <b>&nbsp;</b>
+                            <ul class="pagination d-flex justify-content-center">
+                                <li class="page-item">
+                                    <a href="@Url.Action("StokOnaylananListe", "AmbarBilgi", new {@CurrentPage = 1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = 0})" aria-label="Previous" class="page-link">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                @foreach (var i in Model.PagedListSrcn.PageNumberList)
+                                {
+                                    string aktifClass = "";
+                                    if (i == Model.PagedListSrcn.CurrentPage)
+                                    {
+                                        aktifClass = "active";
+                                    }
+                                    <li class="page-item @aktifClass"><a href="@Url.Action("StokOnaylananListe", "AmbarBilgi", new {@CurrentPage = i, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.Id})" class="page-link">@i</a></li>
+
+                                }
+
+                                <li class="page-item">
+                                    <a href="@Url.Action("StokOnaylananListe", "AmbarBilgi", new {@CurrentPage = -1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.Id})" aria-label="Next" class="page-link">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-3">
+                        <b>Gösterim Sayısı</b>
+                        @Html.DropDownListFor(a => a.PagedListSrcn.PageShowCount,
+                            Model.PagedListSrcn.PageSizeSelectList.Select(a => new SelectListItem() {Text = a.Tanim.ToString(), Value = a.Tanim.ToString()}),
+                            new {@class = "form-control", @id = "pageshowCount", onchange = string.Format("GosterimDegistir({0})", Model.Id)})
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Tarih</th>
+                                <th>Ambar</th>
+                                <th>Stok Tanım</th>
+                                <th>Stok Kodu</th>
+
+                                <th>Miktar</th>
+                                <th>Kayıt Yapan</th>
+
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{
+                                int t = 0;
+                                if (Model.PagedListSrcn.CurrentPage > 1)
+                                {
+                                    t = Model.PagedListSrcn.CurrentPage * Model.PagedListSrcn.PageShowCount;
+                                }
+
+                                foreach (var item in Model.AmbarStokTaleps)
+                                {
+                                    t++;
+
+                                    string kayitYapan = "";
+                                    string onayVeren = "";
+                                    var talepAmbar = Model.Ambars.First(a => a.Id == item.TalepEdilenAmbarId);
+                                    var aktarilanAmbar = Model.Ambars.First(a => a.Id == item.AktarilacakAmbarId);
+                                    var stokKart = Model.StokKarts.First(a => a.Id == item.StokKartId);
+
+
+                                    if (Model.Users.Any(a => a.Id == item.KayitYapan))
+                                    {
+                                        kayitYapan = Model.Users.First(a => a.Id == item.KayitYapan).Name;
+                                    }
+
+                                    if (Model.Users.Any(a => a.Id == item.OnayVeren))
+                                    {
+                                        onayVeren = Model.Users.First(a => a.Id == item.OnayVeren).Name;
+                                    }
+
+                                  
+                                    <tr>
+
+                                        <td>@t</td>
+                                        <td>@item.KayitTarihi.ToString()</td>
+                                        <td>@talepAmbar.AmbarAdi - (@talepAmbar.PotaAmbarNo)</td>
+                                        <td>@stokKart.StokTanimAdi</td>
+                                        <td>@stokKart.StokKodu</td>
+
+                                        <td>@item.Miktar</td>
+                                        <td>@kayitYapan</td>
+
+                                        <td>
+                                            @if (Model.Id == 1)
+                                            {
+                                                <a href="javascript:" data-toggle="modal" data-target="#modal" class="btn btn-success btn-block" onclick="ModalGoster(@item.Id, 2)">Düzenle</a>
+                                            }
+                                            else
+                                            {
+                                                <b>@aktarilanAmbar.AmbarAdi</b>
+                                            }
+                                         
+                                        </td>
+
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@section Scripts
+{
+    <script>
+        function SayfayiYonlendir(PageshowCount, CurrentPage, katId) {
+
+
+            var url = "/Talep/AmbarBilgi/StokOnaylananListe?";
+            url += "CurrentPage=" + CurrentPage;
+            url += "&PageShowCount=" + PageshowCount;
+            url += "&katId=" + katId;
+
+            window.location.href = url;
+
+        }
+        function GosterimDegistir(katId) {
+
+            var PageshowCount = $("#pageshowCount").val();
+
+            SayfayiYonlendir(PageshowCount, 1, katId);
+        }
+    </script>
+    
+    @Html.Partial("_StokOnayTalepOrtakScript")
+}

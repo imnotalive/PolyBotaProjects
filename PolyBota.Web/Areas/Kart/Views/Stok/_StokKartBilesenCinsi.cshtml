@@ -1,0 +1,61 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartStokModel
+
+@helper ListOlustur(int id)
+{
+
+
+    var lst = Model.StokKartBilesenCinsis.Where(a => a.BagliOlduguId == id).ToList();
+    if (lst.Any())
+    {
+        <ul class="list-group">
+            @foreach (var item in lst)
+            {
+
+                string strAdi = item.StokBilesenAdi == null ? "Tanım Yapın" : item.StokBilesenAdi;
+                if (Model.BilesenCinsis.Any(b => b.Id == item.BilesenCinsiId))
+                {
+                    var baslik = Model.BilesenCinsis.First(b => b.Id == item.BilesenCinsiId).BilesenCinsiAdi;
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div >
+                                    <a class="btn">@baslik</a>
+
+                                    <a href="javascript:" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@item.Id,1,1)">@strAdi</a>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="btn btn-group float-right" role="group">
+                                    <a class="btn btn-success btn-sm beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@item.Id, 1,0)"><i class="fa fa-plus"></i> Altına Ekle</a>
+                                  
+                                    
+                                    <a class="btn btn-danger btn-sm beyaz" onclick="StokKartItemSil(@item.Id,1)"><i class="fa fa-trash"></i> Sil</a>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        @ListOlustur(item.Id)
+                    </li>
+                }
+            }
+        </ul>
+    }
+
+}
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGoster(0,1,0)">Yeni Bileşen</a>
+    </div>
+    <div class="col-md-12">
+        @ListOlustur(0)
+    </div>
+
+</div>

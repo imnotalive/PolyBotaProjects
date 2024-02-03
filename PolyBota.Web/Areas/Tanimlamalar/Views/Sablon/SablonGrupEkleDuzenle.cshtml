@@ -1,0 +1,187 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaSablonModel
+
+@{
+    ViewBag.Title = "SablonGrupEkleDuzenle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@helper ListOlustur(int id)
+{
+    var liStyle = id == 0 ? "" : "display:none";
+
+
+    string liClass = "li" + id;
+    string acClass = id == 0 ? "" : "ulAc";
+
+    var lst = Model.SablonGrupItems.Where(a => a.BagliOlduguId == id).OrderBy(a => a.Id).ToList();
+    if (lst.Any())
+    {
+        <ul class="list-group @liClass  @acClass" style="@liStyle">
+            @foreach (var item in lst)
+            {
+                if (Model.KomponentTanims.Any(a=>a.Id==item.KomponentTanimId))
+                {
+                    string kompAdi = Model.KomponentTanims.First(a => a.Id == item.KomponentTanimId).KomponentTanimAdi;
+
+                    liClass = "li" + item.Id;
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="javascript:" class="btn btn-outline-dark" onclick="toggleCreate('@liClass','.')">  ±</a> <b class="siyah"> @kompAdi</b>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="btn btn-group float-right" role="group">
+                                    <a class="btn btn-success btn-sm beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@item.Id, 0)"><i class="fa fa-plus"></i> Altına Ekle</a>
+                                    <a class="btn btn-warning btn-sm beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@item.Id, 1)"><i class="fa fa-pencil-alt"></i> Düzenle</a>
+                                    <a class="btn btn-danger btn-sm beyaz" onclick="ItemSil(@item.Id)"><i class="fa fa-trash"></i> Sil</a>
+
+                                </div>
+                            </div>
+                        </div>
+                        @ListOlustur(item.Id)
+                    </li> 
+                }
+
+             
+            }
+        </ul>
+    }
+
+}
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Makine Ekipman Şablon Detay</h5>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary btn-sm" href="/Tanimlamalar/Sablon/SablonGrupListe"><i class="fa fa-reply"></i> Geri</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="/Tanimlamalar/Sablon/SablonGrupListe">Şablon Liste</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Şablon Detay</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h5>Makine Ekipman Şablon Detay</h5>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @using (Html.BeginForm("SablonGrupEkleDuzenle", "Sablon"))
+                {
+                    @Html.HiddenFor(a => a.SablonGrup.Id, new { id = "hiddenId" })
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b>Şablon Adı</b>
+                                @Html.TextBoxFor(a => a.SablonGrup.SablonGrupAdi, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b> <br /> </b>
+                                <button type="submit" class="btn btn-secondary">KAYDET</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                    </div>
+                }
+                @if (Model.SablonGrup.Id != 0)
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGoster(0,0)">Yeni Kayıt</a>
+                        </div>
+                        <div class="col-md-12">
+                            @ListOlustur(0)
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function ModalGoster(itemId, state) {
+
+            var id = $("#hiddenId").val();
+
+            var url = "/Tanimlamalar/Sablon/SablonGrupItemEkleDuzenle/" + id;
+            url += "?itemId=" + itemId;
+            url += "&state=" + state;
+
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+
+        function ItemSil(id) {
+
+
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.location.href = "/Tanimlamalar/Sablon/SablonGrupItemSil/" + id;
+                }
+            });
+
+
+
+        }
+    </script>
+}

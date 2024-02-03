@@ -1,0 +1,17 @@
+﻿@model PolyBota.Web.Models.LayoutModel
+@if (Model.DropHizliArama.Any())
+{
+    <div class="row">
+        <br/>
+     
+            @foreach (var item in Model.DropHizliArama)
+            {
+                <div class="col-md-4 ">
+                    <a href="@item.Id" class="btn btn-block btn-secondary">
+                        <b> @item.Tanim</b>
+                    </a>
+                </div>
+            }
+       
+    </div>
+}

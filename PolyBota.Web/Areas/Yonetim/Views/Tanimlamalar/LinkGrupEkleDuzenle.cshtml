@@ -1,0 +1,80 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Yonetim.Models.TanimlamaModel
+
+@{
+    ViewBag.Title = "ModulListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-save"></i>
+                    Yönetim Modülü
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <blockquote>
+                    <p>Link Grup Ekle/ Duzenle</p>
+                </blockquote>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            
+     
+        
+            <div class="card-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(a => a.LinkGrupTanim.Id)
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b>Modül</b>
+                                @Html.DropDownListFor(a => a.LinkGrupTanim.SystemModulId, Model.GenelSelect1, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6">
+                                <b>I Class Tanım</b>
+                                @Html.TextBoxFor(a => a.LinkGrupTanim.IclassName, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b>Link Grup Tanım Adı</b>
+                                @Html.TextBoxFor(a => a.LinkGrupTanim.LinkGrupTanimAdi, new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6">
+                                <b>Link Grup Tanım Eng</b>
+                                @Html.TextBoxFor(a => a.LinkGrupTanim.LinkGrupTanimAdiEng, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-danger btn-block">KAYDET</button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+            </div>
+        </div>
+    </div>
+</div>
+
+

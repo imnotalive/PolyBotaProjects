@@ -1,0 +1,239 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaPeriyotModel
+
+@{
+    ViewBag.Title = "PeriyotTanimListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var periyotTipiTanim = Model.PeriyotTipiTanims.First(a => a.Id == Model.Id);
+
+}
+
+@section Styles
+{
+
+    @*<link href="~/vendors/farbtastic/farbtastic.css" rel="stylesheet" />*@
+    <link href="~/vendors/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css" rel="stylesheet" />
+    
+    
+}
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>Periyot Tanım Liste</h3>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/Tanimlamalar/Departman/DepartmanListe">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Periyot Tanım Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="alert alert-light alert-dismissible " role="alert"
+             style="border-left: 5px solid #1abb9c">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <strong>Sayfa Kullanımı</strong><br />
+            Genel Periyot Düzenleme ve Güncelleme Alanı
+        </div>
+
+    </div>
+</div>
+<div class="row d-flex justify-content-center">
+    @{
+
+        foreach (var item in Model.PeriyotTipiTanims)
+        {
+
+            string bg = item.Id == Model.Id ? "#03a9f4" : "#9e9e9e";
+
+
+            <div class="col col-md-2 m-1">
+                <a href="@Url.Action("PeriyotTanimListe","Periyot",new{id=item.Id})" class="btn btn-block btn-default beyaz h-100 " style="background-color: @bg">@item.PeriyotTipiAdi.ToUpper()</a>
+            </div>
+
+
+
+        }
+    }
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Periyot Tanım Liste
+
+                   
+                      
+              
+                </h2>
+
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGoster(0)">Yeni Kayıt</a>
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tip</th>
+                                    <th>Tanım</th>
+                                    <th>Renk</th>
+                                    <th>Periyot</th>
+                                    <th>Bildirim</th>
+                                    <td>Duruşlarda Öteleme</td>
+                                    <th colspan="2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int t = 0;
+                                    foreach (var item in Model.PeriyotTanims)
+                                    {
+                                        t++;
+                                        string tanimTipi = Model.PeriyotTipiTanims.First(a => a.Id == item.PeriyotTipi).PeriyotTipiAdi;
+                                        <tr>
+                                            <td>@t</td>
+                                            <td>@tanimTipi</td>
+                                            <td>@item.PeriyotTanimAdi</td>
+                                            <td style="background-color: @item.RenkSecimi">&nbsp;</td>
+                                            <td>@item.PeriyotDonemi</td>
+                                            <td>@item.BildirimDonemi</td>
+                                            <td>
+                                                @if (periyotTipiTanim.OteleYapilabilmDurumu)
+                                                {
+                                                    <label class="badge badge-success">YAPILABİLİR</label>
+                                                }
+                                                else
+                                                {
+                                                    <label class="badge badge-danger">YAPILAMAZ</label>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-warning beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@item.Id)"><i class="fa fa-pencil-alt"></i> Düzenle</a>
+
+                                            </td>
+                                            
+                                            <td> <a class="btn btn-danger beyaz" onclick="ItemSil(@item.Id)"><i class="fa fa-trash"></i> Sil</a></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section Scripts
+{
+
+    @*<script src="~/vendors/farbtastic/farbtastic.js"></script>*@
+
+    <script src="~/vendors/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js"></script>
+
+    <script>
+
+        function ColorPickerGoster () {
+            // Basic instantiation:
+            $('.renk').colorpicker();
+      
+            // Example using an event, to change the color of the #demo div background:
+            $('.renk').on('colorpickerChange', function(event) {
+                $('.renk').css('background-color', event.color.toString());
+
+              
+
+
+            });
+        }
+
+        function ModalGoster(id, makId, state) {
+            var url = "/Tanimlamalar/Periyot/PeriyotTanimEkleDuzenle/" + id;
+
+
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                    ColorPickerGoster();
+                    //$('#picker').farbtastic('.color');
+
+
+                });
+        }
+
+        function ItemSil(id) {
+
+
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.location.href = "/Tanimlamalar/Periyot/PeriyotTanimSil/" + id;
+                }
+            });
+
+
+
+        }
+    </script>
+}
+

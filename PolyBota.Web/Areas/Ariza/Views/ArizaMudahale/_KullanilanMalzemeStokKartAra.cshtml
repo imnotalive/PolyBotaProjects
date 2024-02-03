@@ -1,0 +1,37 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+
+<table class="table table-bordered table-sm " id="tblBakim">
+    <thead>
+    <tr>
+
+        <th>Stok Kodu</th>
+        <th>Stok Adı</th>
+
+        <th>Lot</th>
+        <th>Miktar</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for (int i = 0; i < Model.StokKarts.Count; i++)
+    {
+        @Html.HiddenFor(a => a.StokKarts[i].Id)
+        var item = Model.StokKarts[i];
+        <tr>
+            <td>@item.StokKodu</td>
+            <td>@item.StokTanimAdi</td>
+            <td>@item.LotNo</td>
+            <td style="max-width: 75px;">@Html.TextBoxFor(a => a.StokKarts[i].Miktar, new { @class = "form-control" })</td>
+        </tr>
+    }
+    <tr>
+        <td colspan="4">
+            <button type="submit" class="btn btn-dark w-100">KAYDET</button>
+        </td>
+    </tr>
+    </tbody>
+
+
+</table>
+

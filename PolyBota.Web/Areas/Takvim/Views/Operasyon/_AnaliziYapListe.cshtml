@@ -1,0 +1,103 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Takvim.Model.TakvimOperasyonModel
+
+
+
+
+
+<div class="row">
+
+
+
+    <div class="col-md-12 table-responsive">
+        <table class="table table-sm table-bordered" id="tblBakim">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Planlanan Tarih</th>
+                    <th>Pota Kart</th>
+                    <th>Operasyon</th>
+                    <th>Durum</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (int i = 0; i < Model.StokKartOperasyons.Count; i++)
+                {
+                    var operasyon = Model.StokKartOperasyons[i];
+
+                    var potaKart = Model.PotaKarts.First(a => a.Id == operasyon.StokKartId);
+                    var komponentTalimatGrup = new KomponentTalimatGrup();
+
+                    var periyotTanim = new PeriyotTanim();
+                    string classAdi = "bg-warning text-white";
+                    var gunfarki = (operasyon.PlanlananTarih.Date - DateTime.Now.Date).Days;
+                    var opAciklama = "";
+                    if (Model.KomponentTalimatGrups.Any(a => a.Id == operasyon.KomponentTalimatGrupId))
+                    {
+                        komponentTalimatGrup = Model.KomponentTalimatGrups.First(a => a.Id == operasyon.KomponentTalimatGrupId);
+                        if (gunfarki <= 0)
+                        {
+                            gunfarki *= (-1);
+
+                            if (operasyon.OperasyonDurumu==1)
+                            {
+                                classAdi = "bg-success text-white";
+
+                                opAciklama = string.Format("Tamamlandı");
+                            }
+                            else
+                            {
+                                classAdi = "bg-danger text-white";
+
+                                opAciklama = string.Format("{0} Gün Gecikmede", gunfarki);
+                            }
+                       
+                        }
+                        else
+                        {
+                            opAciklama = string.Format("{0} Gün Kaldı", gunfarki);
+                        }
+
+                        if (Model.PeriyotTanims.Any(a => a.Id == komponentTalimatGrup.PeriyotTanimId))
+                        {
+                            periyotTanim = Model.PeriyotTanims.First(a => a.Id == komponentTalimatGrup.PeriyotTanimId);
+                        }
+
+
+                        <tr>
+                            <td>@(i+1)</td>
+                            <td>
+                                @operasyon.PlanlananTarih.ToShortDateString()
+                            </td>
+                            <td>@potaKart.PotaKartAdi</td>
+
+
+                            <td>
+                                @if (periyotTanim.Id != 0)
+                                {
+                                    <a class="badge @classAdi beyaz" href="/Kart/KartPota/KartOperasyonDetay/@operasyon.StokKartId" style="background-color: @periyotTanim.RenkSecimi;">
+                                        @periyotTanim.PeriyotTanimAdi
+                                    </a>
+                                    <br />
+                                    @komponentTalimatGrup.KomponentTalimatGrupAdi
+                                }
+                            </td>
+
+                            <td class="@classAdi">
+                                @opAciklama
+                            </td>
+                        </tr>
+                    }
+
+
+
+
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

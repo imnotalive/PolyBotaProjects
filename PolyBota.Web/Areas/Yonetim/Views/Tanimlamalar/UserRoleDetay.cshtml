@@ -1,0 +1,265 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Yonetim.Models.TanimlamaModel
+
+@{
+    ViewBag.Title = "ModulListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 class="card-title">
+                        <i class="fas fa-save"></i>
+                        Yönetim Modülü
+
+
+                    </h5>
+                </div>
+                <div class="col-md-3">
+                    <div class="btn-group">
+                        <a href="@Url.Action("UserRoleListe")" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Geri</a>
+                    </div>
+                </div>
+                <div class="col-md-12">   <blockquote>
+                    <p>@Model.User.Name Bilgi ve Yetkileri</p>
+                </blockquote></div>
+            </div>
+           
+         
+        </div>
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.HiddenFor(a => a.User.Id)
+                            int i = -1;
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label"><b>İSİM SOYİSİM </b></label>
+                                        <div class="input-icon right">
+                                            @Html.TextBoxFor(a => a.User.Name, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label"><b>TITLE </b></label>
+                                        <div class="input-icon right">
+                                            @Html.TextBoxFor(a => a.User.Title, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><b>KULLANICI ADI </b></label>
+                                        @Html.TextBoxFor(a => a.User.UserName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><b>PERSONEL KODU </b></label>
+                                        @Html.TextBoxFor(a => a.User.PersonelCode, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><b>E-MAIL</b></label>
+                                        @Html.TextBoxFor(a => a.User.EmailAdres, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label><b>ŞİFRE</b></label>
+                                        @Html.TextBoxFor(a => a.User.Password, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr />
+                                    <b class="text-success">Rol Tanımları</b>
+                                    <div class="btn btn-group float-right" role="group">
+
+                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('rol', '.', 0)">
+                                            <i class="fa fa-check-square"></i>
+                                        </a>
+                                        <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('rol', '.', 1)">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                @foreach (var UserRole in Model.GenelDropItemList1)
+                                {
+                                    i++;
+
+
+
+                                    @Html.HiddenFor(a => a.GenelDropItemList1[i].Id)
+
+                                    <div class="col-md-6">
+                                        <div class="">
+
+
+                                            <b>
+                                                <label>
+                                                    @Html.CheckBoxFor(a => a.GenelDropItemList1[i].SeciliMi, new { @class = "rol" })
+                                                    @UserRole.Tanim
+                                                </label>
+                                            </b>
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                }
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr />
+                                    <b class="text-danger">Kullanıcı Departmanları</b>
+                                    <div class="btn btn-group float-right" role="group">
+
+                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('dept', '.', 0)">
+                                            <i class="fa fa-check-square"></i>
+                                        </a>
+                                        <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('dept', '.', 1)">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+
+                                    </div>
+                                </div>
+                                @for (int j = 0; j < Model.DropItems.Count; j++)
+                                {
+
+
+
+
+                                    @Html.HiddenFor(a => a.DropItems[j].IdInt)
+
+                                    <div class="col-md-6">
+                                        <div class="">
+
+
+                                            <b>
+                                                <label>
+                                                    @Html.CheckBoxFor(a => a.DropItems[j].SeciliMi, new { @class = "dept" })
+                                                    @Model.DropItems[j].Tanim
+                                                </label>
+                                            </b>
+
+
+                                        </div>
+
+                                    </div>
+
+
+
+                                }
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr />
+                                    <b class="text-warning">Arıza Bildirim Yetkisi</b>
+                                    <br />
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@Html.RadioButtonFor(a => a.User.ArizaBildirimYetki, 0) Sadece Kendi Arızalarına Bildirim</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@Html.RadioButtonFor(a => a.User.ArizaBildirimYetki, 1) Departman Arızalarına Bildirim</label>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <hr />
+                                    <b class="text-primary">Arıza Müdahale Yetkisi</b>
+                                    <br />
+                                </div>
+                                <div class="col-md-6">
+                                    <label>@Html.RadioButtonFor(a => a.User.ArizaMudahaleYetki, 0) Arızalara Müdahale Edemez</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="text-danger">@Html.RadioButtonFor(a => a.User.ArizaMudahaleYetki, 1) Arızalara Müdahale Edebilir</label>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-block btn-success">KAYDET</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @using (Html.BeginForm("UserResimDegistir", "Tanimlamalar", FormMethod.Post, new
+                                {
+                                    enctype = "multipart/form-data"
+                                }))
+                                {
+                                    @Html.HiddenFor(a => a.User.Id)
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+
+                                                <input type="file" name="file" class="form-control" />
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <input type="submit" value="Resim Değiştir" class="btn btn-secondary btn-block" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                }
+                            </div>
+                            <div class="col-md-12">
+                                @if (!string.IsNullOrWhiteSpace(Model.User.ImageUrl))
+                                {
+                                <img src="@Url.Content(Model.User.ImageUrl)" class="img-thumbnail img-responsive" style="width: 100%" />
+                                }
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+            </div>
+        </div>
+    </div>
+</div>
+
+

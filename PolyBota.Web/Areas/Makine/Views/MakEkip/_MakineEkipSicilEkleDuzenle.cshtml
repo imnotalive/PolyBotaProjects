@@ -1,0 +1,66 @@
+﻿@model PolyBota.Web.Areas.Makine.Models.MakineEkipmanModel
+
+
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.MakineEkipman.Id == 0 ? "YENİ KAYIT" : "")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+<div class="modal-body">
+    <form id="frm-mak">
+        @Html.HiddenFor(a => a.tabId)
+        @Html.HiddenFor(a => a.MakineEkipman.Id)
+     
+
+
+     
+            @foreach (var sicilHeader in Model.SicilOzellikHeaderTanims)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <b class="siyah"> @sicilHeader.SicilOzellikHeaderTanimAdi</b>
+                    </div>
+
+                
+                @foreach (var komp in Model.SicilOzellikTanims.Where(a => a.SicilOzellikHeaderTanimId == sicilHeader.Id).OrderBy(a=>a.SicilOzellikTanimAdi).ToList())
+                {
+                    var i = Model.SicilOzellikTanims.IndexOf(komp);
+                             
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class=""> @Html.CheckBoxFor(a => a.SicilOzellikTanims[i].SeciliMi) @komp.SicilOzellikTanimAdi </label>
+                            @Html.TextBoxFor(a => a.SicilOzellikTanims[i].BaseValue, new {@class = "form-control"})
+                        </div>
+            
+                    </div>
+
+                    @Html.HiddenFor(a => a.SicilOzellikTanims[i].Id)
+                }
+                
+                <div class="col-md-12">
+                    <hr/>
+                </div>
+                </div>
+            }
+
+     
+        
+        <div class="row">
+            <div class="col-md-12">
+                <a href="javascript:" onclick="frmKaydet()" class="btn btn-block btn-secondary" data-dismiss="modal">KAYDET</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+    <div class="modal-footer ">
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+    </div>
+</div>

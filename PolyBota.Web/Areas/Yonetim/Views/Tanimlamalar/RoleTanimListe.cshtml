@@ -1,0 +1,83 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Yonetim.Models.TanimlamaModel
+
+@{
+    ViewBag.Title = "ModulListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-save"></i>
+                    Yönetim Modülü
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <blockquote>
+                    <p>Rol Tanımları</p>
+                </blockquote>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            
+     
+            <div class="pull-right m-1">
+
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-0">
+                    Rol Ekle
+                </button>
+            
+
+                @Html.Partial("~/Areas/Yonetim/Views/Tanimlamalar/_RoleTanimEkleGuncelle.cshtml", new SystemRoleTanim())
+            </div>
+            <div class="card-body">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                            <th>Rol Adı</th>
+                            <th>Kod</th>
+                            <th>Özel Tanım</th>
+
+                            <th>#</th>
+                          @*  <th>#</th>*@
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.RoleTanimListe)
+                    {
+                        <tr>
+                            <td>@item.RoleTanimAdi</td>
+                            <td>@item.RoleTanimOzel</td>
+
+                            <td><a href="@Url.Action("RoleTanimYetki","Tanimlamalar",new{id=item.Id})" class="btn btn-success btn-block">Yetkiler</a></td>
+                            <td class="text-center"><button type="button" class="btn btn-info btn-block " data-toggle="modal" data-target="#modal-@item.Id">Düzenle</button></td>
+                          @*  <td><a href="#" class="btn btn-block btn-danger">Sil</a></td>*@
+                            @Html.Partial("~/Areas/Yonetim/Views/Tanimlamalar/_RoleTanimEkleGuncelle.cshtml", item)
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+            </div>
+        </div>
+    </div>
+</div>
+
+

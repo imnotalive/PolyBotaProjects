@@ -1,0 +1,248 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartOperasyonModel
+
+@{
+    ViewBag.Title = "KartOperasyonlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Bakım Takvimi </h5>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary btn-sm" href="/Kart/Stok/StokKartDetay/@Model.StokKart.Id"><i class="fa fa-reply"></i> Geri</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item">
+
+                        <a href="/Kart/Stok/StokKartDetay/@Model.StokKart.Id">@Model.StokKart.StokTanimAdi Detay</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Makine Duruş Takvimi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6>Stok Bilgileri</h6>
+                    </div>
+                     
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Stok Tanım</b>
+                            @Html.TextBoxFor(a => a.StokKart.StokTanimAdi, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <b>Stok Kodu</b>
+                            @Html.TextBoxFor(a => a.StokKart.StokKodu, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <b>LOT NO</b>
+                            @Html.TextBoxFor(a => a.StokKart.LotNo, new {@class = "form-control"})
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Sicil No</b>
+                            @Html.TextBoxFor(a => a.StokKart.SicilNo, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Seri No</b>
+                            @Html.TextBoxFor(a => a.StokKart.SeriNo, new {@class = "form-control"})
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr/>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <a class="btn btn-info btn-sm beyaz" data-toggle="modal" data-target="#modal"><i class="fa fa-plus"></i> Yeni Operasyon Ekle</a>
+                    </div>
+                </div>
+                <div>
+                    <form id="frm-operasyon">
+                        <div class="row">
+
+
+                            @Html.HiddenFor(a => a.StokKart.Id)
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <b> Başlangıç Tarihi </b>
+                                    @Html.TextBoxFor(x => x.BaslangisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                                    {
+                                        @class = "form-control",
+
+                                        @type = "datetime-local"
+                                    })
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <b> Bitiş Tarihi </b>
+                                    @Html.TextBoxFor(x => x.BitisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                                    {
+                                        @class = "form-control",
+
+                                        @type = "datetime-local"
+                                    })
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <b> Gösterim Şekli </b>
+                                    <div class="row">
+
+                                        @foreach (var gosterim in Model.GosterimList)
+                                        {
+                                            <div class="col-md-4">
+                                                <label>@Html.RadioButtonFor(a => a.GosterimSekli, gosterim.Id) @gosterim.Tanim </label>
+                                            </div>
+                                        }
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <b>&nbsp; </b>
+                                    <a href="javascript:" class="btn btn-danger btn-block" onclick="frmSerialize()">Listeyi Göster</a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="alan-summary">
+                    @Html.Partial("_OperasyonListesi", Model)
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">YENİ OPERASYON</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+
+            @using (Html.BeginForm("OperasyonEkle", "Operasyon"))
+            {
+                @Html.HiddenFor(a => a.StokKart.Id)
+            
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <b>Stok Kartı</b>
+                                @Html.TextBoxFor(a => a.StokKart.StokTanimAdi, new { @class = "form-control ", @readonly=true })
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <b>Planlanan Tarih</b>
+                                @Html.TextBoxFor(a => a.StokKartOperasyon.PlanlananTarih, "{0:yyyy-MM-dd}", new {@class = "form-control ", @autocomplete = "OFF", @type = "date"})
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <b>Operasyon Şablonu</b>
+                                @Html.DropDownListFor(a => a.StokKartOperasyon.KomponentTalimatGrupId
+                                    , Model.KomponentTalimatGrups.Select(a => new SelectListItem()
+                                    {
+                                        Text = a.KomponentTalimatGrupAdi,
+                                        Value = a.Id.ToString()
+                                    }), new {@class = "form-control"})
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>&nbsp;</b>
+                                <button type="submit" class="btn btn-block btn-success" >KAYDET</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+                </div>
+            }
+
+
+
+        </div>
+
+    </div>
+    
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function frmSerialize() {
+            var data = $("#frm-operasyon").serialize();
+            var url = "/Kart/Operasyon/OperasyonListesi/";
+
+            var alan = $("#alan-summary");
+            alan.empty();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.append(result);
+                    Yenile();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+    </script>
+} 

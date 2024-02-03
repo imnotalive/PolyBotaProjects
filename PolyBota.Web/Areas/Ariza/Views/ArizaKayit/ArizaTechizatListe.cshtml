@@ -1,0 +1,113 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    ViewBag.Title = "ArizaTechizatListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    <style>
+        .thumbnail {
+            position: relative;
+        }
+
+        .ustune {
+            position: absolute;
+            top: 45%;
+            left: 0;
+            width: 100%;
+            color: #00a99d;
+            
+        }
+
+    </style>
+}
+
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h6>Arıza Grubu Seçimi</h6>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Arıza Grubu Seçimi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Arıza Grubu Seçimi
+
+
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+              
+
+
+                <div class="row">
+                    @foreach (var item in Model.ArizaTechizatGrubuTanims)
+                    {
+                        <div class="col-4 text-center">
+                            <a href="@Url.Action("ArizaTechizataGoreArizaSecimi", "ArizaKayit", new {id = item.Id})" id="" class="btn">
+                              
+
+                                <img src="~/Resimler/ariza.png" class="img-thumbnail img-responsive" style="width:100%" />
+                                <div class="ustune">
+                                    <b>@item.ArizaTechizatGrubuAdi</b>
+                                </div>
+                              
+                            </a>
+                        </div>
+
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*
+
+    <div class="col-md-3">
+                        <a href="@Url.Action("MakineListe", "Makine", new {id = item.Id})" id="">
+
+                            <img src="~/Resimler/file.png" class="img-thumbnail img-responsive" style="width:100%" />
+
+                            <b class="text-center justify-content-center">  @item.ArizaTechizatGrubuAdi</b>
+                        </a>
+                    </div>*@

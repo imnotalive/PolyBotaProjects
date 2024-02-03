@@ -1,0 +1,109 @@
+﻿@model PolyBota.Web.Areas.Talep.Models.TalepAmbarModel
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Stok Kart</th>
+                    <th>PTKS AMBAR</th>
+                    <th>BOTA AMBAR</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int t = 0;
+                    foreach (var item in Model.AmbarStokKarts)
+                    {
+                        t++;
+                        <tr>
+                            <td>@t</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        @item.StokKart.StokTanimAdi
+
+
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <b class="badge badge-success">@item.StokKart.StokKodu</b>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <b class="badge badge-info">LOT: @item.StokKart.LotNo</b>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                @foreach (var ambarStokKart in item.PTKSAmbarStokKarts)
+                                {
+                                    if (ambarStokKart.ToplamMiktar > 0)
+                                    {
+                                        string ambarAdi = "";
+
+                                        if (Model.Ambars.Any(a => a.Id == ambarStokKart.AmbarId))
+                                        {
+                                            var ambar = Model.Ambars.First(a => a.Id == ambarStokKart.AmbarId);
+                                            ambarAdi = string.Format("{0} - ({1})", ambar.AmbarAdi, ambar.PotaAmbarNo);
+
+                                        }
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <label>Ambar: </label>
+                                                <b>@ambarAdi</b>
+                                                <br />
+                                                <label>Miktar: </label>
+                                                <b>@ambarStokKart.ToplamMiktar.ToString("F1")</b>
+
+                                            </div>
+
+                                            <div class="col-md-4 ">
+                                                <a href="javascript:" class="btn btn-sm btn-danger " data-toggle="modal" data-target="#modal" onclick="ModalGoster(@ambarStokKart.StokKartId, @ambarStokKart.AmbarId)">Talep Oluştur</a>
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+
+
+                            </td>
+                            <td>
+                                @foreach (var ambarStokKart in item.AmbarStokKarts)
+                                {
+                                    var ambar = Model.Ambars.First(a => a.Id == ambarStokKart.AmbarId);
+                                    if (ambarStokKart.ToplamMiktar > 0 && ambar.AmbarTipi > 0)
+                                    {
+                                        string ambarAdi = "";
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+
+                                                <label>Ambar:</label>
+                                                <b>@ambar.AmbarAdi</b>
+                                                <br />
+                                                <label>Miktar:</label>
+                                                <b>@ambarStokKart.ToplamMiktar.ToString("F1")</b>
+                                            </div>
+
+                                           
+                                        </div>
+                                    }
+
+                                }
+
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

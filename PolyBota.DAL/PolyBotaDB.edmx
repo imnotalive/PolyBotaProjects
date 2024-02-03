@@ -1,0 +1,2790 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="POTA_BOTAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ambar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AmbarTipi" Type="int" Nullable="false" />
+          <Property Name="AmbarAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="PotaAmbarNo" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="AmbarHareketTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TanimAdi" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="AmbarStokKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AmbarId" Type="int" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="ToplamMiktar" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AmbarStokKartAdres">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AmbarStokKartId" Type="int" Nullable="false" />
+          <Property Name="AdresX" Type="int" Nullable="false" />
+          <Property Name="AdresY" Type="int" Nullable="false" />
+          <Property Name="AdresZ" Type="int" Nullable="false" />
+          <Property Name="ToplamMiktar" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AmbarStokKartHareket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="AmbarStokKartId" Type="int" Nullable="false" />
+          <Property Name="AmbarHareketTipi" Type="int" Nullable="false" />
+          <Property Name="Miktar" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="PtksFisNo" Type="int" Nullable="false" />
+          <Property Name="PtksSiraNo" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AmbarStokTalep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+          <Property Name="OnayTarihi" Type="datetime" Nullable="false" />
+          <Property Name="TalepEdilenAmbarId" Type="int" Nullable="false" />
+          <Property Name="AktarilacakAmbarId" Type="int" Nullable="false" />
+          <Property Name="TigerAmbarId" Type="int" Nullable="false" />
+          <Property Name="Miktar" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="KayitYapan" Type="int" Nullable="false" />
+          <Property Name="OnayVeren" Type="int" Nullable="false" />
+          <Property Name="TalepDurumu" Type="int" Nullable="false" />
+          <Property Name="AmbarStokKartHareketId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AmbarStokTalepDurumuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="TalepDurumu" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="AmbarTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="AmbarTipAdi" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ArizaAcilabilecekDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="DepartmanId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimCozum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaBildirimHeaderId" Type="int" Nullable="false" />
+          <Property Name="ArizaCozumId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimHareket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaBildirimHeaderId" Type="int" Nullable="false" />
+          <Property Name="ArizaDurumu" Type="int" Nullable="false" />
+          <Property Name="KayitYapanId" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+          <Property Name="ArizaHareketNotu" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+          <Property Name="KayitYapan" Type="int" Nullable="false" />
+          <Property Name="ArizaDurumu" Type="int" Nullable="false" />
+          <Property Name="KapananArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="AcilanArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="AcilanArizaNotu" Type="nvarchar(max)" />
+          <Property Name="ArizaCozumId" Type="int" Nullable="false" />
+          <Property Name="KapananArizaNotu" Type="nvarchar(max)" />
+          <Property Name="SilinsinMi" Type="int" Nullable="false" />
+          <Property Name="ArizaTechizatGrubuId" Type="int" Nullable="false" />
+          <Property Name="AktarilanArizaHeaderId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimHeaderKullanilanMalzeme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaBildirimHeaderId" Type="int" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="KullanilanMiktar" Type="int" Nullable="false" />
+          <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+          <Property Name="KayitYapan" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaBildirimHeaderId" Type="int" Nullable="false" />
+          <Property Name="AcilanArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="KapananArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="int" Nullable="false" />
+          <Property Name="PotaKartId" Type="int" Nullable="false" />
+          <Property Name="BilesenHeaderId" Type="int" Nullable="false" />
+          <Property Name="BilesenItemId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaDurumuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ArizaDurumuAdi" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="ArizaSorumluDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="DepartmanId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTanimAdi" Type="nvarchar(max)" />
+          <Property Name="ArizaTechizatGrubuId" Type="int" Nullable="false" />
+          <Property Name="ArizaTanimGrupId" Type="int" Nullable="false" />
+          <Property Name="OnemDerecesi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimArizaTechizatGrubu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaId" Type="int" Nullable="false" />
+          <Property Name="ArizaTechizatGrubuId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimCozum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="ArizaCozumAdi" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimGerekliBilesenHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="int" Nullable="false" />
+          <Property Name="BilesenHeaderId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+          <Property Name="ArizaTanimArizaTechizatGrupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimGerekliTechizatTuru">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTanimId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="int" Nullable="false" />
+          <Property Name="ArizaTanimArizaTechizatGrupId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTanimGrupAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ArizaTechizatGrubuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTechizatGrubuAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ArizaTechizatItemTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ArizaTechizatGrubuId" Type="int" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BilesenCinsi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BilesenCinsiGrupId" Type="int" Nullable="false" />
+          <Property Name="BilesenCinsiAdi" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="BilesenCinsiGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BilesenCinsiGrupAdi" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="BilesenHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="BilesenHeaderAdi" Type="nvarchar(max)" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BilesenItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BilesenHeaderId" Type="int" Nullable="false" />
+          <Property Name="BilesenDegeri" Type="nvarchar" MaxLength="500" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Bolum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BolumAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="BagliOlduguId" Type="int" Nullable="false" />
+          <Property Name="DepartmanId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DepartmanAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="BagliOlduguId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DurusGrubuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DurusGrubuTanimAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="KisaAd" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DurusTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DurusTipi" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DurusGrubu" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TalimatTanimId" Type="int" Nullable="false" />
+          <Property Name="KomponentTalimatGrupId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimatGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KomponentTalimatGrupAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="PeriyotTanimId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimatGrupBilgiDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KomponentTalimatGrupId" Type="int" Nullable="false" />
+          <Property Name="DepartmanId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimatGrupDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KomponentTalimatGrupId" Type="int" Nullable="false" />
+          <Property Name="DepartmanId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KomponentTanimAdi" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="KomponentTanimGrupId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTanimGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KomponentTanimGrupAdi" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Medya">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BagliOlduguTip" Type="int" Nullable="false" />
+          <Property Name="BagliOlduguId" Type="int" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar(max)" />
+          <Property Name="MedyaAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PeriyotTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PeriyotTipi" Type="int" Nullable="false" />
+          <Property Name="PeriyotTanimAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="PeriyotDonemi" Type="int" Nullable="false" />
+          <Property Name="RenkSecimi" Type="nvarchar" MaxLength="500" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+          <Property Name="BildirimDonemi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PeriyotTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="PeriyotTipiAdi" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="OteleYapilabilmDurumu" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PotaKartAdi" Type="nvarchar(max)" />
+          <Property Name="TechizatTuruId" Type="int" Nullable="false" />
+          <Property Name="PotaKodu" Type="nvarchar(max)" />
+          <Property Name="BolumId" Type="int" Nullable="false" />
+          <Property Name="KomponentTanimId" Type="int" Nullable="false" />
+          <Property Name="KomponentTanimGrupId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+          <Property Name="SilinsinMi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKartAgac">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PotaKartId" Type="int" Nullable="false" />
+          <Property Name="PotaKartIdChild" Type="int" Nullable="false" />
+          <Property Name="PotaKartIdParent" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKartBilesenItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PotaKartId" Type="int" Nullable="false" />
+          <Property Name="BilesenItemId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKartEntegreKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PotaKartId" Type="int" Nullable="false" />
+          <Property Name="EntegrePotaKartId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKartSicilOzellik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="SicilOzellikId" Type="int" Nullable="false" />
+          <Property Name="SicilOzellikTanimAdi" Type="nvarchar(max)" />
+          <Property Name="OzellikDegeri" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="PotaKlasorKlasor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PotaKartId" Type="int" Nullable="false" />
+          <Property Name="BagliOlduguKlasorId" Type="int" Nullable="false" />
+          <Property Name="KlasorAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SablonGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SablonGrupAdi" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SablonGrupItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SablonGrupId" Type="int" Nullable="false" />
+          <Property Name="KomponentTanimId" Type="int" Nullable="false" />
+          <Property Name="BagliOlduguId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SicilOzellikHeaderTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SicilOzellikHeaderTanimAdi" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="SicilOzellikTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SicilOzellikHeaderTanimId" Type="int" Nullable="false" />
+          <Property Name="SicilOzellikTanimAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+          <Property Name="BaseValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="StokKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PotaId" Type="nvarchar" MaxLength="500" />
+          <Property Name="LotNo" Type="nvarchar" MaxLength="100" />
+          <Property Name="LogoId" Type="nvarchar" MaxLength="500" />
+          <Property Name="StokTanimAdi" Type="nvarchar(max)" />
+          <Property Name="StokKodu" Type="nvarchar(max)" />
+          <Property Name="SeriNo" Type="nvarchar(max)" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" />
+          <Property Name="KomponentTanimId" Type="int" Nullable="false" />
+          <Property Name="KomponentTanimGrupId" Type="int" Nullable="false" />
+          <Property Name="SablonGrupId" Type="int" Nullable="false" />
+          <Property Name="BolumId" Type="int" Nullable="false" />
+          <Property Name="SicilNo" Type="nvarchar(max)" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+          <Property Name="Miktar" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartBilesenCinsi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="BilesenCinsiId" Type="int" Nullable="false" />
+          <Property Name="StokBilesenAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="BagliOlduguId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartDurus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="DurusTipi" Type="int" Nullable="false" />
+          <Property Name="DurusBaslangic" Type="datetime" Nullable="false" />
+          <Property Name="DurusBitis" Type="datetime" Nullable="false" />
+          <Property Name="ToplamSureDk" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="DurusGrubuId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartHatirlatma">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+          <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+          <Property Name="HatirlatmaTarihi" Type="datetime" Nullable="false" />
+          <Property Name="HatirlatmaDurumu" Type="int" Nullable="false" />
+          <Property Name="KayitYapan" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartKomponent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="BagliOlduguStokKartId" Type="int" Nullable="false" />
+          <Property Name="KomponentTanimId" Type="int" Nullable="false" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+          <Property Name="Miktar" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartOperasyon">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StokKartId" Type="int" Nullable="false" />
+          <Property Name="IlkPlanlananTarih" Type="datetime" Nullable="false" />
+          <Property Name="PlanlananTarih" Type="datetime" Nullable="false" />
+          <Property Name="GerceklesenTarih" Type="datetime" Nullable="false" />
+          <Property Name="KomponentTalimatGrupId" Type="int" Nullable="false" />
+          <Property Name="OperasyonDurumu" Type="int" Nullable="false" />
+          <Property Name="PlanlananHafta" Type="int" Nullable="false" />
+          <Property Name="GerceklesenHafta" Type="int" Nullable="false" />
+          <Property Name="KayitYapanId" Type="int" Nullable="false" />
+          <Property Name="YapilanTalimatlarStr" Type="nvarchar(max)" />
+          <Property Name="OperasyonOncesiAciklama" Type="nvarchar(max)" />
+          <Property Name="OperasyonSonrasiAciklama" Type="nvarchar(max)" />
+          <Property Name="SilinsinMi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartOperasyonDurumTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="OperasyonDurumuAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="ClassAdi" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="StokKartOperasyonKullanilanMalzeme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OperasyonId" Type="int" Nullable="false" />
+          <Property Name="KullanilanStokKartId" Type="int" Nullable="false" />
+          <Property Name="Miktar" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="KullanilanAmbar" Type="int" Nullable="false" />
+          <Property Name="KayitTarihi" Type="datetime" Nullable="false" />
+          <Property Name="AmbarStokKartHareketId" Type="bigint" Nullable="false" />
+          <Property Name="KayitYapanId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemBaseUrlLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LinkGrupTanimId" Type="int" Nullable="false" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="250" />
+          <Property Name="ControllerName" Type="nvarchar" MaxLength="250" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="250" />
+          <Property Name="LinkTanimAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="LinkTanimAdiEng" Type="nvarchar" MaxLength="250" />
+          <Property Name="DetayLinkDurumu" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemLinkGrupTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SystemModulId" Type="int" Nullable="false" />
+          <Property Name="LinkGrupTanimAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="LinkGrupTanimAdiEng" Type="nvarchar" MaxLength="250" />
+          <Property Name="IclassName" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModulAdi" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="SystemModul">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ModulTanim" Type="nvarchar" MaxLength="250" />
+          <Property Name="ModulTanimEng" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="SystemRoleBaseUrlLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BaseUrlLinkId" Type="int" Nullable="false" />
+          <Property Name="RoleTanimId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemRoleTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleTanimAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="RoleTanimOzel" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="TalimatGrupTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TalimatGrupTanimAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="TalimatTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TalimatGrupTanimId" Type="int" Nullable="false" />
+          <Property Name="TalimatAciklama" Type="nvarchar(max)" />
+          <Property Name="SeciliMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TechizatTuruBilesenHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TechizatTuruTanimId" Type="int" Nullable="false" />
+          <Property Name="BilesenHeaderId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TechizatTuruTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TechizatTuruTanimAdi" Type="nvarchar(max)" />
+          <Property Name="BagliOlduguId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="250" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="Password" Type="nvarchar" MaxLength="250" />
+          <Property Name="UserRoleIds" Type="nvarchar(max)" />
+          <Property Name="PersonelCode" Type="nvarchar(max)" />
+          <Property Name="ImageUrl" Type="nvarchar(max)" />
+          <Property Name="Title" Type="nvarchar(max)" />
+          <Property Name="ArizaMudahaleYetki" Type="int" Nullable="false" />
+          <Property Name="ArizaBildirimYetki" Type="int" Nullable="false" />
+          <Property Name="EmailAdres" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UserDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="DepartmanId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+          <Property Name="EtutNo" Type="nvarchar(max)" />
+          <Property Name="KayitYapan" Type="int" Nullable="false" />
+          <Property Name="GozlemSayisi" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ZamanEtuduHeaderId" Type="int" Nullable="false" />
+          <Property Name="PotaKartId" Type="int" Nullable="false" />
+          <Property Name="BilesenItemId" Type="int" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+          <Property Name="Ortalama" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduItemDeger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ZamanEtuduItemId" Type="int" Nullable="false" />
+          <Property Name="Sira" Type="int" Nullable="false" />
+          <Property Name="ItemDegeri" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduItemDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+          <Property Name="PotaKartId" Type="int" Nullable="false" />
+          <Property Name="BilesenItemId" Type="int" Nullable="false" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="OlcumDegeri" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="KayitYapanId" Type="int" Nullable="false" />
+          <Property Name="ZamanEtuduKategoriId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduKategori">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAdi" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'POTA_BOTA.dbo.ViewArizaGuncelDurum' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewArizaGuncelDurum">
+          <Key>
+            <PropertyRef Name="DepartmanId" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="ArizaDurumu" />
+            <PropertyRef Name="ArizaMudahaleYetki" />
+            <PropertyRef Name="ArizaBildirimYetki" />
+          </Key>
+          <Property Name="DepartmanId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ArizaDurumu" Type="int" Nullable="false" />
+          <Property Name="ArizaDurumuAdi" Type="nvarchar" MaxLength="250" />
+          <Property Name="Name" Type="nvarchar" MaxLength="250" />
+          <Property Name="ArizaMudahaleYetki" Type="int" Nullable="false" />
+          <Property Name="ArizaBildirimYetki" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'POTA_BOTA.dbo.ViewEksikAmbarListe' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewEksikAmbarListe">
+          <Key>
+            <PropertyRef Name="AmbarNo" />
+          </Key>
+          <Property Name="AmbarNo" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="AmbarAdi" Type="char" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'POTA_BOTA.dbo.ViewEksikListeStokKart' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewEksikListeStokKart">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+            <PropertyRef Name="LotNo" />
+          </Key>
+          <Property Name="StokKodu" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="StokAdi" Type="char" MaxLength="100" />
+          <Property Name="LotNo" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="Id" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'POTA_BOTA.dbo.ViewKokDepartmanBagimsiz' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewKokDepartmanBagimsiz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DepartmanAdi" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'POTA_BOTA.dbo.ViewKokDepartmanlar' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewKokDepartmanlar">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="BagliOlduguId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="DepartmanAdi" Type="nvarchar" MaxLength="500" />
+          <Property Name="BagliOlduguId" Type="int" Nullable="false" />
+        </EntityType>
+        <Function Name="SpAmbarStokGetir" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stokKodu" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="lotNo" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="SpAmbarStoklar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ambarNo" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SpEksikPersonelListe" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="SpRoleLinkleri" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RoleId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="POTA_BOTAModelStoreContainer">
+          <EntitySet Name="Ambar" EntityType="Self.Ambar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmbarHareketTipiTanim" EntityType="Self.AmbarHareketTipiTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmbarStokKart" EntityType="Self.AmbarStokKart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmbarStokKartAdres" EntityType="Self.AmbarStokKartAdres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmbarStokKartHareket" EntityType="Self.AmbarStokKartHareket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmbarStokTalep" EntityType="Self.AmbarStokTalep" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmbarStokTalepDurumuTanim" EntityType="Self.AmbarStokTalepDurumuTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AmbarTipiTanim" EntityType="Self.AmbarTipiTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaAcilabilecekDepartman" EntityType="Self.ArizaAcilabilecekDepartman" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaBildirimCozum" EntityType="Self.ArizaBildirimCozum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaBildirimHareket" EntityType="Self.ArizaBildirimHareket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaBildirimHeader" EntityType="Self.ArizaBildirimHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaBildirimHeaderKullanilanMalzeme" EntityType="Self.ArizaBildirimHeaderKullanilanMalzeme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaBildirimItem" EntityType="Self.ArizaBildirimItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaDurumuTanim" EntityType="Self.ArizaDurumuTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaSorumluDepartman" EntityType="Self.ArizaSorumluDepartman" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTanim" EntityType="Self.ArizaTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTanimArizaTechizatGrubu" EntityType="Self.ArizaTanimArizaTechizatGrubu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTanimCozum" EntityType="Self.ArizaTanimCozum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTanimGerekliBilesenHeader" EntityType="Self.ArizaTanimGerekliBilesenHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTanimGerekliTechizatTuru" EntityType="Self.ArizaTanimGerekliTechizatTuru" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTanimGrup" EntityType="Self.ArizaTanimGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTechizatGrubuTanim" EntityType="Self.ArizaTechizatGrubuTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ArizaTechizatItemTanim" EntityType="Self.ArizaTechizatItemTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BilesenCinsi" EntityType="Self.BilesenCinsi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BilesenCinsiGrup" EntityType="Self.BilesenCinsiGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BilesenHeader" EntityType="Self.BilesenHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BilesenItem" EntityType="Self.BilesenItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bolum" EntityType="Self.Bolum" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Departman" EntityType="Self.Departman" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DurusGrubuTanim" EntityType="Self.DurusGrubuTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DurusTipiTanim" EntityType="Self.DurusTipiTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KomponentTalimat" EntityType="Self.KomponentTalimat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KomponentTalimatGrup" EntityType="Self.KomponentTalimatGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KomponentTalimatGrupBilgiDepartman" EntityType="Self.KomponentTalimatGrupBilgiDepartman" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KomponentTalimatGrupDepartman" EntityType="Self.KomponentTalimatGrupDepartman" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KomponentTanim" EntityType="Self.KomponentTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KomponentTanimGrup" EntityType="Self.KomponentTanimGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medya" EntityType="Self.Medya" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PeriyotTanim" EntityType="Self.PeriyotTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PeriyotTipiTanim" EntityType="Self.PeriyotTipiTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PotaKart" EntityType="Self.PotaKart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PotaKartAgac" EntityType="Self.PotaKartAgac" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PotaKartBilesenItems" EntityType="Self.PotaKartBilesenItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PotaKartEntegreKart" EntityType="Self.PotaKartEntegreKart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PotaKartSicilOzellik" EntityType="Self.PotaKartSicilOzellik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PotaKlasorKlasor" EntityType="Self.PotaKlasorKlasor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SablonGrup" EntityType="Self.SablonGrup" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SablonGrupItem" EntityType="Self.SablonGrupItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SicilOzellikHeaderTanim" EntityType="Self.SicilOzellikHeaderTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SicilOzellikTanim" EntityType="Self.SicilOzellikTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKart" EntityType="Self.StokKart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKartBilesenCinsi" EntityType="Self.StokKartBilesenCinsi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKartDurus" EntityType="Self.StokKartDurus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKartHatirlatma" EntityType="Self.StokKartHatirlatma" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKartKomponent" EntityType="Self.StokKartKomponent" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKartOperasyon" EntityType="Self.StokKartOperasyon" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKartOperasyonDurumTanim" EntityType="Self.StokKartOperasyonDurumTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokKartOperasyonKullanilanMalzeme" EntityType="Self.StokKartOperasyonKullanilanMalzeme" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemBaseUrlLink" EntityType="Self.SystemBaseUrlLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemLinkGrupTanim" EntityType="Self.SystemLinkGrupTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemModul" EntityType="Self.SystemModul" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemRoleBaseUrlLink" EntityType="Self.SystemRoleBaseUrlLink" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SystemRoleTanim" EntityType="Self.SystemRoleTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TalimatGrupTanim" EntityType="Self.TalimatGrupTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TalimatTanim" EntityType="Self.TalimatTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TechizatTuruBilesenHeader" EntityType="Self.TechizatTuruBilesenHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TechizatTuruTanim" EntityType="Self.TechizatTuruTanim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDepartman" EntityType="Self.UserDepartman" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZamanEtuduHeader" EntityType="Self.ZamanEtuduHeader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZamanEtuduItem" EntityType="Self.ZamanEtuduItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZamanEtuduItemDeger" EntityType="Self.ZamanEtuduItemDeger" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZamanEtuduItemDetail" EntityType="Self.ZamanEtuduItemDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZamanEtuduKategori" EntityType="Self.ZamanEtuduKategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ViewArizaGuncelDurum" EntityType="Self.ViewArizaGuncelDurum" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewArizaGuncelDurum].[DepartmanId] AS [DepartmanId], 
+    [ViewArizaGuncelDurum].[UserId] AS [UserId], 
+    [ViewArizaGuncelDurum].[ArizaDurumu] AS [ArizaDurumu], 
+    [ViewArizaGuncelDurum].[ArizaDurumuAdi] AS [ArizaDurumuAdi], 
+    [ViewArizaGuncelDurum].[Name] AS [Name], 
+    [ViewArizaGuncelDurum].[ArizaMudahaleYetki] AS [ArizaMudahaleYetki], 
+    [ViewArizaGuncelDurum].[ArizaBildirimYetki] AS [ArizaBildirimYetki]
+    FROM [dbo].[ViewArizaGuncelDurum] AS [ViewArizaGuncelDurum]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewEksikAmbarListe" EntityType="Self.ViewEksikAmbarListe" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewEksikAmbarListe].[AmbarNo] AS [AmbarNo], 
+    [ViewEksikAmbarListe].[AmbarAdi] AS [AmbarAdi]
+    FROM [dbo].[ViewEksikAmbarListe] AS [ViewEksikAmbarListe]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewEksikListeStokKart" EntityType="Self.ViewEksikListeStokKart" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewEksikListeStokKart].[StokKodu] AS [StokKodu], 
+    [ViewEksikListeStokKart].[StokAdi] AS [StokAdi], 
+    [ViewEksikListeStokKart].[LotNo] AS [LotNo], 
+    [ViewEksikListeStokKart].[Id] AS [Id]
+    FROM [dbo].[ViewEksikListeStokKart] AS [ViewEksikListeStokKart]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewKokDepartmanBagimsiz" EntityType="Self.ViewKokDepartmanBagimsiz" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewKokDepartmanBagimsiz].[Id] AS [Id], 
+    [ViewKokDepartmanBagimsiz].[DepartmanAdi] AS [DepartmanAdi]
+    FROM [dbo].[ViewKokDepartmanBagimsiz] AS [ViewKokDepartmanBagimsiz]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewKokDepartmanlar" EntityType="Self.ViewKokDepartmanlar" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewKokDepartmanlar].[Id] AS [Id], 
+    [ViewKokDepartmanlar].[DepartmanAdi] AS [DepartmanAdi], 
+    [ViewKokDepartmanlar].[BagliOlduguId] AS [BagliOlduguId]
+    FROM [dbo].[ViewKokDepartmanlar] AS [ViewKokDepartmanlar]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="POTA_BOTAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="SystemBaseUrlLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LinkGrupTanimId" Type="Int32" Nullable="false" />
+          <Property Name="AreaName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LinkTanimAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LinkTanimAdiEng" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="DetayLinkDurumu" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemLinkGrupTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SystemModulId" Type="Int32" Nullable="false" />
+          <Property Name="LinkGrupTanimAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="LinkGrupTanimAdiEng" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="IclassName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModulAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SystemModul">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ModulTanim" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModulTanimEng" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SystemRoleBaseUrlLink">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BaseUrlLinkId" Type="Int32" Nullable="false" />
+          <Property Name="RoleTanimId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SystemRoleTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleTanimAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="RoleTanimOzel" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="UserRoleIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PersonelCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ArizaMudahaleYetki" Type="Int32" Nullable="false" />
+          <Property Name="ArizaBildirimYetki" Type="Int32" Nullable="false" />
+          <Property Name="EmailAdres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="POTA_BOTAEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="SystemBaseUrlLinks" EntityType="Self.SystemBaseUrlLink" />
+          <EntitySet Name="SystemLinkGrupTanims" EntityType="Self.SystemLinkGrupTanim" />
+          <EntitySet Name="SystemModuls" EntityType="Self.SystemModul" />
+          <EntitySet Name="SystemRoleBaseUrlLinks" EntityType="Self.SystemRoleBaseUrlLink" />
+          <EntitySet Name="SystemRoleTanims" EntityType="Self.SystemRoleTanim" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <FunctionImport Name="SpEksikPersonelListe" ReturnType="Collection(POTA_BOTAModel.SpEksikPersonelListe_Result)" />
+          <FunctionImport Name="SpRoleLinkleri" ReturnType="Collection(POTA_BOTAModel.SpRoleLinkleri_Result)">
+          <Parameter Name="RoleId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Bolums" EntityType="POTA_BOTAModel.Bolum" />
+          <EntitySet Name="Departmen" EntityType="POTA_BOTAModel.Departman" />
+          <EntitySet Name="PeriyotTanims" EntityType="POTA_BOTAModel.PeriyotTanim" />
+          <EntitySet Name="PeriyotTipiTanims" EntityType="POTA_BOTAModel.PeriyotTipiTanim" />
+          <EntitySet Name="KomponentTanims" EntityType="POTA_BOTAModel.KomponentTanim" />
+          <EntitySet Name="KomponentTanimGrups" EntityType="POTA_BOTAModel.KomponentTanimGrup" />
+          <EntitySet Name="TalimatGrupTanims" EntityType="POTA_BOTAModel.TalimatGrupTanim" />
+          <EntitySet Name="TalimatTanims" EntityType="POTA_BOTAModel.TalimatTanim" />
+          <EntitySet Name="SicilOzellikHeaderTanims" EntityType="POTA_BOTAModel.SicilOzellikHeaderTanim" />
+          <EntitySet Name="SicilOzellikTanims" EntityType="POTA_BOTAModel.SicilOzellikTanim" />
+          <EntitySet Name="SablonGrups" EntityType="POTA_BOTAModel.SablonGrup" />
+          <EntitySet Name="SablonGrupItems" EntityType="POTA_BOTAModel.SablonGrupItem" />
+          <EntitySet Name="StokKarts" EntityType="POTA_BOTAModel.StokKart" />
+          <EntitySet Name="StokKartKomponents" EntityType="POTA_BOTAModel.StokKartKomponent" />
+          <EntitySet Name="KomponentTalimatGrups" EntityType="POTA_BOTAModel.KomponentTalimatGrup" />
+          <EntitySet Name="KomponentTalimats" EntityType="POTA_BOTAModel.KomponentTalimat" />
+          <EntitySet Name="StokKartOperasyons" EntityType="POTA_BOTAModel.StokKartOperasyon" />
+          <EntitySet Name="StokKartOperasyonDurumTanims" EntityType="POTA_BOTAModel.StokKartOperasyonDurumTanim" />
+          <EntitySet Name="Medyas" EntityType="POTA_BOTAModel.Medya" />
+          <EntitySet Name="BilesenCinsis" EntityType="POTA_BOTAModel.BilesenCinsi" />
+          <EntitySet Name="BilesenCinsiGrups" EntityType="POTA_BOTAModel.BilesenCinsiGrup" />
+          <EntitySet Name="StokKartBilesenCinsis" EntityType="POTA_BOTAModel.StokKartBilesenCinsi" />
+          <EntitySet Name="StokKartHatirlatmas" EntityType="POTA_BOTAModel.StokKartHatirlatma" />
+          <EntitySet Name="Ambars" EntityType="POTA_BOTAModel.Ambar" />
+          <EntitySet Name="DurusTipiTanims" EntityType="POTA_BOTAModel.DurusTipiTanim" />
+          <EntitySet Name="StokKartDurus" EntityType="POTA_BOTAModel.StokKartDuru" />
+          <EntitySet Name="DurusGrubuTanims" EntityType="POTA_BOTAModel.DurusGrubuTanim" />
+          <EntitySet Name="ViewEksikAmbarListes" EntityType="POTA_BOTAModel.ViewEksikAmbarListe" />
+          <EntitySet Name="ViewEksikListeStokKarts" EntityType="POTA_BOTAModel.ViewEksikListeStokKart" />
+          <FunctionImport Name="SpAmbarStokGetir" ReturnType="Collection(POTA_BOTAModel.SpAmbarStokGetir_Result)">
+            <Parameter Name="stokKodu" Mode="In" Type="String" />
+            <Parameter Name="lotNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="AmbarStokKarts" EntityType="POTA_BOTAModel.AmbarStokKart" />
+          <EntitySet Name="AmbarStokKartAdres" EntityType="POTA_BOTAModel.AmbarStokKartAdre" />
+          <FunctionImport Name="SpAmbarStoklar" ReturnType="Collection(POTA_BOTAModel.SpAmbarStoklar_Result)">
+          <Parameter Name="ambarNo" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="AmbarStokKartHarekets" EntityType="POTA_BOTAModel.AmbarStokKartHareket" />
+          <EntitySet Name="AmbarTipiTanims" EntityType="POTA_BOTAModel.AmbarTipiTanim" />
+          <EntitySet Name="AmbarStokTalepDurumuTanims" EntityType="POTA_BOTAModel.AmbarStokTalepDurumuTanim" />
+          <EntitySet Name="StokKartOperasyonKullanilanMalzemes" EntityType="POTA_BOTAModel.StokKartOperasyonKullanilanMalzeme" />
+          <EntitySet Name="AmbarHareketTipiTanims" EntityType="POTA_BOTAModel.AmbarHareketTipiTanim" />
+          <EntitySet Name="AmbarStokTaleps" EntityType="POTA_BOTAModel.AmbarStokTalep" />
+          <EntitySet Name="BilesenHeaders" EntityType="POTA_BOTAModel.BilesenHeader" />
+          <EntitySet Name="BilesenItems" EntityType="POTA_BOTAModel.BilesenItem" />
+          <EntitySet Name="TechizatTuruBilesenHeaders" EntityType="POTA_BOTAModel.TechizatTuruBilesenHeader" />
+          <EntitySet Name="TechizatTuruTanims" EntityType="POTA_BOTAModel.TechizatTuruTanim" />
+          <EntitySet Name="PotaKarts" EntityType="POTA_BOTAModel.PotaKart" />
+          <EntitySet Name="PotaKartSicilOzelliks" EntityType="POTA_BOTAModel.PotaKartSicilOzellik" />
+          <EntitySet Name="PotaKartBilesenItems" EntityType="POTA_BOTAModel.PotaKartBilesenItem" />
+          <EntitySet Name="PotaKartAgacs" EntityType="POTA_BOTAModel.PotaKartAgac" />
+          <EntitySet Name="PotaKlasorKlasors" EntityType="POTA_BOTAModel.PotaKlasorKlasor" />
+          <EntitySet Name="ArizaTechizatGrubuTanims" EntityType="POTA_BOTAModel.ArizaTechizatGrubuTanim" />
+          <EntitySet Name="ArizaTechizatItemTanims" EntityType="POTA_BOTAModel.ArizaTechizatItemTanim" />
+          <EntitySet Name="ViewKokDepartmanBagimsizs" EntityType="POTA_BOTAModel.ViewKokDepartmanBagimsiz" />
+          <EntitySet Name="ViewKokDepartmanlars" EntityType="POTA_BOTAModel.ViewKokDepartmanlar" />
+          <EntitySet Name="ArizaSorumluDepartmen" EntityType="POTA_BOTAModel.ArizaSorumluDepartman" />
+          <EntitySet Name="ArizaTanims" EntityType="POTA_BOTAModel.ArizaTanim" />
+          <EntitySet Name="ArizaTanimGerekliBilesenHeaders" EntityType="POTA_BOTAModel.ArizaTanimGerekliBilesenHeader" />
+          <EntitySet Name="ArizaTanimGerekliTechizatTurus" EntityType="POTA_BOTAModel.ArizaTanimGerekliTechizatTuru" />
+          <EntitySet Name="ArizaBildirimHeaders" EntityType="POTA_BOTAModel.ArizaBildirimHeader" />
+          <EntitySet Name="ArizaBildirimItems" EntityType="POTA_BOTAModel.ArizaBildirimItem" />
+          <EntitySet Name="ArizaDurumuTanims" EntityType="POTA_BOTAModel.ArizaDurumuTanim" />
+          <EntitySet Name="ArizaAcilabilecekDepartmen" EntityType="POTA_BOTAModel.ArizaAcilabilecekDepartman" />
+          <EntitySet Name="ArizaTanimGrups" EntityType="POTA_BOTAModel.ArizaTanimGrup" />
+          <EntitySet Name="ArizaTanimCozums" EntityType="POTA_BOTAModel.ArizaTanimCozum" />
+          <EntitySet Name="PotaKartEntegreKarts" EntityType="POTA_BOTAModel.PotaKartEntegreKart" />
+          <EntitySet Name="ArizaTanimArizaTechizatGrubus" EntityType="POTA_BOTAModel.ArizaTanimArizaTechizatGrubu" />
+          <EntitySet Name="ArizaBildirimHarekets" EntityType="POTA_BOTAModel.ArizaBildirimHareket" />
+          <EntitySet Name="UserDepartmen" EntityType="POTA_BOTAModel.UserDepartman" />
+          <EntitySet Name="ArizaBildirimCozums" EntityType="POTA_BOTAModel.ArizaBildirimCozum" />
+          <EntitySet Name="KomponentTalimatGrupDepartmen" EntityType="POTA_BOTAModel.KomponentTalimatGrupDepartman" />
+          <EntitySet Name="KomponentTalimatGrupBilgiDepartmen" EntityType="POTA_BOTAModel.KomponentTalimatGrupBilgiDepartman" />
+          <EntitySet Name="ViewArizaGuncelDurums" EntityType="POTA_BOTAModel.ViewArizaGuncelDurum" />
+          <EntitySet Name="ZamanEtuduHeaders" EntityType="POTA_BOTAModel.ZamanEtuduHeader" />
+          <EntitySet Name="ZamanEtuduItems" EntityType="POTA_BOTAModel.ZamanEtuduItem" />
+          <EntitySet Name="ZamanEtuduItemDegers" EntityType="POTA_BOTAModel.ZamanEtuduItemDeger" />
+          <EntitySet Name="ZamanEtuduItemDetails" EntityType="POTA_BOTAModel.ZamanEtuduItemDetail" />
+          <EntitySet Name="ZamanEtuduKategoris" EntityType="POTA_BOTAModel.ZamanEtuduKategori" />
+          <EntitySet Name="ArizaBildirimHeaderKullanilanMalzemes" EntityType="POTA_BOTAModel.ArizaBildirimHeaderKullanilanMalzeme" />
+        </EntityContainer>
+        <ComplexType Name="SpEksikPersonelListe_Result">
+          <Property Type="String" Name="KullaniciKodu" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="PersonelKodu" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Sifre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="IsimSoyisim" Nullable="true" MaxLength="50" />
+          <Property Type="Binary" Name="Resim" Nullable="true" MaxLength="Max" />
+        </ComplexType>
+        <ComplexType Name="SpRoleLinkleri_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="LinkGrupTanimAdi" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LinkGrupTanimAdiEng" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="IclassName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="AreaName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ControllerName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="ActionName" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LinkTanimAdi" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="LinkTanimAdiEng" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="DetayLinkDurumu" Nullable="false" />
+          <Property Type="String" Name="RoleTanimAdi" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="RoleTanimOzel" Nullable="true" MaxLength="250" />
+          <Property Type="Int32" Name="LinkGrupTanimId" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="Bolum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BolumAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BagliOlduguId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Departman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DepartmanAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BagliOlduguId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PeriyotTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PeriyotTipi" Type="Int32" Nullable="false" />
+          <Property Name="PeriyotDonemi" Type="Int32" Nullable="false" />
+          <Property Name="PeriyotTanimAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="RenkSecimi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="BildirimDonemi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PeriyotTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="PeriyotTipiAdi" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="OteleYapilabilmDurumu" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KomponentTanimAdi" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="KomponentTanimGrupId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTanimGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KomponentTanimGrupAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TalimatGrupTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TalimatGrupTanimAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TalimatTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TalimatGrupTanimId" Type="Int32" Nullable="false" />
+          <Property Name="TalimatAciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SicilOzellikHeaderTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SicilOzellikHeaderTanimAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SicilOzellikTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SicilOzellikHeaderTanimId" Type="Int32" Nullable="false" />
+          <Property Name="SicilOzellikTanimAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="BaseValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SablonGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SablonGrupAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SablonGrupItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SablonGrupId" Type="Int32" Nullable="false" />
+          <Property Name="KomponentTanimId" Type="Int32" Nullable="false" />
+          <Property Name="BagliOlduguId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KomponentTanimId" Type="Int32" Nullable="false" />
+          <Property Name="PotaId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="LogoId" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="StokTanimAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StokKodu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SeriNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KomponentTanimGrupId" Type="Int32" Nullable="false" />
+          <Property Name="SablonGrupId" Type="Int32" Nullable="false" />
+          <Property Name="BolumId" Type="Int32" Nullable="false" />
+          <Property Name="SicilNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LotNo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="Miktar" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartKomponent">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="BagliOlduguStokKartId" Type="Int32" Nullable="false" />
+          <Property Name="KomponentTanimId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="Miktar" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimatGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KomponentTalimatGrupAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PeriyotTanimId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimat">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TalimatTanimId" Type="Int32" Nullable="false" />
+          <Property Name="KomponentTalimatGrupId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartOperasyon">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="PlanlananTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GerceklesenTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="KomponentTalimatGrupId" Type="Int32" Nullable="false" />
+          <Property Name="OperasyonDurumu" Type="Int32" Nullable="false" />
+          <Property Name="PlanlananHafta" Type="Int32" Nullable="false" />
+          <Property Name="GerceklesenHafta" Type="Int32" Nullable="false" />
+          <Property Name="IlkPlanlananTarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="KayitYapanId" Type="Int32" Nullable="false" />
+          <Property Name="YapilanTalimatlarStr" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OperasyonOncesiAciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OperasyonSonrasiAciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SilinsinMi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartOperasyonDurumTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="OperasyonDurumuAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ClassAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Medya">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BagliOlduguTip" Type="Int32" Nullable="false" />
+          <Property Name="BagliOlduguId" Type="Int32" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MedyaAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BilesenCinsi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BilesenCinsiGrupId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenCinsiAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BilesenCinsiGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BilesenCinsiGrupAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StokKartBilesenCinsi">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenCinsiId" Type="Int32" Nullable="false" />
+          <Property Name="StokBilesenAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BagliOlduguId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartHatirlatma">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HatirlatmaTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HatirlatmaDurumu" Type="Int32" Nullable="false" />
+          <Property Name="KayitYapan" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ambar">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AmbarTipi" Type="Int32" Nullable="false" />
+          <Property Name="AmbarAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="PotaAmbarNo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DurusTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DurusTipi" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DurusGrubu" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StokKartDuru">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="DurusTipi" Type="Int32" Nullable="false" />
+          <Property Name="DurusBaslangic" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DurusBitis" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ToplamSureDk" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DurusGrubuId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DurusGrubuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DurusGrubuTanimAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="KisaAd" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewEksikAmbarListe">
+          <Key>
+            <PropertyRef Name="AmbarNo" />
+          </Key>
+          <Property Name="AmbarNo" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="AmbarAdi" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ViewEksikListeStokKart">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+            <PropertyRef Name="LotNo" />
+          </Key>
+          <Property Name="StokKodu" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="StokAdi" Type="String" MaxLength="100" FixedLength="true" Unicode="false" />
+          <Property Name="LotNo" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="Id" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="SpAmbarStokGetir_Result">
+          <Property Type="String" Name="StokKodu" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="LotNo" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="AmbarNo" Nullable="false" MaxLength="20" />
+          <Property Type="Decimal" Name="Miktar1" Nullable="true" Precision="18" Scale="6" />
+        </ComplexType>
+        <EntityType Name="AmbarStokKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AmbarId" Type="Int32" Nullable="false" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="ToplamMiktar" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="AmbarStokKartAdre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AmbarStokKartId" Type="Int32" Nullable="false" />
+          <Property Name="AdresX" Type="Int32" Nullable="false" />
+          <Property Name="AdresY" Type="Int32" Nullable="false" />
+          <Property Name="AdresZ" Type="Int32" Nullable="false" />
+          <Property Name="ToplamMiktar" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <ComplexType Name="SpAmbarStoklar_Result">
+          <Property Type="String" Name="AmbarNo" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="StokKodu" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="LotNo" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="StokAdi" Nullable="true" MaxLength="100" />
+          <Property Type="Decimal" Name="Miktar1" Nullable="true" Precision="18" Scale="6" />
+          <Property Type="Int32" Name="Id" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="AmbarStokKartHareket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="AmbarStokKartId" Type="Int32" Nullable="false" />
+          <Property Name="AmbarHareketTipi" Type="Int32" Nullable="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="PtksFisNo" Type="Int32" Nullable="false" />
+          <Property Name="PtksSiraNo" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AmbarTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="AmbarTipAdi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AmbarStokTalepDurumuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TalepDurumu" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StokKartOperasyonKullanilanMalzeme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OperasyonId" Type="Int32" Nullable="false" />
+          <Property Name="KullanilanStokKartId" Type="Int32" Nullable="false" />
+          <Property Name="Miktar" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="KullanilanAmbar" Type="Int32" Nullable="false" />
+          <Property Name="KayitTarihi" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="AmbarStokKartHareketId" Type="Int64" Nullable="false" />
+          <Property Name="KayitYapanId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AmbarHareketTipiTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="TanimAdi" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AmbarStokTalep">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OnayTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TalepEdilenAmbarId" Type="Int32" Nullable="false" />
+          <Property Name="AktarilacakAmbarId" Type="Int32" Nullable="false" />
+          <Property Name="Miktar" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="KayitYapan" Type="Int32" Nullable="false" />
+          <Property Name="OnayVeren" Type="Int32" Nullable="false" />
+          <Property Name="TalepDurumu" Type="Int32" Nullable="false" />
+          <Property Name="AmbarStokKartHareketId" Type="Int64" Nullable="false" />
+          <Property Name="TigerAmbarId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BilesenHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="BilesenHeaderAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BilesenItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BilesenHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenDegeri" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TechizatTuruBilesenHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TechizatTuruTanimId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenHeaderId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TechizatTuruTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TechizatTuruTanimAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BagliOlduguId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="PotaKartAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TechizatTuruId" Type="Int32" Nullable="false" />
+          <Property Name="PotaKodu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BolumId" Type="Int32" Nullable="false" />
+          <Property Name="KomponentTanimId" Type="Int32" Nullable="false" />
+          <Property Name="KomponentTanimGrupId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="SilinsinMi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKartSicilOzellik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="SicilOzellikId" Type="Int32" Nullable="false" />
+          <Property Name="SicilOzellikTanimAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OzellikDegeri" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PotaKartBilesenItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PotaKartId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenItemId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKartAgac">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PotaKartId" Type="Int32" Nullable="false" />
+          <Property Name="PotaKartIdChild" Type="Int32" Nullable="false" />
+          <Property Name="PotaKartIdParent" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKlasorKlasor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PotaKartId" Type="Int32" Nullable="false" />
+          <Property Name="BagliOlduguKlasorId" Type="Int32" Nullable="false" />
+          <Property Name="KlasorAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ArizaTechizatGrubuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTechizatGrubuAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ArizaTechizatItemTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTechizatGrubuId" Type="Int32" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewKokDepartmanBagimsiz">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewKokDepartmanlar">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="BagliOlduguId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanAdi" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="BagliOlduguId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaSorumluDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTechizatGrubuId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaTanimAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ArizaTanimGrupId" Type="Int32" Nullable="false" />
+          <Property Name="OnemDerecesi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimGerekliBilesenHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaTanimArizaTechizatGrupId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimGerekliTechizatTuru">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaTanimArizaTechizatGrupId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="KayitYapan" Type="Int32" Nullable="false" />
+          <Property Name="ArizaDurumu" Type="Int32" Nullable="false" />
+          <Property Name="KapananArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="AcilanArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="AcilanArizaNotu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ArizaCozumId" Type="Int32" Nullable="false" />
+          <Property Name="KapananArizaNotu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SilinsinMi" Type="Int32" Nullable="false" />
+          <Property Name="ArizaTechizatGrubuId" Type="Int32" Nullable="false" />
+          <Property Name="AktarilanArizaHeaderId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaBildirimHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="AcilanArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="KapananArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="TechizatTuruId" Type="Int32" Nullable="false" />
+          <Property Name="PotaKartId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenItemId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaDurumuTanim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ArizaDurumuAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ArizaAcilabilecekDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimGrup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTanimGrupAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ArizaTanimCozum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaTanimId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaCozumAdi" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PotaKartEntegreKart">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PotaKartId" Type="Int32" Nullable="false" />
+          <Property Name="EntegrePotaKartId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaTanimArizaTechizatGrubu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaTechizatGrubuId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimHareket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaBildirimHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaDurumu" Type="Int32" Nullable="false" />
+          <Property Name="KayitYapanId" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="ArizaHareketNotu" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="UserDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimCozum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaBildirimHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaCozumId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimatGrupDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KomponentTalimatGrupId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="KomponentTalimatGrupBilgiDepartman">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KomponentTalimatGrupId" Type="Int32" Nullable="false" />
+          <Property Name="DepartmanId" Type="Int32" Nullable="false" />
+          <Property Name="SeciliMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewArizaGuncelDurum">
+          <Key>
+            <PropertyRef Name="DepartmanId" />
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="ArizaDurumu" />
+            <PropertyRef Name="ArizaMudahaleYetki" />
+            <PropertyRef Name="ArizaBildirimYetki" />
+          </Key>
+          <Property Name="DepartmanId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ArizaDurumu" Type="Int32" Nullable="false" />
+          <Property Name="ArizaDurumuAdi" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ArizaMudahaleYetki" Type="Int32" Nullable="false" />
+          <Property Name="ArizaBildirimYetki" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduHeader">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EtutNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="KayitYapan" Type="Int32" Nullable="false" />
+          <Property Name="GozlemSayisi" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ZamanEtuduHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="PotaKartId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenItemId" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ortalama" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduItemDeger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ZamanEtuduItemId" Type="Int32" Nullable="false" />
+          <Property Name="Sira" Type="Int32" Nullable="false" />
+          <Property Name="ItemDegeri" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduItemDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PotaKartId" Type="Int32" Nullable="false" />
+          <Property Name="BilesenItemId" Type="Int32" Nullable="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="OlcumDegeri" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="KayitYapanId" Type="Int32" Nullable="false" />
+          <Property Name="ZamanEtuduKategoriId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZamanEtuduKategori">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ArizaBildirimHeaderKullanilanMalzeme">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ArizaBildirimHeaderId" Type="Int32" Nullable="false" />
+          <Property Name="StokKartId" Type="Int32" Nullable="false" />
+          <Property Name="KullanilanMiktar" Type="Int32" Nullable="false" />
+          <Property Name="KayitTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="KayitYapan" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="POTA_BOTAModelStoreContainer" CdmEntityContainer="POTA_BOTAEntities">
+          <EntitySetMapping Name="SystemBaseUrlLinks">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SystemBaseUrlLink">
+              <MappingFragment StoreEntitySet="SystemBaseUrlLink">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LinkGrupTanimId" ColumnName="LinkGrupTanimId" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="LinkTanimAdi" ColumnName="LinkTanimAdi" />
+                <ScalarProperty Name="LinkTanimAdiEng" ColumnName="LinkTanimAdiEng" />
+                <ScalarProperty Name="DetayLinkDurumu" ColumnName="DetayLinkDurumu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemLinkGrupTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SystemLinkGrupTanim">
+              <MappingFragment StoreEntitySet="SystemLinkGrupTanim">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="SystemModulId" ColumnName="SystemModulId" />
+                <ScalarProperty Name="LinkGrupTanimAdi" ColumnName="LinkGrupTanimAdi" />
+                <ScalarProperty Name="LinkGrupTanimAdiEng" ColumnName="LinkGrupTanimAdiEng" />
+                <ScalarProperty Name="IclassName" ColumnName="IclassName" />
+                <ScalarProperty Name="ModulAdi" ColumnName="ModulAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemModuls">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SystemModul">
+              <MappingFragment StoreEntitySet="SystemModul">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ModulTanim" ColumnName="ModulTanim" />
+                <ScalarProperty Name="ModulTanimEng" ColumnName="ModulTanimEng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemRoleBaseUrlLinks">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SystemRoleBaseUrlLink">
+              <MappingFragment StoreEntitySet="SystemRoleBaseUrlLink">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="BaseUrlLinkId" ColumnName="BaseUrlLinkId" />
+                <ScalarProperty Name="RoleTanimId" ColumnName="RoleTanimId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemRoleTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SystemRoleTanim">
+              <MappingFragment StoreEntitySet="SystemRoleTanim">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoleTanimAdi" ColumnName="RoleTanimAdi" />
+                <ScalarProperty Name="RoleTanimOzel" ColumnName="RoleTanimOzel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="EmailAdres" ColumnName="EmailAdres" />
+                <ScalarProperty Name="ArizaBildirimYetki" ColumnName="ArizaBildirimYetki" />
+                <ScalarProperty Name="ArizaMudahaleYetki" ColumnName="ArizaMudahaleYetki" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserRoleIds" ColumnName="UserRoleIds" />
+                <ScalarProperty Name="PersonelCode" ColumnName="PersonelCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SpEksikPersonelListe" FunctionName="POTA_BOTAModel.Store.SpEksikPersonelListe">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POTA_BOTAModel.SpEksikPersonelListe_Result">
+                <ScalarProperty Name="KullaniciKodu" ColumnName="KullaniciKodu" />
+                <ScalarProperty Name="PersonelKodu" ColumnName="PersonelKodu" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="IsimSoyisim" ColumnName="IsimSoyisim" />
+                <ScalarProperty Name="Resim" ColumnName="Resim" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SpRoleLinkleri" FunctionName="POTA_BOTAModel.Store.SpRoleLinkleri">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POTA_BOTAModel.SpRoleLinkleri_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LinkGrupTanimAdi" ColumnName="LinkGrupTanimAdi" />
+                <ScalarProperty Name="LinkGrupTanimAdiEng" ColumnName="LinkGrupTanimAdiEng" />
+                <ScalarProperty Name="IclassName" ColumnName="IclassName" />
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="LinkTanimAdi" ColumnName="LinkTanimAdi" />
+                <ScalarProperty Name="LinkTanimAdiEng" ColumnName="LinkTanimAdiEng" />
+                <ScalarProperty Name="DetayLinkDurumu" ColumnName="DetayLinkDurumu" />
+                <ScalarProperty Name="RoleTanimAdi" ColumnName="RoleTanimAdi" />
+                <ScalarProperty Name="RoleTanimOzel" ColumnName="RoleTanimOzel" />
+                <ScalarProperty Name="LinkGrupTanimId" ColumnName="LinkGrupTanimId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Bolums">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.Bolum">
+              <MappingFragment StoreEntitySet="Bolum">
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+                <ScalarProperty Name="BagliOlduguId" ColumnName="BagliOlduguId" />
+                <ScalarProperty Name="BolumAdi" ColumnName="BolumAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departmen">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.Departman">
+              <MappingFragment StoreEntitySet="Departman">
+                <ScalarProperty Name="BagliOlduguId" ColumnName="BagliOlduguId" />
+                <ScalarProperty Name="DepartmanAdi" ColumnName="DepartmanAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeriyotTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PeriyotTanim">
+              <MappingFragment StoreEntitySet="PeriyotTanim">
+                <ScalarProperty Name="BildirimDonemi" ColumnName="BildirimDonemi" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="RenkSecimi" ColumnName="RenkSecimi" />
+                <ScalarProperty Name="PeriyotTanimAdi" ColumnName="PeriyotTanimAdi" />
+                <ScalarProperty Name="PeriyotDonemi" ColumnName="PeriyotDonemi" />
+                <ScalarProperty Name="PeriyotTipi" ColumnName="PeriyotTipi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeriyotTipiTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PeriyotTipiTanim">
+              <MappingFragment StoreEntitySet="PeriyotTipiTanim">
+                <ScalarProperty Name="OteleYapilabilmDurumu" ColumnName="OteleYapilabilmDurumu" />
+                <ScalarProperty Name="PeriyotTipiAdi" ColumnName="PeriyotTipiAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KomponentTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.KomponentTanim">
+              <MappingFragment StoreEntitySet="KomponentTanim">
+                <ScalarProperty Name="KomponentTanimGrupId" ColumnName="KomponentTanimGrupId" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="KomponentTanimAdi" ColumnName="KomponentTanimAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KomponentTanimGrups">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.KomponentTanimGrup">
+              <MappingFragment StoreEntitySet="KomponentTanimGrup">
+                <ScalarProperty Name="KomponentTanimGrupAdi" ColumnName="KomponentTanimGrupAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TalimatGrupTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.TalimatGrupTanim">
+              <MappingFragment StoreEntitySet="TalimatGrupTanim">
+                <ScalarProperty Name="TalimatGrupTanimAdi" ColumnName="TalimatGrupTanimAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TalimatTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.TalimatTanim">
+              <MappingFragment StoreEntitySet="TalimatTanim">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="TalimatAciklama" ColumnName="TalimatAciklama" />
+                <ScalarProperty Name="TalimatGrupTanimId" ColumnName="TalimatGrupTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SicilOzellikHeaderTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SicilOzellikHeaderTanim">
+              <MappingFragment StoreEntitySet="SicilOzellikHeaderTanim">
+                <ScalarProperty Name="SicilOzellikHeaderTanimAdi" ColumnName="SicilOzellikHeaderTanimAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SicilOzellikTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SicilOzellikTanim">
+              <MappingFragment StoreEntitySet="SicilOzellikTanim">
+                <ScalarProperty Name="BaseValue" ColumnName="BaseValue" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="SicilOzellikTanimAdi" ColumnName="SicilOzellikTanimAdi" />
+                <ScalarProperty Name="SicilOzellikHeaderTanimId" ColumnName="SicilOzellikHeaderTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SablonGrups">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SablonGrup">
+              <MappingFragment StoreEntitySet="SablonGrup">
+                <ScalarProperty Name="SablonGrupAdi" ColumnName="SablonGrupAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SablonGrupItems">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.SablonGrupItem">
+              <MappingFragment StoreEntitySet="SablonGrupItem">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="BagliOlduguId" ColumnName="BagliOlduguId" />
+                <ScalarProperty Name="KomponentTanimId" ColumnName="KomponentTanimId" />
+                <ScalarProperty Name="SablonGrupId" ColumnName="SablonGrupId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKarts">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKart">
+              <MappingFragment StoreEntitySet="StokKart">
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="SicilNo" ColumnName="SicilNo" />
+                <ScalarProperty Name="BolumId" ColumnName="BolumId" />
+                <ScalarProperty Name="SablonGrupId" ColumnName="SablonGrupId" />
+                <ScalarProperty Name="KomponentTanimGrupId" ColumnName="KomponentTanimGrupId" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="SeriNo" ColumnName="SeriNo" />
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="StokTanimAdi" ColumnName="StokTanimAdi" />
+                <ScalarProperty Name="LogoId" ColumnName="LogoId" />
+                <ScalarProperty Name="PotaId" ColumnName="PotaId" />
+                <ScalarProperty Name="KomponentTanimId" ColumnName="KomponentTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKartKomponents">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKartKomponent">
+              <MappingFragment StoreEntitySet="StokKartKomponent">
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="KomponentTanimId" ColumnName="KomponentTanimId" />
+                <ScalarProperty Name="BagliOlduguStokKartId" ColumnName="BagliOlduguStokKartId" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KomponentTalimatGrups">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.KomponentTalimatGrup">
+              <MappingFragment StoreEntitySet="KomponentTalimatGrup">
+                <ScalarProperty Name="PeriyotTanimId" ColumnName="PeriyotTanimId" />
+                <ScalarProperty Name="KomponentTalimatGrupAdi" ColumnName="KomponentTalimatGrupAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KomponentTalimats">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.KomponentTalimat">
+              <MappingFragment StoreEntitySet="KomponentTalimat">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="KomponentTalimatGrupId" ColumnName="KomponentTalimatGrupId" />
+                <ScalarProperty Name="TalimatTanimId" ColumnName="TalimatTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKartOperasyons">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKartOperasyon">
+              <MappingFragment StoreEntitySet="StokKartOperasyon">
+                <ScalarProperty Name="SilinsinMi" ColumnName="SilinsinMi" />
+                <ScalarProperty Name="OperasyonSonrasiAciklama" ColumnName="OperasyonSonrasiAciklama" />
+                <ScalarProperty Name="OperasyonOncesiAciklama" ColumnName="OperasyonOncesiAciklama" />
+                <ScalarProperty Name="YapilanTalimatlarStr" ColumnName="YapilanTalimatlarStr" />
+                <ScalarProperty Name="KayitYapanId" ColumnName="KayitYapanId" />
+                <ScalarProperty Name="IlkPlanlananTarih" ColumnName="IlkPlanlananTarih" />
+                <ScalarProperty Name="GerceklesenHafta" ColumnName="GerceklesenHafta" />
+                <ScalarProperty Name="PlanlananHafta" ColumnName="PlanlananHafta" />
+                <ScalarProperty Name="OperasyonDurumu" ColumnName="OperasyonDurumu" />
+                <ScalarProperty Name="KomponentTalimatGrupId" ColumnName="KomponentTalimatGrupId" />
+                <ScalarProperty Name="GerceklesenTarih" ColumnName="GerceklesenTarih" />
+                <ScalarProperty Name="PlanlananTarih" ColumnName="PlanlananTarih" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKartOperasyonDurumTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKartOperasyonDurumTanim">
+              <MappingFragment StoreEntitySet="StokKartOperasyonDurumTanim">
+                <ScalarProperty Name="ClassAdi" ColumnName="ClassAdi" />
+                <ScalarProperty Name="OperasyonDurumuAdi" ColumnName="OperasyonDurumuAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medyas">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.Medya">
+              <MappingFragment StoreEntitySet="Medya">
+                <ScalarProperty Name="MedyaAdi" ColumnName="MedyaAdi" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="BagliOlduguId" ColumnName="BagliOlduguId" />
+                <ScalarProperty Name="BagliOlduguTip" ColumnName="BagliOlduguTip" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BilesenCinsis">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.BilesenCinsi">
+              <MappingFragment StoreEntitySet="BilesenCinsi">
+                <ScalarProperty Name="BilesenCinsiAdi" ColumnName="BilesenCinsiAdi" />
+                <ScalarProperty Name="BilesenCinsiGrupId" ColumnName="BilesenCinsiGrupId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BilesenCinsiGrups">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.BilesenCinsiGrup">
+              <MappingFragment StoreEntitySet="BilesenCinsiGrup">
+                <ScalarProperty Name="BilesenCinsiGrupAdi" ColumnName="BilesenCinsiGrupAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKartBilesenCinsis">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKartBilesenCinsi">
+              <MappingFragment StoreEntitySet="StokKartBilesenCinsi">
+                <ScalarProperty Name="BagliOlduguId" ColumnName="BagliOlduguId" />
+                <ScalarProperty Name="StokBilesenAdi" ColumnName="StokBilesenAdi" />
+                <ScalarProperty Name="BilesenCinsiId" ColumnName="BilesenCinsiId" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKartHatirlatmas">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKartHatirlatma">
+              <MappingFragment StoreEntitySet="StokKartHatirlatma">
+                <ScalarProperty Name="KayitYapan" ColumnName="KayitYapan" />
+                <ScalarProperty Name="HatirlatmaDurumu" ColumnName="HatirlatmaDurumu" />
+                <ScalarProperty Name="HatirlatmaTarihi" ColumnName="HatirlatmaTarihi" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ambars">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.Ambar">
+              <MappingFragment StoreEntitySet="Ambar">
+                <ScalarProperty Name="PotaAmbarNo" ColumnName="PotaAmbarNo" />
+                <ScalarProperty Name="AmbarAdi" ColumnName="AmbarAdi" />
+                <ScalarProperty Name="AmbarTipi" ColumnName="AmbarTipi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DurusTipiTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.DurusTipiTanim">
+              <MappingFragment StoreEntitySet="DurusTipiTanim">
+                <ScalarProperty Name="DurusGrubu" ColumnName="DurusGrubu" />
+                <ScalarProperty Name="DurusTipi" ColumnName="DurusTipi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKartDurus">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKartDuru">
+              <MappingFragment StoreEntitySet="StokKartDurus">
+                <ScalarProperty Name="DurusGrubuId" ColumnName="DurusGrubuId" />
+                <ScalarProperty Name="ToplamSureDk" ColumnName="ToplamSureDk" />
+                <ScalarProperty Name="DurusBitis" ColumnName="DurusBitis" />
+                <ScalarProperty Name="DurusBaslangic" ColumnName="DurusBaslangic" />
+                <ScalarProperty Name="DurusTipi" ColumnName="DurusTipi" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DurusGrubuTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.DurusGrubuTanim">
+              <MappingFragment StoreEntitySet="DurusGrubuTanim">
+                <ScalarProperty Name="KisaAd" ColumnName="KisaAd" />
+                <ScalarProperty Name="DurusGrubuTanimAdi" ColumnName="DurusGrubuTanimAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewEksikAmbarListes">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ViewEksikAmbarListe">
+              <MappingFragment StoreEntitySet="ViewEksikAmbarListe">
+                <ScalarProperty Name="AmbarAdi" ColumnName="AmbarAdi" />
+                <ScalarProperty Name="AmbarNo" ColumnName="AmbarNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewEksikListeStokKarts">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ViewEksikListeStokKart">
+              <MappingFragment StoreEntitySet="ViewEksikListeStokKart">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="StokAdi" ColumnName="StokAdi" />
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SpAmbarStokGetir" FunctionName="POTA_BOTAModel.Store.SpAmbarStokGetir">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POTA_BOTAModel.SpAmbarStokGetir_Result">
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="AmbarNo" ColumnName="AmbarNo" />
+                <ScalarProperty Name="Miktar1" ColumnName="Miktar1" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="AmbarStokKarts">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.AmbarStokKart">
+              <MappingFragment StoreEntitySet="AmbarStokKart">
+                <ScalarProperty Name="ToplamMiktar" ColumnName="ToplamMiktar" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="AmbarId" ColumnName="AmbarId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmbarStokKartAdres">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.AmbarStokKartAdre">
+              <MappingFragment StoreEntitySet="AmbarStokKartAdres">
+                <ScalarProperty Name="ToplamMiktar" ColumnName="ToplamMiktar" />
+                <ScalarProperty Name="AdresZ" ColumnName="AdresZ" />
+                <ScalarProperty Name="AdresY" ColumnName="AdresY" />
+                <ScalarProperty Name="AdresX" ColumnName="AdresX" />
+                <ScalarProperty Name="AmbarStokKartId" ColumnName="AmbarStokKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SpAmbarStoklar" FunctionName="POTA_BOTAModel.Store.SpAmbarStoklar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="POTA_BOTAModel.SpAmbarStoklar_Result">
+                <ScalarProperty Name="AmbarNo" ColumnName="AmbarNo" />
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="StokAdi" ColumnName="StokAdi" />
+                <ScalarProperty Name="Miktar1" ColumnName="Miktar1" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="AmbarStokKartHarekets">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.AmbarStokKartHareket">
+              <MappingFragment StoreEntitySet="AmbarStokKartHareket">
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PtksSiraNo" ColumnName="PtksSiraNo" />
+                <ScalarProperty Name="PtksFisNo" ColumnName="PtksFisNo" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="AmbarHareketTipi" ColumnName="AmbarHareketTipi" />
+                <ScalarProperty Name="AmbarStokKartId" ColumnName="AmbarStokKartId" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmbarTipiTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.AmbarTipiTanim">
+              <MappingFragment StoreEntitySet="AmbarTipiTanim">
+                <ScalarProperty Name="AmbarTipAdi" ColumnName="AmbarTipAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmbarStokTalepDurumuTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.AmbarStokTalepDurumuTanim">
+              <MappingFragment StoreEntitySet="AmbarStokTalepDurumuTanim">
+                <ScalarProperty Name="TalepDurumu" ColumnName="TalepDurumu" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokKartOperasyonKullanilanMalzemes">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.StokKartOperasyonKullanilanMalzeme">
+              <MappingFragment StoreEntitySet="StokKartOperasyonKullanilanMalzeme">
+                <ScalarProperty Name="KayitYapanId" ColumnName="KayitYapanId" />
+                <ScalarProperty Name="AmbarStokKartHareketId" ColumnName="AmbarStokKartHareketId" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="KullanilanAmbar" ColumnName="KullanilanAmbar" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="KullanilanStokKartId" ColumnName="KullanilanStokKartId" />
+                <ScalarProperty Name="OperasyonId" ColumnName="OperasyonId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmbarHareketTipiTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.AmbarHareketTipiTanim">
+              <MappingFragment StoreEntitySet="AmbarHareketTipiTanim">
+                <ScalarProperty Name="TanimAdi" ColumnName="TanimAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AmbarStokTaleps">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.AmbarStokTalep">
+              <MappingFragment StoreEntitySet="AmbarStokTalep">
+                <ScalarProperty Name="TigerAmbarId" ColumnName="TigerAmbarId" />
+                <ScalarProperty Name="AmbarStokKartHareketId" ColumnName="AmbarStokKartHareketId" />
+                <ScalarProperty Name="TalepDurumu" ColumnName="TalepDurumu" />
+                <ScalarProperty Name="OnayVeren" ColumnName="OnayVeren" />
+                <ScalarProperty Name="KayitYapan" ColumnName="KayitYapan" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="Miktar" ColumnName="Miktar" />
+                <ScalarProperty Name="AktarilacakAmbarId" ColumnName="AktarilacakAmbarId" />
+                <ScalarProperty Name="TalepEdilenAmbarId" ColumnName="TalepEdilenAmbarId" />
+                <ScalarProperty Name="OnayTarihi" ColumnName="OnayTarihi" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BilesenHeaders">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.BilesenHeader">
+              <MappingFragment StoreEntitySet="BilesenHeader">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="BilesenHeaderAdi" ColumnName="BilesenHeaderAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BilesenItems">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.BilesenItem">
+              <MappingFragment StoreEntitySet="BilesenItem">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="BilesenDegeri" ColumnName="BilesenDegeri" />
+                <ScalarProperty Name="BilesenHeaderId" ColumnName="BilesenHeaderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TechizatTuruBilesenHeaders">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.TechizatTuruBilesenHeader">
+              <MappingFragment StoreEntitySet="TechizatTuruBilesenHeader">
+                <ScalarProperty Name="BilesenHeaderId" ColumnName="BilesenHeaderId" />
+                <ScalarProperty Name="TechizatTuruTanimId" ColumnName="TechizatTuruTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TechizatTuruTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.TechizatTuruTanim">
+              <MappingFragment StoreEntitySet="TechizatTuruTanim">
+                <ScalarProperty Name="BagliOlduguId" ColumnName="BagliOlduguId" />
+                <ScalarProperty Name="TechizatTuruTanimAdi" ColumnName="TechizatTuruTanimAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PotaKarts">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PotaKart">
+              <MappingFragment StoreEntitySet="PotaKart">
+                <ScalarProperty Name="SilinsinMi" ColumnName="SilinsinMi" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="KomponentTanimGrupId" ColumnName="KomponentTanimGrupId" />
+                <ScalarProperty Name="KomponentTanimId" ColumnName="KomponentTanimId" />
+                <ScalarProperty Name="BolumId" ColumnName="BolumId" />
+                <ScalarProperty Name="PotaKodu" ColumnName="PotaKodu" />
+                <ScalarProperty Name="TechizatTuruId" ColumnName="TechizatTuruId" />
+                <ScalarProperty Name="PotaKartAdi" ColumnName="PotaKartAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PotaKartSicilOzelliks">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PotaKartSicilOzellik">
+              <MappingFragment StoreEntitySet="PotaKartSicilOzellik">
+                <ScalarProperty Name="OzellikDegeri" ColumnName="OzellikDegeri" />
+                <ScalarProperty Name="SicilOzellikTanimAdi" ColumnName="SicilOzellikTanimAdi" />
+                <ScalarProperty Name="SicilOzellikId" ColumnName="SicilOzellikId" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PotaKartBilesenItems">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PotaKartBilesenItem">
+              <MappingFragment StoreEntitySet="PotaKartBilesenItems">
+                <ScalarProperty Name="BilesenItemId" ColumnName="BilesenItemId" />
+                <ScalarProperty Name="PotaKartId" ColumnName="PotaKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PotaKartAgacs">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PotaKartAgac">
+              <MappingFragment StoreEntitySet="PotaKartAgac">
+                <ScalarProperty Name="PotaKartIdParent" ColumnName="PotaKartIdParent" />
+                <ScalarProperty Name="PotaKartIdChild" ColumnName="PotaKartIdChild" />
+                <ScalarProperty Name="PotaKartId" ColumnName="PotaKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PotaKlasorKlasors">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PotaKlasorKlasor">
+              <MappingFragment StoreEntitySet="PotaKlasorKlasor">
+                <ScalarProperty Name="KlasorAdi" ColumnName="KlasorAdi" />
+                <ScalarProperty Name="BagliOlduguKlasorId" ColumnName="BagliOlduguKlasorId" />
+                <ScalarProperty Name="PotaKartId" ColumnName="PotaKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTechizatGrubuTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTechizatGrubuTanim">
+              <MappingFragment StoreEntitySet="ArizaTechizatGrubuTanim">
+                <ScalarProperty Name="ArizaTechizatGrubuAdi" ColumnName="ArizaTechizatGrubuAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTechizatItemTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTechizatItemTanim">
+              <MappingFragment StoreEntitySet="ArizaTechizatItemTanim">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="TechizatTuruId" ColumnName="TechizatTuruId" />
+                <ScalarProperty Name="ArizaTechizatGrubuId" ColumnName="ArizaTechizatGrubuId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewKokDepartmanBagimsizs">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ViewKokDepartmanBagimsiz">
+              <MappingFragment StoreEntitySet="ViewKokDepartmanBagimsiz">
+                <ScalarProperty Name="DepartmanAdi" ColumnName="DepartmanAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewKokDepartmanlars">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ViewKokDepartmanlar">
+              <MappingFragment StoreEntitySet="ViewKokDepartmanlar">
+                <ScalarProperty Name="BagliOlduguId" ColumnName="BagliOlduguId" />
+                <ScalarProperty Name="DepartmanAdi" ColumnName="DepartmanAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaSorumluDepartmen">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaSorumluDepartman">
+              <MappingFragment StoreEntitySet="ArizaSorumluDepartman">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+                <ScalarProperty Name="ArizaTanimId" ColumnName="ArizaTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTanim">
+              <MappingFragment StoreEntitySet="ArizaTanim">
+                <ScalarProperty Name="OnemDerecesi" ColumnName="OnemDerecesi" />
+                <ScalarProperty Name="ArizaTanimGrupId" ColumnName="ArizaTanimGrupId" />
+                <ScalarProperty Name="ArizaTanimAdi" ColumnName="ArizaTanimAdi" />
+                <ScalarProperty Name="ArizaTechizatGrubuId" ColumnName="ArizaTechizatGrubuId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTanimGerekliBilesenHeaders">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTanimGerekliBilesenHeader">
+              <MappingFragment StoreEntitySet="ArizaTanimGerekliBilesenHeader">
+                <ScalarProperty Name="ArizaTanimArizaTechizatGrupId" ColumnName="ArizaTanimArizaTechizatGrupId" />
+                <ScalarProperty Name="TechizatTuruId" ColumnName="TechizatTuruId" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="BilesenHeaderId" ColumnName="BilesenHeaderId" />
+                <ScalarProperty Name="ArizaTanimId" ColumnName="ArizaTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTanimGerekliTechizatTurus">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTanimGerekliTechizatTuru">
+              <MappingFragment StoreEntitySet="ArizaTanimGerekliTechizatTuru">
+                <ScalarProperty Name="ArizaTanimArizaTechizatGrupId" ColumnName="ArizaTanimArizaTechizatGrupId" />
+                <ScalarProperty Name="TechizatTuruId" ColumnName="TechizatTuruId" />
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="ArizaTanimId" ColumnName="ArizaTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaBildirimHeaders">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaBildirimHeader">
+              <MappingFragment StoreEntitySet="ArizaBildirimHeader">
+                <ScalarProperty Name="AktarilanArizaHeaderId" ColumnName="AktarilanArizaHeaderId" />
+                <ScalarProperty Name="ArizaTechizatGrubuId" ColumnName="ArizaTechizatGrubuId" />
+                <ScalarProperty Name="SilinsinMi" ColumnName="SilinsinMi" />
+                <ScalarProperty Name="KapananArizaNotu" ColumnName="KapananArizaNotu" />
+                <ScalarProperty Name="ArizaCozumId" ColumnName="ArizaCozumId" />
+                <ScalarProperty Name="AcilanArizaNotu" ColumnName="AcilanArizaNotu" />
+                <ScalarProperty Name="AcilanArizaTanimId" ColumnName="AcilanArizaTanimId" />
+                <ScalarProperty Name="KapananArizaTanimId" ColumnName="KapananArizaTanimId" />
+                <ScalarProperty Name="ArizaDurumu" ColumnName="ArizaDurumu" />
+                <ScalarProperty Name="KayitYapan" ColumnName="KayitYapan" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaBildirimItems">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaBildirimItem">
+              <MappingFragment StoreEntitySet="ArizaBildirimItem">
+                <ScalarProperty Name="BilesenItemId" ColumnName="BilesenItemId" />
+                <ScalarProperty Name="BilesenHeaderId" ColumnName="BilesenHeaderId" />
+                <ScalarProperty Name="PotaKartId" ColumnName="PotaKartId" />
+                <ScalarProperty Name="TechizatTuruId" ColumnName="TechizatTuruId" />
+                <ScalarProperty Name="KapananArizaTanimId" ColumnName="KapananArizaTanimId" />
+                <ScalarProperty Name="AcilanArizaTanimId" ColumnName="AcilanArizaTanimId" />
+                <ScalarProperty Name="ArizaBildirimHeaderId" ColumnName="ArizaBildirimHeaderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaDurumuTanims">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaDurumuTanim">
+              <MappingFragment StoreEntitySet="ArizaDurumuTanim">
+                <ScalarProperty Name="ArizaDurumuAdi" ColumnName="ArizaDurumuAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaAcilabilecekDepartmen">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaAcilabilecekDepartman">
+              <MappingFragment StoreEntitySet="ArizaAcilabilecekDepartman">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+                <ScalarProperty Name="ArizaTanimId" ColumnName="ArizaTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTanimGrups">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTanimGrup">
+              <MappingFragment StoreEntitySet="ArizaTanimGrup">
+                <ScalarProperty Name="ArizaTanimGrupAdi" ColumnName="ArizaTanimGrupAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTanimCozums">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTanimCozum">
+              <MappingFragment StoreEntitySet="ArizaTanimCozum">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="ArizaCozumAdi" ColumnName="ArizaCozumAdi" />
+                <ScalarProperty Name="ArizaTanimId" ColumnName="ArizaTanimId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PotaKartEntegreKarts">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.PotaKartEntegreKart">
+              <MappingFragment StoreEntitySet="PotaKartEntegreKart">
+                <ScalarProperty Name="EntegrePotaKartId" ColumnName="EntegrePotaKartId" />
+                <ScalarProperty Name="PotaKartId" ColumnName="PotaKartId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaTanimArizaTechizatGrubus">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaTanimArizaTechizatGrubu">
+              <MappingFragment StoreEntitySet="ArizaTanimArizaTechizatGrubu">
+                <ScalarProperty Name="ArizaTechizatGrubuId" ColumnName="ArizaTechizatGrubuId" />
+                <ScalarProperty Name="ArizaId" ColumnName="ArizaId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaBildirimHarekets">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaBildirimHareket">
+              <MappingFragment StoreEntitySet="ArizaBildirimHareket">
+                <ScalarProperty Name="ArizaHareketNotu" ColumnName="ArizaHareketNotu" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="KayitYapanId" ColumnName="KayitYapanId" />
+                <ScalarProperty Name="ArizaDurumu" ColumnName="ArizaDurumu" />
+                <ScalarProperty Name="ArizaBildirimHeaderId" ColumnName="ArizaBildirimHeaderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDepartmen">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.UserDepartman">
+              <MappingFragment StoreEntitySet="UserDepartman">
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaBildirimCozums">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaBildirimCozum">
+              <MappingFragment StoreEntitySet="ArizaBildirimCozum">
+                <ScalarProperty Name="ArizaCozumId" ColumnName="ArizaCozumId" />
+                <ScalarProperty Name="ArizaBildirimHeaderId" ColumnName="ArizaBildirimHeaderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KomponentTalimatGrupDepartmen">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.KomponentTalimatGrupDepartman">
+              <MappingFragment StoreEntitySet="KomponentTalimatGrupDepartman">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+                <ScalarProperty Name="KomponentTalimatGrupId" ColumnName="KomponentTalimatGrupId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KomponentTalimatGrupBilgiDepartmen">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.KomponentTalimatGrupBilgiDepartman">
+              <MappingFragment StoreEntitySet="KomponentTalimatGrupBilgiDepartman">
+                <ScalarProperty Name="SeciliMi" ColumnName="SeciliMi" />
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+                <ScalarProperty Name="KomponentTalimatGrupId" ColumnName="KomponentTalimatGrupId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewArizaGuncelDurums">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ViewArizaGuncelDurum">
+              <MappingFragment StoreEntitySet="ViewArizaGuncelDurum">
+                <ScalarProperty Name="ArizaBildirimYetki" ColumnName="ArizaBildirimYetki" />
+                <ScalarProperty Name="ArizaMudahaleYetki" ColumnName="ArizaMudahaleYetki" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ArizaDurumuAdi" ColumnName="ArizaDurumuAdi" />
+                <ScalarProperty Name="ArizaDurumu" ColumnName="ArizaDurumu" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DepartmanId" ColumnName="DepartmanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZamanEtuduHeaders">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ZamanEtuduHeader">
+              <MappingFragment StoreEntitySet="ZamanEtuduHeader">
+                <ScalarProperty Name="GozlemSayisi" ColumnName="GozlemSayisi" />
+                <ScalarProperty Name="KayitYapan" ColumnName="KayitYapan" />
+                <ScalarProperty Name="EtutNo" ColumnName="EtutNo" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZamanEtuduItems">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ZamanEtuduItem">
+              <MappingFragment StoreEntitySet="ZamanEtuduItem">
+                <ScalarProperty Name="Ortalama" ColumnName="Ortalama" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="BilesenItemId" ColumnName="BilesenItemId" />
+                <ScalarProperty Name="PotaKartId" ColumnName="PotaKartId" />
+                <ScalarProperty Name="ZamanEtuduHeaderId" ColumnName="ZamanEtuduHeaderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZamanEtuduItemDegers">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ZamanEtuduItemDeger">
+              <MappingFragment StoreEntitySet="ZamanEtuduItemDeger">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ItemDegeri" ColumnName="ItemDegeri" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="ZamanEtuduItemId" ColumnName="ZamanEtuduItemId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZamanEtuduItemDetails">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ZamanEtuduItemDetail">
+              <MappingFragment StoreEntitySet="ZamanEtuduItemDetail">
+                <ScalarProperty Name="ZamanEtuduKategoriId" ColumnName="ZamanEtuduKategoriId" />
+                <ScalarProperty Name="KayitYapanId" ColumnName="KayitYapanId" />
+                <ScalarProperty Name="OlcumDegeri" ColumnName="OlcumDegeri" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="BilesenItemId" ColumnName="BilesenItemId" />
+                <ScalarProperty Name="PotaKartId" ColumnName="PotaKartId" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZamanEtuduKategoris">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ZamanEtuduKategori">
+              <MappingFragment StoreEntitySet="ZamanEtuduKategori">
+                <ScalarProperty Name="KategoriAdi" ColumnName="KategoriAdi" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ArizaBildirimHeaderKullanilanMalzemes">
+            <EntityTypeMapping TypeName="POTA_BOTAModel.ArizaBildirimHeaderKullanilanMalzeme">
+              <MappingFragment StoreEntitySet="ArizaBildirimHeaderKullanilanMalzeme">
+                <ScalarProperty Name="KayitYapan" ColumnName="KayitYapan" />
+                <ScalarProperty Name="KayitTarihi" ColumnName="KayitTarihi" />
+                <ScalarProperty Name="KullanilanMiktar" ColumnName="KullanilanMiktar" />
+                <ScalarProperty Name="StokKartId" ColumnName="StokKartId" />
+                <ScalarProperty Name="ArizaBildirimHeaderId" ColumnName="ArizaBildirimHeaderId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

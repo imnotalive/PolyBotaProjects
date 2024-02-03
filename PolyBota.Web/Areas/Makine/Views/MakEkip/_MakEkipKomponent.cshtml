@@ -1,0 +1,53 @@
+﻿@model PolyBota.Web.Areas.Makine.Models.MakineEkipmanModel
+
+
+@helper ListOlustur(int id)
+{
+    var liStyle = id ==0 ? "" : "display:none";
+
+
+    string liClass = "li" + id;
+    string acClass = id == 0 ? "" : "ulAc";
+
+
+    var lst = Model.MakineEkipmanKomponents.Where(a => a.BagliOlduguId == id).OrderBy(a => a.KomponentTanimAdi).ToList();
+    if (lst.Any())
+    {
+        <ul class="list-group @liClass  @acClass" style="@liStyle">
+            @foreach (var item in lst)
+            {
+               
+                if (Model.KomponentTanims.Any(a=>a.Id== item.KomponentId))
+                {
+                    var kompAdi = Model.KomponentTanims.First(a => a.Id == item.KomponentId).KomponentTanimAdi;
+                    liClass = "li" + item.Id;
+
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="javascript:" class="btn btn-secondary" onclick="toggleCreate('@liClass','.')">  ±</a> <b class="siyah"> @kompAdi</b>
+</div>
+                            <div class="col-md-6">
+                                <div class="btn btn-group float-right" role="group">
+                                    <a class="btn btn-info btn-sm beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGosterKomp(@item.Id, 0)"><i class="fa fa-pencil-alt"></i> Alt Satırları Düzenle</a>
+                                </div>
+                            </div>
+                        </div>
+                        @ListOlustur(item.Id)
+                    </li>
+                }
+              
+            }
+        </ul>
+    }
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGosterKomp(0,0)">Ana Kırılım</a>
+
+        @ListOlustur(0)
+    </div>
+</div>
+

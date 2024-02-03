@@ -1,0 +1,77 @@
+﻿@model PolyBota.Web.Models.LayoutModel
+<!-- top navigation -->
+
+@{
+    int hafta = Model.Haftalar[1];
+
+}
+
+<div class="top_nav">
+    <div class="nav_menu">
+        <div class="nav toggle">
+            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+
+        </div>
+
+
+
+
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <!-- SEARCH FORM -->
+            <div class="ml-3">
+                 <input placeholder="Arama..." onkeyup="hizliArama()" id="txthizli" class="form-control form-control-navbar">
+                   
+              
+             
+            </div>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto" id="bildirim-link">
+               
+
+            </ul>
+        </nav>
+    </div>
+</div>
+<!-- /top navigation -->
+@*  <nav class="nav navbar-nav">
+
+
+        <ul class="navbar-right">
+
+            <li class="nav-item dropdown open" style="padding-left: 15px;">
+                <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
+                    @if (Model.ResimUrl != null)
+                    {
+                        <img src="@Url.Content(Model.ResimUrl)" />
+                    }
+                    else
+                    {
+                        <img src="~/Resimler/logo.svg" />
+                    }
+
+                    @Model.User.Name
+                </a>
+                <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
+
+                    <a class="dropdown-item" href="/User/LogOut"><i class="fa fa-sign-out pull-right"></i> Çıkış Yap</a>
+                </div>
+            </li>
+
+            <li class="nav-item" style="padding-left: 15px;">
+                <a href="/UserHome/Bildirim" class="user-profile" >
+
+                    <img src="~/Resimler/red-belly.png" class="bounceEffect"/>
+
+
+
+                </a>
+
+            </li>
+
+
+
+
+        </ul>
+    </nav>*@

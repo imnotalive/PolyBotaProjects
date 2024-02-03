@@ -1,0 +1,241 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+@{
+    ViewBag.Title = "PotaKartOperasyonSilmeListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="@Model.PagedListSrcn.CurrentPage" id="currentPage" />
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Pota Kart Liste</h5>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+                <a class="btn btn-secondary btn-sm" href=""><i class="fa fa-reply"></i> Operasyon Liste</a>
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Pota Kart Operasyon Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+                  
+
+                    <div class="col-md-3">
+                        <h2>
+                            Pota Kart Operasyon  Listesi
+                        </h2>
+                    </div>
+                 
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <b>Pota Kart</b>
+                        @Html.DropDownListFor(a => a.KatId, Model.PotaKarts.Select(a => new SelectListItem()
+                   {
+                       Value = a.Id.ToString(),
+                       Text = a.PotaKartAdi
+                   }), new { @class = "form-control", @id = "pageKatId", @onchange = "KategoriDegistir()" })
+                    </div>
+
+
+
+
+                    <div class="col-md-6">
+                        <div class="">
+
+
+                            <b>&nbsp;</b>
+                            <ul class="pagination d-flex justify-content-center">
+                                <li class="page-item">
+                                    <a href="@Url.Action("PotaKartOperasyonSilmeListe", "KartPota", new {@CurrentPage = 1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" aria-label="Previous" class="page-link">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                @foreach (var i in Model.PagedListSrcn.PageNumberList)
+                                {
+                                    string aktifClass = "";
+                                    if (i == Model.PagedListSrcn.CurrentPage)
+                                    {
+                                        aktifClass = "active";
+                                    }
+                                    <li class="page-item @aktifClass"><a href="@Url.Action("PotaKartOperasyonSilmeListe", "KartPota", new {@CurrentPage = i, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" class="page-link">@i</a></li>
+
+                                }
+
+                                <li class="page-item">
+                                    <a href="@Url.Action("PotaKartOperasyonSilmeListe", "KartPota", new {@CurrentPage = -1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" aria-label="Next" class="page-link">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-3">
+                        <b>Gösterim Sayısı</b>
+                        @Html.DropDownListFor(a => a.PagedListSrcn.PageShowCount,
+                            Model.PagedListSrcn.PageSizeSelectList.Select(a => new SelectListItem() { Text = a.Tanim.ToString(), Value = a.Tanim.ToString() }),
+                            new { @class = "form-control", @id = "pageshowCount", onchange = string.Format("GosterimDegistir({0})", Model.KatId) })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                               
+                                    <th>Tarih</th>
+                                    <th>Pota Kart</th>
+
+
+                                    <th>Operasyon</th>
+
+                                 
+
+
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int t = 0;
+                                    if (Model.PagedListSrcn.CurrentPage > 1)
+                                    {
+                                        t = (Model.PagedListSrcn.CurrentPage - 1) * Model.PagedListSrcn.PageShowCount;
+                                    }
+
+                                    foreach (var item in Model.DropItems)
+                                    {
+                                        t++;
+                                        var trClass = item.IdInt2 == 0 ? "alert-warning" : "alert-success";
+                                        <tr>
+                                            <td>
+                                                @t
+                                            </td>
+                                            <td class="@trClass">
+                                                @item.DateTime.ToShortDateString()
+                                            </td>
+                                            <td>@item.Tanim1</td>
+                                            <td>@item.Tanim2</td>
+                                            <td>
+                                                @if (item.IdInt3 == 0)
+                                                {
+                                                    <a href="javascript:" class="btn btn-sm btn-danger" onclick="SilmeTalebiGuncelle(@item.Id,2)">Silme Talebi Oluştur</a>
+                                                }
+
+                                                @if (item.IdInt3 == 2)
+                                                {
+                                                    <div class="btn-group">
+                                                        <a href="javascript:" class="btn btn-sm btn-warning">Silme Talebi Oluşturuldu</a>
+                                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="SilmeTalebiGuncelle(@item.Id,0)">Talebi İptal Et</a>
+                                                    </div>
+
+                                                }
+                                            </td>
+
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function SayfayiYonlendir(PageshowCount, CurrentPage, katId) {
+
+
+            var url = "/Kart/KartPota/PotaKartOperasyonSilmeListe?";
+            url += "CurrentPage=" + CurrentPage;
+            url += "&PageShowCount=" + PageshowCount;
+            url += "&katId=" + katId;
+
+            window.location.href = url;
+
+        }
+
+        function GosterimDegistir(katId) {
+
+            var PageshowCount = $("#pageshowCount").val();
+
+            SayfayiYonlendir(PageshowCount, 1, katId);
+        }
+        function KategoriDegistir() {
+
+            var katId = $("#pageKatId").val();
+            var PageshowCount = $("#pageshowCount").val();
+
+            SayfayiYonlendir(PageshowCount, 1, katId);
+        }
+
+        function StokAra() {
+            var id = $("#txtSearch").val();
+            var alan = $("#stok-ara");
+            alan.empty();
+            var url = "/Kart/KartPota/PotaKartAra2?str=" + id;
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+        function SilmeTalebiGuncelle(id, durumId) {
+            var url = "/Kart/KartPota/OperasyonSilmeTalebiGuncelle?id=" + id + "&durumId=" + durumId;
+            $.get(url,
+                function (data) {
+                    location.reload();
+                });
+        }
+    </script>
+}

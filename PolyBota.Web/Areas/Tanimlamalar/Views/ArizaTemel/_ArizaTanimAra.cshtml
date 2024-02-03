@@ -1,0 +1,24 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaArizaModel
+
+
+
+<table class="table table-sm table-bordered">
+    <thead>
+    <tr>
+        <th>Grup</th>
+        <th>Tanım</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.DropItems)
+    {
+        <tr>
+            <td>@item.Tanim1</td>
+            <td>@item.Tanim2</td>
+            <td><a href="@Url.Action("ArizaTanimEkleDuzenle","ArizaTemel",new{id=item.Id})" class="btn btn-sm btn-outline-secondary"> İncele</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+

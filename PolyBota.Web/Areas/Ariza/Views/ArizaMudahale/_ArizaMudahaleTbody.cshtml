@@ -1,0 +1,95 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+
+
+    @{
+        int t = 0;
+
+
+        foreach (var item in Model.ArizaDurumModelItems)
+        {
+            t++;
+
+            string grup = "";
+
+            string zipClass = item.AcilanArizaTanim.OnemDerecesi > 0 ? " <i class='fas fa-exclamation-triangle fa-3x text-dark'></i>" : "";
+            var dropArizaDurumu = Model.DropArizaDurumTanims.First(a => a.IdInt == item.ArizaBildirimHeader.ArizaDurumu);
+            <tr class="@dropArizaDurumu.Tanim3" onclick="linkeGit(@item.ArizaBildirimHeader.Id)">
+
+                <td>
+                    @t
+
+                </td>
+                <td>
+                  
+                        @dropArizaDurumu.Tanim1
+
+                        <small><br />@item.ArizaBildirimHeader.Id</small>
+
+                </td>
+                <td>
+                    @item.ArizaBildirimHeader.KayitTarihi
+                    <small><br />@item.User.Name</small>
+                </td>
+                <td>@item.ArizaTechizatGrubuTanim.ArizaTechizatGrubuAdi</td>
+                <td class="">
+
+                    @Html.Raw(zipClass) @item.AcilanArizaTanim.ArizaTanimAdi  @Html.Raw(zipClass)
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var ozet in item.ArizaBildirimItems)
+                        {
+                            var techizat = "";
+                            var potaKart = "";
+                            var bilesenHeaderAdi = "";
+                            var bilesenItemAdi = "";
+                            var bilesenItem = new BilesenItem();
+
+                            if (ozet.TechizatTuruId != 0)
+                            {
+                                techizat = Model.TechizatTuruTanims.First(a => a.Id == ozet.TechizatTuruId).TechizatTuruTanimAdi;
+                            }
+                            if (ozet.PotaKartId != 0)
+                            {
+                                potaKart = Model.PotaKarts.First(a => a.Id == ozet.PotaKartId).PotaKartAdi;
+                            }
+
+                            if (ozet.BilesenHeaderId != 0)
+                            {
+                                bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == ozet.BilesenHeaderId).BilesenHeaderAdi;
+                            }
+                            if (ozet.BilesenItemId != 0)
+                            {
+
+                                bilesenItem = Model.BilesenItems.First(a => a.Id == ozet.BilesenItemId);
+                                bilesenItemAdi = bilesenItem.BilesenDegeri;
+                                if (string.IsNullOrEmpty(bilesenHeaderAdi))
+                                {
+                                    bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == bilesenItem.BilesenHeaderId).BilesenHeaderAdi;
+                                }
+                                bilesenItemAdi = string.Format("{0}: <b class='text-black'>{1}</b>", bilesenHeaderAdi, bilesenItemAdi);
+
+
+                            }
+
+                            <li>
+                                <div class="row">
+                                    <div class="col-md-6 text-left">@potaKart</div>
+                                    <div class="col-md-6 text-left">@Html.Raw(bilesenItemAdi)</div>
+                                </div>
+                            </li>
+
+
+                        }
+                    </ul>
+
+                </td>
+
+                <td>@item.ArizaBildirimHeader.AcilanArizaNotu</td>
+
+
+            </tr>
+        }
+    }

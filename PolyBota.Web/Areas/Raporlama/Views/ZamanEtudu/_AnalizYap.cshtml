@@ -1,0 +1,82 @@
+﻿@model PolyBota.Web.Areas.Raporlama.Models.RaporlamaZeModel
+
+<div class="col-sm-12">
+    <a href="javascript:" onclick="exportTableToExcel('tblBakim', 'ZE-@DateTime.Now.ToString()')" class="btn btn-sm btn-info">
+        <i class="fa fa-download"></i> Excel olarak İndir
+    </a>
+</div>
+<div class="col-sm-12 table-responsive">
+    <table class="table table-sm table-bordered table-hover" id="tblBakim">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Not</th>
+                <th>Kategori</th>
+                <th>Tarih</th>
+                <th>PotaKart</th>
+                @for (int i = 0; i < Model.maxGozlemSayisi; i++)
+                {
+                    <th>@string.Format("{0}. Gözlem", (i + 1))</th>
+                }
+                <th>Ort</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (int i = 0; i < Model.RaporlamaZeSonucItems.Count; i++)
+            {
+                var araModel = Model.RaporlamaZeSonucItems[i];
+                var itemFarki = Model.maxGozlemSayisi - araModel.RaporlamaZeSonucItemDetails.Count;
+
+                decimal ortalama = araModel.RaporlamaZeSonucItemDetails.Sum(a => a.ZamanEtuduItemDetail.OlcumDegeri) / (Convert.ToDecimal(araModel.RaporlamaZeSonucItemDetails.Count));
+                <tr>
+                    <td>@(i+1)</td>
+                    <th>
+                        @foreach (var ii in araModel.DropItems)
+                        {
+                            if (!string.IsNullOrWhiteSpace(ii.Tanim))
+                            {
+                                <small> @string.Format("{0}.Gözlem: {1}",ii.IdInt,ii.Tanim)</small>
+                                <br />
+                            }
+                        }
+                    </th>
+                    <td>@araModel.ZamanEtuduKategori.KategoriAdi</td>
+                    <td>@araModel.Tarih.ToShortDateString()</td>
+                    <td>
+                        <b class="text-danger">  @araModel.PotaKart.PotaKartAdi</b>
+                        @if (araModel.BilesenItem.Id != 0)
+                        {
+                            <br />
+
+                            <small>@string.Format("{0}", araModel.BilesenItem.BilesenDegeri)</small>
+                        }
+                    </td>
+
+                    @foreach (var item in araModel.RaporlamaZeSonucItemDetails)
+                    {
+                        <td>@item.ZamanEtuduItemDetail.OlcumDegeri.ToString("N")</td>
+                    }
+
+                    @if (itemFarki > 0)
+                    {
+                        for (int k = 0; k < itemFarki; k++)
+                        {
+                            <td></td>
+                        }
+
+                    }
+                    <td>
+                        <b class="text-primary">@ortalama.ToString("N")</b>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+</div>
+
+
+

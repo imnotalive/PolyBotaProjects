@@ -1,0 +1,155 @@
+﻿@model PolyBota.Web.Areas.Talep.Models.TalepAmbarModel
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">YEDEK PARÇA TALEBİ</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+
+    <form id="frm-talep">
+        @Html.HiddenFor(a => a.AmbarStokTalep.Id)
+        @Html.HiddenFor(a=>a.tip)
+        <div class="modal-body">
+            <div class="row">
+
+                @if (Model.durum == 1)
+                {
+                    <h2 class="text-center">TALEBİ OLUŞTURAN OLMADIĞINIZ İÇİN GÜNCELLEME YAPILAMAZ</h2>
+                }
+                else
+                {
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Kayıt Tarihi</b>
+                            @Html.TextBoxFor(a => a.AmbarStokTalep.KayitTarihi, new { @class = "form-control",@readonly=true })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Kayıt Yapan</b>
+                            @Html.TextBoxFor(a => a.User.Name, new { @class = "form-control",@readonly=true })
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Stok Adı</b>
+                            @Html.TextBoxFor(a => a.StokKart.StokTanimAdi, new { @class = "form-control",@readonly=true })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Stok Kodu</b>
+                            @Html.TextBoxFor(a => a.StokKart.StokKodu, new { @class = "form-control",@readonly=true })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <b>Talep Edilen Ambar</b>
+                            <input type="text" class="form-control" value="@string.Format("({0}) - {1}", Model.Ambar.PotaAmbarNo.Replace(" ",""),Model.Ambar.AmbarAdi)" readonly=""/>
+                          
+                        </div>
+                    </div>
+
+                    if (Model.tip==2)
+                    {
+                        // sadece onay verilecek
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b>Miktar</b>
+                                @Html.TextBoxFor(a => a.AmbarStokTalep.Miktar, new { @class = "form-control", @readonly = true })
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b>ONAY DURUMU</b>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>@Html.RadioButtonFor(a=>a.durum, 0) ONAY BEKLENİYOR </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>@Html.RadioButtonFor(a=>a.durum, 1) ONAY VER </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b>Maliyet Merkezi</b>
+                                @Html.DropDownListFor(a => a.AmbarStokTalep.TigerAmbarId, Model.TigerAmbars.Select(a=> new SelectListItem()
+                                {
+                                    Text = a.AmbarAdi,
+                                    Value = a.Id.ToString()
+                                }), new { @class = "form-control" })
+                            </div>
+                        </div>
+                       
+                    }
+                    else
+                    {
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b>Aktarılacak Ambar</b>
+                                @Html.DropDownListFor(a => a.AmbarStokTalep.AktarilacakAmbarId, Model.Ambars.Select(a=> new SelectListItem()
+                                {
+                                    Text = a.AmbarAdi,
+                                    Value = a.Id.ToString()
+                                }), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b>Miktar</b>
+                                @Html.DropDownListFor(a => a.MiktarInt, Model.DropItems.Select(a=> new SelectListItem()
+                                {
+                                    Text = a.Tanim,
+                                    Value = a.Id
+                                }), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <b>TALEP DURUMU</b>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>@Html.RadioButtonFor(a=>a.AmbarStokTalep.TalepDurumu, 1) ONAY BEKLENİYOR </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>@Html.RadioButtonFor(a=>a.durum, 3) İPTAL ET </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+              
+               
+               
+
+              
+
+
+                <div class="col-md-12">
+
+                    <a href="javascript:"  class="btn btn-block btn-success" onclick="frmTalepDuzenle()">KAYDET</a>
+
+                </div>
+                }
+
+            </div>
+
+
+        </div>
+        <div class="modal-footer ">
+            <button type="button" class="btn btn-default btn-danger" data-dismiss="modal" id="modalKapat">KAPAT</button>
+
+        </div>
+   </form>
+
+
+
+</div>

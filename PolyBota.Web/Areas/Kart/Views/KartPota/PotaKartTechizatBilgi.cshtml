@@ -1,0 +1,197 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+@{
+    ViewBag.Title = "PotaKartTechizatBilgi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="@Model.PotaKart.Id" id="makId" />
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>POTA Kart Techizat Bileşenleri</h3>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary beyaz btn-sm" href="@Url.Action("PotaKartListe","KartPota",new{katId=Model.PotaKart.TechizatTuruId})"><i class="fa fa-reply"></i> Listeye Dön</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+               
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("StokKartListe","Stok",new{katId=Model.PotaKart.KomponentTanimGrupId})">POTA Kart Liste</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bölüm Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bars"></i> @Model.PotaKart.PotaKartAdi</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @Html.Partial("_PotaKartTab")
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="alan-summary">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <b>Pota Tanım</b>
+                                    @Html.TextBoxFor(a => a.PotaKart.PotaKartAdi, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <b>Pota Kodu</b>
+                                    @Html.TextBoxFor(a => a.PotaKart.PotaKodu, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <hr />
+                                <h5 class="text-center"><b class="text-center">TOPLU GİRİŞ</b></h5>
+                                @using (Html.BeginForm("PotaKartTopluTechizatEkle", "KartPota"))
+                                {
+                                    @Html.HiddenFor(a => a.PotaKart.Id)
+
+                                    for (int t = 0; t < Model.DropTechizatTopluGiris.Count; t++)
+                                    {
+                                      
+
+                                        var item = Model.DropTechizatTopluGiris[t];
+                                        <div class="form-group">
+                                            <b>@item.Tanim</b>
+                                            @Html.DropDownListFor(a => a.DropTechizatTopluGiris[t].IdInt,
+
+                                                new SelectList(item.ItemValues, "IdInt", "Text", Model.DropTechizatTopluGiris[t].IdInt))
+                                        </div>
+
+
+
+
+                                    }
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-block btn-danger">
+                                            TOPLU GİRİŞ YAP
+                                        </button>
+                                    </div>
+
+                                }
+                            </div>
+
+                            <div class="col-md-9">
+                                <hr />
+                                <ul class="list-group">
+                                    @foreach (var header in Model.BilesenHeaders)
+                                    {
+                                        <li class="list-group-item ">
+                                            <a href="javascript:" class="btn btn-success" data-toggle="modal" data-target="#modal2"> @header.BilesenHeaderAdi</a>
+
+                                            <ul class="list-group">
+                                                @foreach (var item in Model.BilesenItems.Where(a => a.BilesenHeaderId == header.Id && a.SeciliMi))
+                                                {
+                                                    <li class="list-group-item">
+                                                        <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal2"> @item.BilesenDegeri</a>
+                                                    </li>
+                                                }
+
+
+                                            </ul>
+                                        </li>
+                                    }
+
+
+                                </ul>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.PotaKart.PotaKartAdi</h4>
+
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                @using (Html.BeginForm("PotaKartTechizatBilgi", "KartPota"))
+                {
+                    @Html.HiddenFor(a => a.PotaKart.Id)
+
+                    foreach (var sicilHeader in Model.BilesenHeaders)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b class="siyah"> @sicilHeader.BilesenHeaderAdi</b>
+                            </div>
+
+
+                            @foreach (var komp in Model.BilesenItems.Where(a => a.BilesenHeaderId == sicilHeader.Id).OrderBy(a => a.BilesenDegeri).ToList())
+                            {
+                                var i = Model.BilesenItems.IndexOf(komp);
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class=""> @Html.CheckBoxFor(a => a.BilesenItems[i].SeciliMi) @komp.BilesenDegeri </label>
+
+                                    </div>
+                                </div>
+
+                                @Html.HiddenFor(a => a.BilesenItems[i].Id)
+                            }
+
+                            <div class="col-md-12">
+                                <hr />
+
+                            </div>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-info btn-block">KAYDET</button>
+
+                }
+
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>

@@ -1,0 +1,73 @@
+﻿@model PolyBota.Web.Areas.Takip.Models.TakvimBakimModel
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+        <a href="javascript:" onclick="exportTableToExcel('tblBakim', 'BAKIM-@DateTime.Now.ToString()')" class="btn btn-info">Excel olarak İndir</a>
+
+    </div>
+    <div class="col-md-12 text-right">
+        <b class="btn ">Durum Tanımları</b>
+        @foreach (var item in Model.StokKartOperasyonDurumTanims)
+        {
+
+            <label class="btn beyaz btn-sm @item.ClassAdi">@item.OperasyonDurumuAdi</label>
+
+        }
+    </div>
+
+
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered" id="tblBakim">
+            <thead>
+                <tr>
+                    @for (int i = Model.BaslangicHafta; i <= Model.BitisHafta; i++)
+                    {
+                        <th>@string.Format("{0}.Hafta", i)</th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.TabloArray.GetLength(0); i++)
+                {
+                    <tr>
+                        @for (int j = 0; j < Model.TabloArray.GetLength(1); j++)
+                        {
+                            var opId = Model.TabloArray[i, j, 0];
+
+
+                            if (opId == 0)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                var operasyon = Model.StokKartOperasyons.First(a => a.Id == opId);
+                                var stokKart = Model.StokKarts.First(a => a.Id == operasyon.StokKartId);
+                                var talimat = Model.KomponentTalimatGrups.First(a => a.Id == operasyon.KomponentTalimatGrupId);
+                                var operasyonDurum = Model.StokKartOperasyonDurumTanims.First(a => a.Id == operasyon.OperasyonDurumu);
+
+                                var ozet = string.Format("{0}  ({1})", stokKart.StokTanimAdi, talimat.KomponentTalimatGrupAdi);
+                                <td>
+                                    <a href="javascript:" class="btn btn-block @operasyonDurum.ClassAdi">
+
+                                        @Html.Raw(ozet)
+                                    </a>
+                                </td>
+                            }
+
+                        }
+                    </tr>
+
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

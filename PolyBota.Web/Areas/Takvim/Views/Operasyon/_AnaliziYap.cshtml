@@ -1,0 +1,132 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Takvim.Model.TakvimOperasyonModel
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn btn-group " role="group">
+
+            <a href="javascript:" class="btn btn-sm btn-danger" onclick="toggleCreate('toggleRow','.')">
+                <i class="fa fa-asterisk"></i>   Renk Açıklamalarını Göster
+            </a>
+            <a href="javascript:" onclick="exportTableToExcel('tblBakim', 'BAKIM-@DateTime.Now.ToString()')" class="btn btn-sm btn-info">
+                <i class="fa fa-download"></i> Excel olarak İndir
+            </a>
+        </div>
+    </div>
+</div>
+@foreach (var periyotGrup in Model.PeriyotTipiTanims)
+{
+    <div class="row toggleRow" style="display: none">
+        <div class="col-md-12">
+            <hr />
+            <b>@periyotGrup.PeriyotTipiAdi</b>
+
+        </div>
+        @foreach (var itemPeriyotTanim in Model.PeriyotTanims.Where(a => a.PeriyotTipi == periyotGrup.Id))
+        {
+            <div class="col-md-3 text-center">
+                <div style="background-color: @itemPeriyotTanim.RenkSecimi; padding: 3px">
+                    <b class="text-center beyaz">@string.Format("{0} - ({1} Hafta)", itemPeriyotTanim.PeriyotTanimAdi, itemPeriyotTanim.PeriyotDonemi)</b>
+                </div>
+            </div>
+        }
+    </div>
+
+}
+
+<div class="row">
+
+
+
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered" id="tblBakim">
+            <thead>
+                <tr>
+                    <th></th>
+                    @foreach (var head in Model.TableHeaderlar)
+                    {
+                        <th style="font-size: 8px">@head.Tanim</th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (int i = 0; i < Model.ArrTable.GetLength(0); i++)
+                {
+                    var potaKartId = @Model.PotaKarts[i].Id;
+                    <tr style="font-size: 10px;">
+                        <td>@Model.PotaKarts[i].PotaKartAdi</td>
+                        @for (int j = 0; j < Model.ArrTable.GetLength(1); j++)
+                        {
+                            var komponentTalimatGrup = new KomponentTalimatGrup();
+
+                            var periyotTanim = new PeriyotTanim();
+                            string classAdi = "badge-secondary";
+
+                            var strClass = (i+j)%2==1 ?"": "bg-light";
+                            <td class="@strClass border border-blue ">
+                                @for (int t = 0; t < Model.ArrTable.GetLength(3); t++)
+                                {
+                                    var idd = Model.ArrTable[i, j, 0, t];
+
+                                    var durusId = Model.ArrTable[i, j, 1, t];
+                                    if (idd != 0)
+                                    {
+                                        if (Model.StokKartOperasyons.Any(a => a.Id == idd))
+                                        {
+                                            var operasyon = Model.StokKartOperasyons.First(a => a.Id == idd);
+
+                                            if (Model.KomponentTalimatGrups.Any(a=> a.Id == operasyon.KomponentTalimatGrupId))
+                                            {
+                                                komponentTalimatGrup = Model.KomponentTalimatGrups.First(a => a.Id == operasyon.KomponentTalimatGrupId);
+                                                if (operasyon.PlanlananTarih <= DateTime.Now)
+                                                {
+                                                    classAdi = "badge-danger";
+                                                }
+
+                                                if (Model.PeriyotTanims.Any(a => a.Id == komponentTalimatGrup.PeriyotTanimId))
+                                                {
+                                                    periyotTanim = Model.PeriyotTanims.First(a => a.Id == komponentTalimatGrup.PeriyotTanimId);
+                                                }
+                                                if (periyotTanim.Id != 0)
+                                                {
+                                                    <a class="badge @classAdi beyaz" href="/Kart/KartPota/KartOperasyonDetay/@idd" style="background-color: @periyotTanim.RenkSecimi;">
+                                                        @periyotTanim.PeriyotTanimAdi
+                                                    </a>
+                                                }  
+                                            }
+                                            else
+                                            {
+                                                var dd = operasyon.KomponentTalimatGrupId;
+                                            }
+                                         
+                                        }
+                                        else
+                                        {
+                                            var idds = idd;
+                                        }
+                                     
+
+                                    }
+
+                                    if (durusId != 0)
+                                    {
+                                        <a class="badge badge-warning beyaz" href="/Kart/KartPota/PotaKartDurus/@potaKartId" style="background-color: #000">
+                                            MD
+                                        </a>
+                                    }
+
+                                }
+                            </td>
+
+
+
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

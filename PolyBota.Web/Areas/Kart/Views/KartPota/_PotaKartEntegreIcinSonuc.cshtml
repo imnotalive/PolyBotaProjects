@@ -1,0 +1,31 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+
+
+<div class="row">
+    @if (Model.DropItems.Any())
+    {
+        using (Html.BeginForm("PotaKartEntegreKaydet", "KartPota"))
+        {
+            @Html.HiddenFor(a=>a.PotaKart.Id)
+            for (int i = 0; i < Model.DropItems.Count; i++)
+            {
+                <div class="col-md-12">
+                    <label>
+                        @Html.HiddenFor(a => a.DropItems[i].Id)
+
+                        @Html.CheckBoxFor(a => a.DropItems[i].SeciliMi) @Model.DropItems[i].Tanim
+                    </label>
+                </div>
+            }
+
+            <button type="submit" class="btn btn-block btn-info">SEÇİMLERİ EKLE</button>
+        }
+
+       
+    }
+    else
+    {
+        <h2>Stok Bulunamadı</h2>
+    }
+</div>

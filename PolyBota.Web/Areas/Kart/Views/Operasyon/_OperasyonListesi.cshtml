@@ -1,0 +1,56 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartOperasyonModel
+
+                <div class="row">
+
+
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                @foreach (var head in Model.TableHeaderlar)
+                                {
+                                    <th>@head.Tanim</th>
+                                }
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @for (int i = 0; i < Model.ArrTable.GetLength(0); i++)
+                            {
+                                <tr>
+                                    @for (int j = 0; j < Model.ArrTable.GetLength(1); j++)
+                                    {
+                                        string kompAdi = null;
+                                        string classAdi = "btn-secondary";
+                                        var idd = Model.ArrTable[i, j, 0];
+
+                                        if (idd != 0)
+                                        {
+                                            var operasyon = Model.StokKartOperasyons.First(a => a.Id == idd);
+
+                                            kompAdi = Model.KomponentTalimatGrups.First(a => a.Id == operasyon.KomponentTalimatGrupId).KomponentTalimatGrupAdi;
+                                            if (operasyon.PlanlananTarih <= DateTime.Now)
+                                            {
+                                                classAdi = "btn-danger";
+                                            }
+
+
+                                            <td>
+                                                <a class="btn btn-sm @classAdi beyaz" href="@Url.Action("OperasyonDetay","Operasyon",new{id=idd})">
+                                                    @kompAdi
+                                                </a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+
+                                    }
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+

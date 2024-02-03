@@ -1,0 +1,74 @@
+﻿@model PolyBota.Web.Areas.Raporlama.Models.RaporlamaOperasyonModel
+
+
+@{
+    var bugn = DateTime.Now.Date;
+}
+<div class="row">
+    <div class="col-md-12">
+        <hr/>
+    </div>
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Planlanan Tarih</th>
+                <th>Operasyon</th>
+                <th>Makine/ Ekipman</th>
+            
+            </tr>
+            </thead>
+            <tbody>
+            @for (int i = 0; i < Model.TableHeaderlar.Count; i++)
+            {
+                var tarih = Model.TableHeaderlar[i].Tanim;
+
+                for (int j = 0; j < Model.ArrTable.GetUpperBound(1); j++)
+                {
+                    var trClass = "";
+                    if (Model.ArrTable[i, j, 0] != 0)
+                    {
+                        var operasyonId = Model.ArrTable[i, j, 0];
+
+                        var operasyon = Model.KartOperasyons.First(a => a.Id == operasyonId);
+
+                        if (operasyon.OperasyonDurumu==1)
+                        {
+                            trClass = "alert-success";
+                        }
+                        else
+                        {
+                            if (operasyon.PlanlananTarih.Date> bugn)
+                            {
+                                trClass = "alert-secondary";
+                            }
+                            else
+                            {
+                                trClass = "alert-danger";
+                            }
+                        }
+                        if (Model.KomponentTalimatGrups.Any(a => a.Id == operasyon.KomponentTalimatGrupId) && Model.PotaKarts.Any(a => a.Id == operasyon.StokKartId))
+                        {
+                            var kompGrup = Model.KomponentTalimatGrups.First(a => a.Id == operasyon.KomponentTalimatGrupId);
+                            var potaKart = Model.PotaKarts.First(a => a.Id == operasyon.StokKartId);
+
+                            <tr class="@trClass">
+                                <td>@tarih</td>
+                                <td>@operasyon.PlanlananTarih.ToShortDateString()</td>
+                                <td>@kompGrup.KomponentTalimatGrupAdi</td>
+                                <td>@potaKart.PotaKartAdi</td>
+                               
+                            </tr>
+                        }
+
+
+                    }
+                }
+
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+

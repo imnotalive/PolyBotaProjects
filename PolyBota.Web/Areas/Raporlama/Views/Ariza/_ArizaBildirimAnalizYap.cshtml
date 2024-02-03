@@ -1,0 +1,87 @@
+﻿@using DocumentFormat.OpenXml.ExtendedProperties
+@model PolyBota.Web.Areas.Raporlama.Models.RaporlamaArizaModel
+
+<div class="row">
+    <div class="col-sm-12">
+        <a href="javascript:" onclick="CiktiAl('tblCikti')" class="btn btn-sm btn-warning">
+            <i class="fa fa-download"></i>Çıktı Al
+        </a>
+    </div>
+    <div class="col-md-12 table-responsive">
+        <table class="table table-sm table-bordered table-striped">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Arıza Durumu</th>
+                <th>Kayıt Tarihi</th>
+                <th>Arıza Detay</th>
+                <th>Açılan Arıza</th>
+                <th>Kapanan Arıza</th>
+                <th>Sorumlu Dept</th>
+
+
+            </tr>
+            </thead>
+
+            <tbody>
+            @for (int i = 0; i < Model.RaporlamaArizaModelItems.Count; i++)
+            {
+                var item = Model.RaporlamaArizaModelItems[i];
+
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@item.ArizaDurumuAdi</td>
+                    <td>
+                        @item.KayitTarihi.ToString()
+                        <br/>
+                        <small>
+                            @item.KayitYapanKulAdi
+                        </small>
+                    </td>
+                    <td >
+                        <ul style="float: left !important">
+                            @foreach (var itt in item.RaporlamaArizaModelItemPotaKarts)
+                            {
+                                <li>
+                                    <b>@itt.PotaKartAdi</b>
+                                    <ul>
+                                        @foreach (var dropItem in itt.DropBilesenHeaderItems)
+                                        {
+                                            var str = dropItem.Tanim;
+                                            foreach (var itemValue in dropItem.ItemValues)
+                                            {
+                                                str = string.Format("{0} - {1}", str, itemValue.Text);
+
+                                            }
+                                            <li>
+
+                                                @str
+
+                                            </li>
+
+
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        @item.AcilanArizaTanimAdi
+                        <br/>
+                        <small>
+                            @item.ArizaTechizatGrubuAdi
+                        </small>
+                    </td>
+                    <td>@item.KapananArizaTanimAdi</td>
+                    <td>@item.DepartmanAdi</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="row" style="display: none" id="tblCikti">
+        @Html.Partial("_ArizaBildirimAnalizCikti")
+    </div>
+</div>

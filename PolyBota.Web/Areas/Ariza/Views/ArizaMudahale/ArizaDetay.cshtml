@@ -1,0 +1,568 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+@{
+    ViewBag.Title = "ArizaDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var geriLink = "/Ariza/ArizaMudahale/ArizaMudahaleListe";
+
+}
+
+@helper ArizaOzetGetir(int tip)
+{
+    var arizaDurumModelItem = Model.ArizaDurumModelItem;
+    var arizaTanimAdi = tip == 0 ? arizaDurumModelItem.AcilanArizaTanim.ArizaTanimAdi : arizaDurumModelItem.KapananArizaTanim.ArizaTanimAdi;
+
+    List<ArizaBildirimItem> bildirimItems = new List<ArizaBildirimItem>();
+
+    if (tip == 0)
+    {
+        bildirimItems = arizaDurumModelItem.ArizaBildirimItems.Where(a => a.KapananArizaTanimId == 0).ToList();
+    }
+    else
+    {
+        bildirimItems = arizaDurumModelItem.ArizaBildirimItems.Where(a => a.AcilanArizaTanimId == 0).ToList();
+    }
+    <div class="row img-thumbnail">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <b>@Html.Raw(tip == 0 ? "Açılan Arıza Tanımı" : "Kapanan Arıza Tanımı")</b>
+                <br />
+                <h5 class="text-danger">@arizaTanimAdi</h5>
+            </div>
+            <div class="form-group">
+                <b>Arıza Detay</b>
+                <ul>
+                    @foreach (var ozet in bildirimItems)
+                    {
+                        var techizat = "";
+                        var potaKart = "";
+                        var bilesenHeaderAdi = "";
+                        var bilesenItemAdi = "";
+                        var bilesenItem = new BilesenItem();
+
+                        if (ozet.TechizatTuruId != 0)
+                        {
+                            techizat = Model.TechizatTuruTanims.First(a => a.Id == ozet.TechizatTuruId).TechizatTuruTanimAdi;
+                        }
+                        if (ozet.PotaKartId != 0)
+                        {
+                            potaKart = Model.PotaKarts.First(a => a.Id == ozet.PotaKartId).PotaKartAdi;
+                        }
+
+                        if (ozet.BilesenHeaderId != 0)
+                        {
+                            bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == ozet.BilesenHeaderId).BilesenHeaderAdi;
+                        }
+                        if (ozet.BilesenItemId != 0)
+                        {
+
+                            bilesenItem = Model.BilesenItems.First(a => a.Id == ozet.BilesenItemId);
+                            bilesenItemAdi = bilesenItem.BilesenDegeri;
+                            if (string.IsNullOrEmpty(bilesenHeaderAdi))
+                            {
+                                bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == bilesenItem.BilesenHeaderId).BilesenHeaderAdi;
+                            }
+                            bilesenItemAdi = string.Format("{0}: <b class='text-danger'>{1}</b>", bilesenHeaderAdi, bilesenItemAdi);
+
+                        }
+
+                        <li>
+                            <div class="row">
+                                <div class="col-md-6 text-left"><b class="text-danger">@potaKart</b></div>
+                                <div class="col-md-6 text-left">@Html.Raw(bilesenItemAdi)</div>
+                            </div>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+            <div class="form-group">
+                @if (tip == 0)
+                {
+                    <b>Açılan Arıza Notu</b>
+                    <h5 class="text-danger">@arizaDurumModelItem.ArizaBildirimHeader.AcilanArizaNotu</h5>
+                }
+                else
+                {
+                    <b>Kapanan Arıza Notu</b>
+                    <h5 class="text-danger">@arizaDurumModelItem.ArizaBildirimHeader.KapananArizaNotu</h5>
+                }
+            </div>
+
+            @if (tip == 0)
+            {
+                <div class="form-group">
+                    <label>Bildirim Tarihi</label>
+                    <b class="float-right">
+                        @arizaDurumModelItem.ArizaBildirimHeader.KayitTarihi.ToString()
+                        <br />
+                        @arizaDurumModelItem.User.Name
+                    </b>
+                </div>
+                if (Model.DropArizaBildirimDurums.Any())
+                {
+                    <div class="col-sm-12">
+                        <hr />
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tarih</th>
+                                    <th>Arıza Durumu</th>
+                                    <th>Not</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @for (int i = 0; i < Model.DropArizaBildirimDurums.Count; i++)
+                                {
+                                    var item = Model.DropArizaBildirimDurums[i];
+
+                                    <tr>
+                                        <td>@(i + 1)</td>
+                                        <td>
+                                            @item.DateTime
+                                            <br />
+                                            <small>@item.Tanim1</small>
+                                        </td>
+
+                                        <td>@item.Tanim2</td>
+                                        <td>@item.Tanim3</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="form-group">
+                    <label><br /></label>
+                    <b class="float-right">
+                        <a class="btn btn-info beyaz" data-toggle="modal" data-target="#modal" onclick="alanTemizle()"><i class="fa fa-exclamation-circle"></i> Kapanan Arıza Tanım Değiştir</a>
+                    </b>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@section Styles
+{
+    <style>
+        .minHeight {
+            min-height: 100px !important;
+        }
+    </style>
+}
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Arıza Müdahale Detay</h5>
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary btn-sm" href="@geriLink"><i class="fa fa-reply"></i> Geri</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@geriLink">Arıza Müdahale Listesi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Arıza Detay Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+
+                <h5>@Model.ArizaDurumModelItem.AcilanArizaTanim.ArizaTanimAdi Detay</h5>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-6 h-100">
+                        @ArizaOzetGetir(0)
+
+                        <div class="row img-thumbnail h-100 mt-3">
+                            <div class="col-sm-9">
+                                <h5>Kullanılan Malzemeler</h5>
+                            </div>
+                            <div class="col-sm-3">
+
+                                <a href="javascript:" class="btn btn-warning w-100" data-toggle="modal" data-target="#modal-stok" onclick="MalzemeAlaniTemizle()">Malzeme Ekle</a>
+                            </div>
+                            <div class="col-sm-12">
+                                @using (Html.BeginForm("MalzemeMiktarGuncelle", "ArizaMudahale"))
+                                {
+                                    @Html.HiddenFor(a => a.ArizaDurumModelItem.ArizaBildirimHeader.Id)
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Stok Tanım</th>
+                                                <th>Stok Kodu</th>
+                                                <th>Miktar</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @for (int i = 0; i < Model.DropKullanilanMalzemeler.Count; i++)
+                                            {
+                                                var item = Model.DropKullanilanMalzemeler[i];
+                                                <tr>
+                                                    @Html.HiddenFor(a => a.DropKullanilanMalzemeler[i].IdInt)
+
+                                                    <td>@(i + 1)</td>
+                                                    <td>@item.Tanim1</td>
+                                                    <td>@item.Tanim2</td>
+                                                    <td style="max-width: 75px">
+                                                        @Html.TextBoxFor(a => a.DropKullanilanMalzemeler[i].IdInt2, new { @class = "form-control" })
+                                                    </td>
+                                                    <td>
+                                                        <small>
+                                                            @item.DateTime
+                                                            <br />
+                                                            @item.Tanim3
+                                                        </small>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                            <tr>
+                                                <td colspan="5">
+                                                    <button type="submit" class="btn btn-primary w-100">Miktar Güncelle</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 ">
+                        @using (Html.BeginForm("ArizaDetay", "ArizaMudahale"))
+                        {
+                            @Html.HiddenFor(a => a.ArizaDurumModelItem.ArizaBildirimHeader.Id, new { id = "headerId" })
+
+                            @ArizaOzetGetir(1)
+
+                            <div class="row img-thumbnail h-100 mt-3">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <b>Arıza Çözümü</b>
+                                        <div class="row">
+                                            @for (int i = 0; i < Model.ArizaTanimCozums.Count; i++)
+                                            {
+                                                @Html.HiddenFor(a => a.ArizaTanimCozums[i].Id)
+                                                <div class="col-sm-6 h-100">
+
+                                                    <label class="text-left">
+                                                        @Html.CheckBoxFor(a => a.ArizaTanimCozums[i].SeciliMi)
+
+                                                        @Model.ArizaTanimCozums[i].ArizaCozumAdi
+                                                    </label>
+                                                </div>
+                                            }
+                                            <div class="col-md-12">
+                                                <hr />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <b>Arıza Durumu</b>
+                                        <div class="row">
+                                            @for (int i = 0; i < Model.DropArizaDurumTanims.Count; i++)
+                                            {
+
+                                                <div class="col-sm-6 h-100">
+
+                                                    <label class="@Model.DropArizaDurumTanims[i].Tanim2   text-center">
+                                                        @Html.RadioButtonFor(a => a.ArizaDurumModelItem.ArizaBildirimHeader.ArizaDurumu, Model.DropArizaDurumTanims[i].IdInt)
+
+                                                        @Model.DropArizaDurumTanims[i].Tanim1
+                                                    </label>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <b>Güncellenen Arıza Notu</b>
+                                        <div class="row">
+                                            @Html.TextAreaFor(a => a.ArizaDurumModelItem.ArizaBildirimHeader.KapananArizaNotu, new { @class = "form-control minHeight" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-lg w-100 btn-success"><i class="fas fa-exclamation"></i> DURUM GÜNCELLE</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ARIZA DEĞİŞTİR</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <form id="frmFinal">
+
+                @Html.HiddenFor(a => a.ArizaDurumModelItem.ArizaBildirimHeader.Id)
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>Açılan Arıza</b>
+                                <br />
+                                <h5 class="text-success">@Model.ArizaDurumModelItem.AcilanArizaTanim.ArizaTanimAdi</h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>Kapanan Arıza Seçimi</b>
+                                @Html.DropDownListFor(a => a.DropItem.IdInt, Model.ArizaTanims.Select(a => new SelectListItem()
+                                {
+                                    Text = a.ArizaTanimAdi,
+                                    Value = a.Id.ToString()
+                                }), new { @class = "form-control", onchange = "KapananArizaDegistir()", id = "kapananArizaId" })
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="alan-pkSecimi">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-default btn-danger" data-dismiss="modal" id="btnModalKapat">KAPAT</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-stok" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Malzeme Ekle</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            @using (Html.BeginForm("MalzemeEkle", "ArizaMudahale"))
+            {
+                @Html.HiddenFor(a => a.ArizaDurumModelItem.ArizaBildirimHeader.Id)
+
+                <div class="modal-body">
+                    <div class="row">
+
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="STOK ADI VEYA STOK KODU ARA" id="txtSearch" autocomplete="OFF"/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <a href="javascript:" onclick="StokAra()" class="btn btn-danger w-100"><i class="fas fa-search">Stok Ara</i></a>
+                                </div>
+                            </div>
+                          
+                        </div>
+
+                        <div class="col-md-12" id="stok-ara">
+
+                        
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts
+{
+    <script>
+        function alanTemizle() {
+            $("#alan-pkSecimi").empty();
+        }
+
+        function MalzemeAlaniTemizle() {
+            $("#txtSearch").val('');
+
+            $("#stok-ara").empty();
+        }
+        function KapananArizaDegistir() {
+            var id = $("#kapananArizaId").val();
+            var url = "/Ariza/ArizaMudahale/KapananArizaSecimi/" + id;
+            var alan = $("#alan-pkSecimi");
+            alan.empty();
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+
+                });
+        }
+
+        function KapananArizaVePkSecimi() {
+
+            var arizaId = $("#kapananArizaId").val();
+            var pkId = $("#potakartId").val();
+            var url = "/Ariza/ArizaMudahale/KapananArizaVePkSecimi/";
+            url += "?arizaId=" + arizaId;
+            url += "&pkId=" + pkId;
+
+            var alan = $("#alan-pkSecimi");
+            alan.empty();
+            alan.append("<h5>Veri Yükleniyor Bekleyiniz</h5>");
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+
+        function PotaBilesenItemGetir(IdOzel, indexId, ArizaTanimArizaTechizatGrubuId) {
+            var potaKartId = $("#" + IdOzel).val();
+            var alan = $("#" + IdOzel + "-alan");
+            alan.empty();
+            if (potaKartId != 0) {
+
+                var url = "/Ariza/ArizaMudahale/PotaKartaGoreBilesenItemGetir/" + potaKartId;
+                url += "?indexId=" + indexId;
+                url += "&arzId=" + ArizaTanimArizaTechizatGrubuId;
+
+                alan.empty();
+                $.get(url,
+                    function (data) {
+
+                        alan.empty();
+                        alan.append(data);
+                        Yenile();
+                    });
+            }
+
+        }
+
+        function KapananArizaKaydet() {
+
+            var secimsizSay = 0;
+            $('.secimGerekir').each(function () {
+                var deger = $(this).val();
+
+                if (deger == 0) {
+                    secimsizSay++;
+                }
+            });
+            console.log(secimsizSay);
+            if (secimsizSay == 0) {
+                var url = "/Ariza/ArizaMudahale/KapananArizaKaydet/";
+
+                var data = $("#frmFinal").serialize();
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    success: function (result) {
+
+                        if (result.state == 0) {
+                            Swal.fire({
+                                icon: result.icon,
+                                title: result.title
+
+                            });
+                        }
+
+                        if (result.state == 1) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Bilgiler Güncellenmiştir"
+
+                            });
+                            window.location.href = "/Ariza/ArizaMudahale/ArizaDetay/" + result.Id;
+                        }
+
+                    },
+                    error: function () {
+                        alert("hata oluştu");
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Lütfen Bilgileri Eksiksiz Giriniz ?',
+                    icon: 'warning',
+                });
+            }
+
+        }
+
+        function StokAra() {
+            var id = $("#txtSearch").val();
+
+            var alan = $("#stok-ara");
+            alan.empty();
+
+            if (id.length) {
+                var url = "/Ariza/ArizaMudahale/StokKartAra";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: { id: id },
+                    success: function (result) {
+
+                        alan.empty();
+                        alan.append(result);
+                        Yenile();
+
+                    },
+                    error: function () {
+                        alert("hata oluştu");
+                    }
+                });
+            }
+
+        }
+
+        menuKapat();
+    </script>
+}

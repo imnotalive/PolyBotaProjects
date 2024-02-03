@@ -1,0 +1,276 @@
+﻿
+
+
+
+
+
+@model PolyBota.Web.Areas.Takip.Models.DurusStokKartModel
+
+@{
+    ViewBag.Title = "MakineDurus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string takvimAdi = "Makine Duruş Takvimi Seçimi";
+    if (Model.Id != 0)
+    {
+        takvimAdi = Model.StokKart.StokTanimAdi + " - Makine Duruş Takvimi";
+
+    }
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Makine Duruş Takvimi </h5>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                @if (Model.Id != 0)
+                {
+                    <a class="btn btn-secondary btn-sm" href="/Takip/Durus/MakineDurus/0"><i class="fa fa-reply"></i> Aramaya Dön</a>
+                    <a class="btn btn-info btn-sm" href="/Kart/Stok/StokKartDetay/@Model.StokKart.Id">
+                        @Model.StokKart.StokTanimAdi Detay
+                    </a>
+
+                }
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="/Kart/Stok/StokKartDetay/@Model.StokKart.Id">@Model.StokKart.StokTanimAdi Detay</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Makine Duruş Takvimi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+
+
+                    <div class="col-md-6">
+                        <h5>
+                            @takvimAdi
+                        </h5>
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (Model.Id == 0)
+                        {
+                            <input type="text" class="form-control" placeholder="STOK ADI VEYA STOK KODU ARAYINIZ" onkeyup="StokAra()" id="txtSearch" autocomplete="off" />
+
+                        }
+                        else
+                        {
+                            <form id="frm-durus">
+                                @Html.HiddenFor(a => a.StokKart.Id)
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b> Başlangıç Tarihi </b>
+                                        @Html.TextBoxFor(x => x.BaslangisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                                        {
+                                            @class = "form-control",
+
+                                            @type = "datetime-local"
+                                        })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b> Bitiş Tarihi </b>
+                                        @Html.TextBoxFor(x => x.BitisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                                        {
+                                            @class = "form-control",
+
+                                            @type = "datetime-local"
+                                        })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b> Gösterim Şekli </b>
+                                        <div class="row">
+
+                                            @foreach (var gosterim in Model.GosterimList)
+                                            {
+                                                <div class="col-md-4">
+                                                    <label>@Html.RadioButtonFor(a => a.GosterimSekli, gosterim.Id) @gosterim.Tanim </label>
+                                                </div>
+                                            }
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b>&nbsp; </b>
+                                        <a href="javascript:" class="btn btn-danger btn-block" onclick="frmDurusAnaliz()">Listeyi Göster</a>
+                                    </div>
+                                </div>
+                            </form>
+                        }
+
+
+
+
+                    </div>
+                </div>
+
+                <div id="alan-summary">
+                    @if (Model.Id != 0)
+                    {
+                        @Html.Partial("_MakineDurusAnaliz", Model)
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/TableExport.js"></script>
+
+
+    <script>
+        function StokAra() {
+            var id = $("#txtSearch").val();
+            var alan = $("#alan-summary");
+            alan.empty();
+            var url = "/Takip/Durus/MakineAra?makId=" + id;
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+        function SeciliRadioYonlendir() {
+
+            var selected = $(".rdSecim:checked");
+            if (!selected.val()) {
+                alert('Seçim Yapmadınız');
+            } else {
+                var selectedValue = selected.val();
+
+                window.location.href = "/Takip/Durus/MakineDurus/" + selectedValue;
+            }
+        }
+
+        function frmDurusAnaliz() {
+            var data = $("#frm-durus").serialize();
+            var url = "/Takip/Durus/MakineDurusAnaliz";
+
+            var alan = $("#alan-summary");
+
+            alan.empty();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.append(result);
+                    Yenile();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+
+        function ModalGoster(id, ItemId) {
+            var url = "/Takip/Durus/DurusEkleDuzenle/" + id;
+            url += "?ItemId=" + ItemId;
+
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+
+        function frmDurusDuzenle() {
+            var data = $("#frm-durusDuzenle").serialize();
+            var url = "/Takip/Durus/DurusEkleDuzenle";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+
+                    var title = "Güncelleme İşlemi Yapılmıştır";
+                    var icon = "success";
+                    if (result.state == 0) {
+                        icon = "warning";
+                        title = "Bilgileri Kontrol Ediniz";
+                    } else {
+                        frmDurusAnaliz();
+                        $("#mdlKapat").click();
+                    }
+
+
+                    Swal.fire({
+                        title: title,
+                        icon: icon
+                    });
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+    </script>
+
+
+}
+
+

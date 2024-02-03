@@ -1,0 +1,108 @@
+﻿@model PolyBota.DAL.User
+@{
+    Layout = null;
+
+    string trDurum = "selected";
+    string enDurum = "";
+
+    if (Session["lang"] != null)
+    {
+        if (Session["lang"].ToString() == "en")
+        {
+            enDurum = "selected";
+            trDurum = "";
+        }
+
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>BOTA</title>
+    <!-- Tell the browser to be responsive to screen width -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/vendors/nprogress/nprogress.css" rel="stylesheet">
+    
+    <link href="~/vendors/fontawesome-free/css/all.min.css" rel="stylesheet" />
+
+    <link href="~/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <!-- Custom Theme Style -->
+    <link href="~/build/css/custom.css" rel="stylesheet">
+
+</head>
+
+
+<body class="login">
+<div>
+    
+
+    <div class="login_wrapper">
+        <div class="animate form login_form">
+            @using (Html.BeginForm())
+            {
+                <div class="row">
+
+                    <div class="col-12">
+
+                        @if (TempData["Msg"] != null)
+                        {
+                            <div class="alert alert-@TempData["class"]" role="alert">
+                                <b>@Html.Raw(TempData["Msg"])</b>
+                            </div>
+                        }
+
+
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(a => a.UserName, new { @class = "form-control", @placeholder = "Kullanıcı Adı" })
+
+
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-user-alt"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    @Html.TextBoxFor(a => a.Password, new { @class = "form-control", @placeholder = "Şifre", @type = "password" })
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary btn-block">Giriş</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+
+
+            }
+        </div>
+
+   </div>
+</div>
+</body>
+
+
+
+
+</html>

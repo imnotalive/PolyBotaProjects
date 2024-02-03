@@ -1,0 +1,80 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+@{
+    var indexId =  Model.indexId;
+
+}
+
+@*<div class="col-md-12">
+        <b>Arıza Id: @Model.ArizaTanim.Id</b>
+        <b>Index Id: @indexId</b>
+    </div>*@
+
+
+    <div class="row m-1 border">
+        <div class="col-md-12">
+            <small class="text-center">GEREKLİ BİLGİLER</small>
+            <h5 class="text-center text-danger">@Model.ArizaTanim.ArizaTanimAdi</h5>
+        </div>
+        @Html.HiddenFor(a => a.ArizaTanim.Id)
+
+        @{
+            int i = -1;
+            foreach (var araModel in Model.ArizaPotaKartSecimModels)
+            {
+
+                i++;
+                string IdOzel = "slctPota" + i;
+
+                // Model.indexId = i;
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>@araModel.TechizatTuruTanim.TechizatTuruTanimAdi</b>
+
+                        @Html.HiddenFor(a => a.ArizaPotaKartSecimModels[i].i)
+                        @Html.DropDownListFor(a => a.ArizaPotaKartSecimModels[i].PotaKartId,
+                            new SelectList(araModel.PotaKarts, "Id", "PotaKartAdi", araModel.PotaKartId),
+                            new { @class = "form-control secimGerekir", @id = IdOzel, @onchange = string.Format("PotaBilesenItemGetir('{0}',{1}, {2})", IdOzel, i, araModel.ArizaTanimArizaTechizatGrubuId) })
+                        <div id="@IdOzel-alan">
+                            @Html.Partial("_PkveArizayaGoreKapatmaKayitItem", Model)
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        }
+        
+    <div class="col-md-12">
+        <hr />
+    </div>
+        <div class="col-md-6">
+
+            <div class="form-group">
+             
+                <b>Arıza İlgili Birime Ait mi </b>
+                <br/>
+                <div class="btn-group">
+                    <label class="btn btn-info">
+                        @Html.RadioButtonFor(a => a.DropArizaDegistirme.IdInt, 0) Doğru Birimi İlgilendiriyor
+                    </label>
+                    <label class="btn btn-danger">
+                        @Html.RadioButtonFor(a => a.DropArizaDegistirme.IdInt, 1) İlgisiz Birim
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="form-group">
+              
+                <b>Not</b>
+                @Html.TextAreaFor(a => a.DropArizaDegistirme.Tanim1, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <a href="javascript:" onclick="KapananArizaKaydet()" class="btn btn-primary w-100">KAYDET</a>
+        </div>
+    </div>

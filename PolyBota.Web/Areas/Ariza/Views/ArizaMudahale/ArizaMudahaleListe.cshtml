@@ -1,0 +1,198 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+@{
+    ViewBag.Title = "ArizaMuhahaleListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+
+    <style>
+        td {
+            font-size: 14px !important;
+        }
+    </style>
+}
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Arıza Müdahale Listesi</h5>
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Arıza Müdahale Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+                    <div class="col-md-12 ">
+                        <form id="frm-model">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>Arıza Durumu</b>
+                                </div>
+
+                                @for (int i = 0; i < Model.DropArizaDurumTanims.Count; i++)
+                                {
+
+                                    <div class="col">
+                                        @Html.HiddenFor(a => a.DropArizaDurumTanims[i].Id)
+                                        <label class="w-100 h-100 @Model.DropArizaDurumTanims[i].Tanim3  btn text-center">
+                                            @Html.CheckBoxFor(a => a.DropArizaDurumTanims[i].SeciliMi, new { @class = "text-center", @onchange = "ArizaListeGetir()" })
+
+                                            <b id="@string.Format("lbl{0}",Model.DropArizaDurumTanims[i].IdInt)">  @Model.DropArizaDurumTanims[i].Tanim1</b>
+                                        </label>
+                                    </div>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div id="model-summary">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display: none" id="tblCikti">
+</div>
+
+@section Scripts
+{
+    <script>
+        function CiktiAl(divId) {
+            var url = "/Ariza/ArizaMudahale/ArizaMudahaleCikti/";
+
+            var alan = $("#" + divId);
+
+            alan.empty();
+            $.get(url, function (data) {
+                alan.append(data);
+                window.setTimeout(function () {
+                    var divToPrint = document.getElementById(divId);
+
+                    var newWin = window.open('', 'Print-Window');
+
+                    newWin.document.open();
+
+                    newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+
+                    newWin.document.close();
+                }, 1000);
+
+            });
+
+        }
+
+        function ArizaListeGetir() {
+            var url = "/Ariza/ArizaMudahale/ArizaMuhahaleListeGetir/";
+
+            var data = $("#frm-model").serialize();
+            var alan = $("#model-summary");
+            alan.empty();
+            alan.append("<h2>Analiz Yapılıyor Bekleyiniz</h2>");
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.empty();
+                    alan.append("<h2>Analiz Yapılıyor Bekleyiniz</h2>");
+                    alan.empty();
+                    alan.append(result);
+                    Yenile();
+                    UserArizaSayilariGetir();
+
+                    FiltreDegistir();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+        function linkeGit(id) {
+            var url = "/Ariza/ArizaMudahale/ArizaDetay/" + id;
+            window.location.href = url;
+
+        }
+
+        setInterval(function () {
+            ArizaListeGetir();
+          
+        },
+            120000);
+
+        function FiltreDegistir() {
+            var url = "/Ariza/ArizaMudahale/ArizaMudahaleThFiltreYap/";
+
+            var data = $("#thFiltre").serialize();
+
+            var alan = $("#tableFiltre");
+            alan.empty();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+
+                    alan.empty();
+
+                    alan.append(result);
+                    Yenile();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+
+        }
+
+        function UserArizaSayilariGetir() {
+            var url = "/Ariza/ArizaMudahale/UserArizaSayilariGetir";
+
+            $.get(url, function (data) {
+
+                $.each(data, function (key, value) {
+
+                    var itemId = "#lbl" + value.IdInt;
+
+                    $(itemId).text(value.Tanim);
+
+                });
+
+            });
+        }
+        ArizaListeGetir();
+
+        menuKapat();
+    </script>
+
+    <script src="~/Scripts/TableExport.js"></script>
+
+}

@@ -1,0 +1,56 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartStokModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.StokKartOperasyon.Id == 0 ? "YENİ KAYIT" : "KAYIT DÜZENLE")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="frm-hatirlatma">
+
+            @Html.HiddenFor(a=>a.StokKart.Id)
+            @Html.HiddenFor(a=>a.StokKartHatirlatma.Id)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>Hatırlatma Tarihi</b>
+                        @Html.TextBoxFor(a => a.StokKartHatirlatma.HatirlatmaTarihi, "{0:yyyy-MM-dd}", new { @class = "form-control ", @autocomplete = "OFF", @type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>Hatırlatma Durumu</b>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>@Html.RadioButtonFor(a=>a.StokKartHatirlatma.HatirlatmaDurumu,0) <b class="badge badge-danger"> ONAY BEKLENİYOR</b></label>
+                            </div>
+                            <div class="col-md-6">
+                                <label >@Html.RadioButtonFor(a => a.StokKartHatirlatma.HatirlatmaDurumu, 1) <b class="badge badge-success">TAMAMLANDI</b></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>Hatırlatma Konusu</b>
+                        @Html.TextAreaFor(a => a.StokKartHatirlatma.Aciklama, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>&nbsp;</b>
+                        <a href="javascript:" class="btn btn-info btn-block" onclick="frmSerialize('#frm-hatirlatma', 41)" data-dismiss="modal">Kaydet</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+    <div class="modal-footer ">
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+    </div>
+</div>

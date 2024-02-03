@@ -1,0 +1,112 @@
+﻿@model PolyBota.DAL.User
+
+@{
+    ViewBag.Title = "KisiselBilgi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Kişisel Bilgileriniz</h5>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Kişisel Bilgileriniz</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Kişisel Bilgileriniz
+
+
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              
+                    @using (Html.BeginForm())
+                    {
+
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <b>Kullanıcı Adı</b>
+                                            @Html.TextBoxFor(a => a.UserName, new {@class = "form-control", @readonly = true})
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <b>Personel Kodu</b>
+                                            @Html.TextBoxFor(a => a.PersonelCode, new {@class = "form-control", @readonly = true})
+                                        </div>
+                                    </div>
+                                 
+                                </div>
+
+                                <div class="form-group">
+                                    <b>Title</b>
+                                    @Html.TextBoxFor(a => a.Title, new {@class = "form-control"})
+                                </div>
+                                <div class="form-group">
+                                    <b>İsim Soyisim</b>
+                                    @Html.TextBoxFor(a => a.Name, new {@class = "form-control"})
+                                </div>
+                                <div class="form-group">
+                                    <b>Şifre</b>
+                                    @Html.TextBoxFor(a => a.Password, new {@class = "form-control", @type = "password"})
+                                </div>
+                                <div class="form-group">
+                                    <b>E-mail Adresi</b>
+                                    @Html.TextBoxFor(a => a.EmailAdres, new {@class = "form-control"})
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-block btn-lg btn-success"><i class="fas fa-edit"></i> Güncelle </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+                                {
+                                    <img src="@Url.Content(Model.ImageUrl)" class="img-thumbnail img-responsive" style="width: 100%" />
+                                }
+                            </div>
+                        </div>
+
+
+                    }
+              
+
+            </div>
+        </div>
+    </div>
+</div>
+

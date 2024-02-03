@@ -1,0 +1,57 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartStokModel
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="form-group">
+                <b>&nbsp;</b>
+                <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGoster(0,2,0)">Yeni Kayıt</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th></th>
+                @for (int i = Model.BaslangicHafta - 1; i <= Model.BitisHafta - 1; i++)
+                {
+                    string clasAdi = i == (Model.GunumuzHaftfa - 1) ? "alert-info" :
+                        "";
+                    <th class="@clasAdi">@string.Format("{0}. Hafta", i)</th>
+                }
+            </tr>
+
+
+            </thead>
+            <tbody>
+            @for (int k = 0; k < Model.StokKartOperasyons.Count; k++)
+            {
+                var operasyon = Model.StokKartOperasyons[k];
+
+                var kompGrup = Model.KomponentTalimatGrups.First(a => a.Id == operasyon.KomponentTalimatGrupId);
+                <tr>
+                    <td>@(k + 1)</td>
+                    @for (int i = Model.BaslangicHafta; i <= Model.BitisHafta; i++)
+                    {
+                  
+
+                        if (i == operasyon.PlanlananHafta)
+                        {
+                            <td class="alert-danger">@kompGrup.KomponentTalimatGrupAdi</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                    }
+
+
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+

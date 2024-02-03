@@ -1,0 +1,473 @@
+﻿@using PolyBota.Helpers
+@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+@{
+    ViewBag.Title = "Operasyon Detay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <style>
+        .x_title span {
+            color: #000 !important;
+        }
+    </style>
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>POTA Kart Operasyon Bilgileri</h3>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary beyaz btn-sm" href="@Url.Action("PotaKartListe","KartPota",new{katId=Model.PotaKart.KomponentTanimGrupId})"><i class="fa fa-reply"></i> Listeye Dön</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("StokKartListe","Stok",new{katId=Model.PotaKart.KomponentTanimGrupId})">POTA Kart Liste</a></li>
+
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bars"></i> @Model.PotaKart.PotaKartAdi</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @Html.Partial("_PotaKartTab")
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6 text-right">
+                        <div class="btn btn-group" role="group">
+                            <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply"></i> Özet Rapor İndir</a>
+                            <a class="btn btn-danger btn-sm" href="@Url.Action("OperasyonPdfIndir", "Operasyon", new { id = Model.StokKartOperasyon.Id, tip = 1})"><i class="fa fa-reply-all"></i> Personel için Dosya İndir</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="x_panel">
+                                <form id="frm-operasyon">
+                                    <div class="x_title">
+                                        <h6>Operasyon Bilgileri</h6>
+                                    </div>
+                                    <div class="x_content">
+                                        @Html.HiddenFor(a => a.StokKartOperasyon.Id)
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b> İlk Planlanan Tarih </b>
+                                                @Html.TextBoxFor(x => x.StokKartOperasyon.IlkPlanlananTarih, "{0:yyyy-MM-dd}", new
+                                                {
+                                                    @class = "form-control",
+
+                                                    @type = "date",
+                                                    @readonly = true
+                                                })
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b>Güncel Planlanan Tarih </b>
+                                                @Html.TextBoxFor(x => x.StokKartOperasyon.PlanlananTarih, "{0:yyyy-MM-dd}", new
+                                                {
+                                                    @class = "form-control",
+
+                                                    @type = "date"
+                                                })
+
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b> Talimat Seçimi </b>
+                                                @Html.DropDownListFor(a => a.StokKartOperasyon.KomponentTalimatGrupId, Model.KomponentTalimatGrups.Select(b => new SelectListItem()
+                                                {
+                                                    Text = b.KomponentTalimatGrupAdi,
+                                                    Value = b.Id.ToString()
+                                                }), new { @class = "form-control siyah" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b> Kayıt Yapan </b>
+                                                @Html.TextBoxFor(x => x.User.Name, new
+                                                {
+                                                    @class = "form-control",
+
+
+                                                    @readonly = true
+                                                })
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b> Operasyon Öncesi Açıklama </b>
+                                                @Html.TextAreaFor(x => x.StokKartOperasyon.OperasyonOncesiAciklama, new
+                                                {
+                                                    @class = "form-control"
+                                                })
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b>Operasyon Durumu </b>
+                                                @{
+                                                    string opDurumu = "Operasyon Tamamlandı";
+                                                    string classDurum = "text-success";
+                                                    if (Model.StokKartOperasyon.OperasyonDurumu == 0)
+                                                    {
+                                                        if (Model.StokKartOperasyon.PlanlananTarih <= DateTime.Now)
+                                                        {
+                                                            opDurumu = "Operasyon Gecikti";
+                                                            classDurum = "text-danger";
+                                                        }
+                                                        else
+                                                        {
+                                                            opDurumu = "Tarih Henüz Gelmedi";
+                                                            classDurum = "text-info";
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        opDurumu += "-" + Model.StokKartOperasyon.GerceklesenTarih.ToShortDateString();
+                                                    }
+
+                                                    <br />
+                                                    <h5 class="@classDurum"> @Html.Raw(opDurumu)</h5>
+                                                }
+
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b>&nbsp; </b>
+                                                <a href="javascript:" class="btn btn-secondary btn-block" onclick="frmSerialize(1)">Bilgileri Güncelle</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <div class="x_panel">
+
+                                <div class="x_title">
+                                    <h6>@Model.KomponentTalimatGrup.KomponentTalimatGrupAdi Malzeme Kullanımı</h6>
+                                </div>
+                                <div class="x_content">
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <a class="btn btn-info btn-block beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@Model.StokKartOperasyon.Id)"><i class="fa fa-plus"></i> Malzeme Ekle</a>
+                                            </div>
+
+
+                                        </div>
+                                        <div class="col-md-12 table-responsive">
+                                            <hr />
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tarih</th>
+                                                        <th>Malzeme</th>
+                                                        <th>Miktar</th>
+                                                        <th></th>
+                                                    </tr>
+                                                    @foreach (var malz in Model.StokKartOperasyonKullanilanMalzemes)
+                                                    {
+                                                        var stokKart = Model.StokKarts.First(a => a.Id == malz.KullanilanStokKartId);
+
+                                                        <tr>
+                                                            <td>@malz.KayitTarihi.ToString()</td>
+                                                            <td>
+                                                                @stokKart.StokTanimAdi <br /> @stokKart.StokKodu
+                                                            </td>
+                                                            <td>@malz.Miktar</td>
+                                                            <td>@SuaHelper.KullaniciIsimGetir(malz.KayitYapanId)</td>
+                                                        </tr>
+                                                    }
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                 
+
+
+                </div>
+
+                    <div class="col-md-6">
+                        <div class="x_panel">
+
+                            <div class="x_title">
+                                <h6>@Model.KomponentTalimatGrup.KomponentTalimatGrupAdi</h6>
+                            </div>
+                            <div class="x_content">
+                                <form id="frm-opGerceklesme">
+                                    @Html.HiddenFor(a => a.StokKartOperasyon.Id)
+
+                                    <div class="row">
+
+
+                                        <div class="col-md-12 table-responsive">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th>Talimat</th>
+                                                        <th>İşlem Durumu</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        int t = -1;
+                                                        foreach (var item in Model.TalimatTanims)
+                                                        {
+                                                            t++;
+                                                            @Html.HiddenFor(a => a.TalimatTanims[t].Id)
+
+                                                            <tr>
+                                                                <td>@(t + 1)</td>
+                                                                <td>@item.TalimatAciklama</td>
+                                                                <td>
+                                                                    <label>
+                                                                        @Html.CheckBoxFor(a => a.TalimatTanims[t].SeciliMi) Yapıldı
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        }}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b> Operasyon Sonrası Açıklama </b>
+                                                @Html.TextAreaFor(x => x.StokKartOperasyon.OperasyonSonrasiAciklama, new
+                                                {
+                                                    @class = "form-control"
+                                                })
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <b>Operasyon Gerçekleşen Tarih </b>
+                                                @Html.TextBoxFor(x => x.StokKartOperasyon.GerceklesenTarih, "{0:yyyy-MM-dd}", new
+                                                {
+                                                    @class = "form-control",
+
+                                                    @type = "date"
+
+                                                })
+
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <hr />
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <b>PERİYODİK TALİMAT OLUŞTURMA </b>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <label>@Html.RadioButtonFor(a => a.KatId, 0) Yeni Operasyon Oluştur </label>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label class="text-danger">@Html.RadioButtonFor(a => a.KatId, 1) Operasyon Oluşturma </label>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <b>Yeni Operasyon Planlanan Tarih </b>
+                                                @Html.TextBoxFor(x => x.StokKartOperasyon2.PlanlananTarih, "{0:yyyy-MM-dd}", new
+                                                {
+                                                    @class = "form-control",
+
+                                                    @type = "date"
+
+                                                })
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <b>Yeni Operasyon Talimat Seçimi </b>
+                                                @Html.DropDownListFor(a => a.StokKartOperasyon2.KomponentTalimatGrupId, Model.KomponentTalimatGrups.Select(b => new SelectListItem()
+                                                {
+                                                    Text = b.KomponentTalimatGrupAdi,
+                                                    Value = b.Id.ToString()
+                                                }), new { @class = "form-control siyah" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <a href="javascript:" class="btn btn-success btn-block" onclick="frmSerialize(2)"> Operasyonu Gerçekleşti Olarak Belirle</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+
+
+               
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+
+    
+
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function frmSerialize(id) {
+            var data;
+            var url;
+            if (id == 1) {
+                data = $("#frm-operasyon").serialize();
+                var url = "/Kart/KartPota/OperasyonDuzenle?id=" + id;
+            }
+
+            if (id == 2) {
+                data = $("#frm-opGerceklesme").serialize();
+                var url = "/Kart/KartPota/OperasyonDuzenle?id=" + id;
+            }
+
+            if (id == 3) {
+                data = $("#frm-opMalzeme").serialize();
+                var url = "/Kart/KartPota/OperasyonaMalzemeEkle";
+            }
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    if (result.state == 1) {
+                        window.location.href = "/Kart/KartPota/KartOperasyonDetay/" + result.Id;
+                    }
+                    else {
+                        Swal.fire({
+                            title: result.title,
+                            icon: result.icon
+                        });
+                    }
+
+
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+
+        function ModalGoster(id) {
+            var url = "/Kart/KartPota/OperasyonaMalzemeEkle/" + id;
+
+
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+    </script>
+} 

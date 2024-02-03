@@ -1,0 +1,96 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+<div class="col-md-12">
+    <table style="border: 1px solid; border-collapse: collapse" id="tblCikti">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Durumu</th>
+                <th>Kayıt Tarihi</th>
+                <th>Arıza Grubu</th>
+                <th>Arıza Tanımı</th>
+
+                <th>Arıza Detayları</th>
+
+                <th>Not</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int t = 0;
+
+                foreach (var item in Model.ArizaDurumModelItems)
+                {
+                    t++;
+
+                    string grup = "";
+
+                    var dropArizaDurumu = Model.DropArizaDurumTanims.First(a => a.IdInt == item.ArizaBildirimHeader.ArizaDurumu);
+                    <tr class="@dropArizaDurumu.Tanim3 ">
+
+                        <td style="border: 1px solid">@t</td>
+                        <td style="border: 1px solid">@dropArizaDurumu.Tanim1</td>
+                        <td style="border: 1px solid">
+                            @item.ArizaBildirimHeader.KayitTarihi
+                            <small><br />@item.User.Name</small>
+                        </td>
+                        <td style="border: 1px solid">@item.ArizaTechizatGrubuTanim.ArizaTechizatGrubuAdi</td>
+                        <td style="border: 1px solid">
+
+                            @item.AcilanArizaTanim.ArizaTanimAdi
+                        </td>
+                        <td style="border: 1px solid">
+                            <ul>
+                                @foreach (var ozet in item.ArizaBildirimItems)
+                                {
+                                    var techizat = "";
+                                    var potaKart = "";
+                                    var bilesenHeaderAdi = "";
+                                    var bilesenItemAdi = "";
+                                    var bilesenItem = new BilesenItem();
+
+                                    if (ozet.TechizatTuruId != 0)
+                                    {
+                                        techizat = Model.TechizatTuruTanims.First(a => a.Id == ozet.TechizatTuruId).TechizatTuruTanimAdi;
+                                    }
+                                    if (ozet.PotaKartId != 0)
+                                    {
+                                        potaKart = Model.PotaKarts.First(a => a.Id == ozet.PotaKartId).PotaKartAdi;
+                                    }
+
+                                    if (ozet.BilesenHeaderId != 0)
+                                    {
+                                        bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == ozet.BilesenHeaderId).BilesenHeaderAdi;
+                                    }
+                                    if (ozet.BilesenItemId != 0)
+                                    {
+
+                                        bilesenItem = Model.BilesenItems.First(a => a.Id == ozet.BilesenItemId);
+                                        bilesenItemAdi = bilesenItem.BilesenDegeri;
+                                        if (string.IsNullOrEmpty(bilesenHeaderAdi))
+                                        {
+                                            bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == bilesenItem.BilesenHeaderId).BilesenHeaderAdi;
+                                        }
+                                        bilesenItemAdi = string.Format("{0}: <b class='text-black'>{1}</b>", bilesenHeaderAdi, bilesenItemAdi);
+
+                                    }
+
+                                    <li>
+                                        <div class="row">
+                                            <div class="col-md-6 text-left"><b class="">@potaKart</b></div>
+                                            <div class="col-md-6 text-left">@Html.Raw(bilesenItemAdi)</div>
+                                        </div>
+                                    </li>
+
+                                }
+                            </ul>
+                        </td>
+
+                        <td style="border: 1px solid">@item.ArizaBildirimHeader.AcilanArizaNotu</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

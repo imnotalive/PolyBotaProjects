@@ -1,0 +1,198 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaAmbarModel
+
+@{
+    ViewBag.Title = "AmbarListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>Ambar Tanım Liste</h3>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Ambar Tanım Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+<div class="row d-flex justify-content-center">
+    @{
+
+        foreach (var item in Model.AmbarTipiTanims)
+        {
+
+            string bg = item.Id == Model.Id ? "#03a9f4" : "#9e9e9e";
+
+
+            <div class="col col-md-2 m-1">
+                <a href="@Url.Action("AmbarListe","AmbarTanim",new{id=item.Id})" class="btn btn-block btn-default beyaz h-100 " style="background-color: @bg">@item.AmbarTipAdi.ToUpper()</a>
+            </div>
+
+
+
+        }
+    }
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Ambar Tanım Liste
+
+
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGoster(0)">Yeni Kayıt</a>
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Tip</th>
+
+                                    @if (Model.Id !=1)
+                                    {
+                                        <td>Ambar No</td>
+                                        <th>Ambar Adı</th>
+                                    }
+                                    else
+                                    {
+                                        <th>Ambar Adı</th>
+
+                                        
+                                        <th colspan="2"></th>
+                                    }
+
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int t = 0;
+                                    foreach (var item in Model.Ambars)
+                                    {
+                                        t++;
+                                        string tanimTipi = Model.AmbarTipiTanims.First(a => a.Id == item.AmbarTipi).AmbarTipAdi;
+                                        <tr>
+                                            <td>@t</td>
+                                            <td>@tanimTipi</td>
+                                            @if (item.AmbarTipi != 1)
+                                            {
+                                                <td>@item.PotaAmbarNo</td>
+                                                <td>@item.AmbarAdi  </td>
+                                               
+                                            }
+                                            else
+                                            {
+                                                <td>@item.AmbarAdi</td>
+                                                <td>
+                                                    <a class="btn btn-warning beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@item.Id)"><i class="fa fa-pencil-alt"></i> Düzenle</a>
+
+                                                </td>
+                                                <td> <a class="btn btn-danger beyaz" onclick="ItemSil(@item.Id)"><i class="fa fa-trash"></i> Sil</a></td>
+
+                                            }
+
+
+
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function ModalGoster(id) {
+            var url = "/Tanimlamalar/AmbarTanim/AmbarTanimEkleDuzenle/" + id;
+
+
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+
+        function ItemSil(id) {
+
+
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.location.href = "/Tanimlamalar/AmbarTanim/AmbarTanimSil/" + id;
+                }
+            });
+
+
+
+        }
+    </script>
+}
+

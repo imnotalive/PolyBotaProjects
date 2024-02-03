@@ -1,0 +1,77 @@
+﻿@model  PolyBota.Web.Areas.Takip.Models.DurusStokKartModel
+
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+        <a href="javascript:" class="btn btn-success" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@Model.StokKart.Id, 0)">Yeni Kayıt</a>
+
+        <a href="javascript:" onclick="exportTableToExcel('tblDurus', 'Duruş-@DateTime.Now.ToString()')" class="btn btn-info pull-right">Excel olarak İndir</a>
+
+    </div>
+    <div class="col-md-12 text-right">
+        <b class="btn ">Durum Tanımları</b>
+
+    </div>
+
+
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered" id="tblDurus">
+            <thead>
+                <tr>
+                    <th>Makine</th>
+                    @foreach (var sutun in Model.TableHeaderlar)
+                    {
+                        <th>@sutun.Tanim</th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var satir in Model.TakipTakvimModels)
+                {
+                    <tr>
+
+                        @foreach (var sutun in satir)
+                        {
+                            if (sutun == satir.First())
+                            {
+                                <td>@sutun.StokKart.StokTanimAdi</td>
+                            }
+                            else
+                            {
+
+                    <td>
+                        @foreach (var durus in sutun.StokKartDurus)
+                        {
+                            if (durus.Id != 0)
+                            {
+                                if (Model.DurusTipiTanims.Any(a => a.Id == durus.DurusTipi))
+                                {
+                                    var durusTipiAdi = Model.DurusTipiTanims.First(a => a.Id == durus.DurusTipi).DurusTipi;
+
+
+                                    <a href="javascript:" class="btn btn-secondary" data-toggle="modal" data-target="#modal"onclick="ModalGoster(@Model.StokKart.Id, @durus.Id)"> @durusTipiAdi</a>
+                                }
+
+
+
+
+                            }
+
+                        }
+                    </td>
+                            }
+
+                        }
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

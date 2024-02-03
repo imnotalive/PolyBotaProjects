@@ -1,0 +1,104 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Yonetim.Models.TanimlamaModel
+
+@{
+    ViewBag.Title = "ModulListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-save"></i>
+                    Yönetim Modülü
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <blockquote>
+                    <p>@Model.RoleTanim.RoleTanimAdi Role Yetkileri</p>
+                </blockquote>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            
+     
+          
+            <div class="card-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(a => a.RoleTanim.Id)
+                    <div class="form-body">
+                        @{
+                            int i = -1;
+                            foreach (var modul in Model.ModulLinkGrupModeller)
+                            {
+                                i++;
+                                int j = -1;
+                                <div class="row">
+                                    @Html.HiddenFor(a => a.ModulLinkGrupModeller[i].AdminModul.Id)
+                                    <div class="col-md-12">
+                                        <h4 class="text-center"><b>@modul.AdminModul.ModulTanim</b></h4>
+                                        <hr />
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    @foreach (var linkGrup in modul.LinkGrupBaseUrlListe)
+                                    {
+                                        j++;
+                                        int k = -1;
+
+                                        @Html.HiddenFor(a => a.ModulLinkGrupModeller[i].LinkGrupBaseUrlListe[j].LinkGrupTanim.Id)
+                                        <div class="col-md-3">
+                                            <b><i class="@linkGrup.LinkGrupTanim.IclassName"></i> @linkGrup.LinkGrupTanim.LinkGrupTanimAdi</b>
+                                            <div class="mt-checkbox-list">
+                                                @foreach (var baseLink in linkGrup.ModulLinkGrupRoleBaseUrlListe)
+                                                {
+                                                    k++;
+                                                    string linkRenk = baseLink.BaseUrlLink.DetayLinkDurumu == 0 ? "text-success" : "";
+                                                <div class="col-md-12">
+                                                    <label class="@linkRenk">
+                                                        @Html.CheckBoxFor(a => a.ModulLinkGrupModeller[i].LinkGrupBaseUrlListe[j].ModulLinkGrupRoleBaseUrlListe[k].SeciliMi) <b>@baseLink.BaseUrlLink.LinkTanimAdi</b> 
+                                                        <span></span>
+                                                    </label>
+                                                    @Html.HiddenFor(a => a.ModulLinkGrupModeller[i].LinkGrupBaseUrlListe[j].ModulLinkGrupRoleBaseUrlListe[k].RoleBaseUrlLink.BaseUrlLinkId)
+                                                    @Html.HiddenFor(a => a.ModulLinkGrupModeller[i].LinkGrupBaseUrlListe[j].ModulLinkGrupRoleBaseUrlListe[k].RoleBaseUrlLink.Id)
+
+                                                    @Html.HiddenFor(a => a.ModulLinkGrupModeller[i].LinkGrupBaseUrlListe[j].ModulLinkGrupRoleBaseUrlListe[k].RoleBaseUrlLink.RoleTanimId)
+                                                </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <button type="submit" class="btn btn-danger btn-block">KAYDET</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+            </div>
+        </div>
+    </div>
+</div>
+
+

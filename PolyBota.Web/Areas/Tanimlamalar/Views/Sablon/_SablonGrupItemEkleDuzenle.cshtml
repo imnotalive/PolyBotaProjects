@@ -1,0 +1,78 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaSablonModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.SablonGrupItem.Id == 0 ? "YENİ KAYIT" : "DÜZENLE")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+    <div class="modal-body">
+        @using (Html.BeginForm("SablonGrupItemEkleDuzenle", "Sablon"))
+        {
+            @Html.HiddenFor(a => a.SablonGrupItem.BagliOlduguId)
+            @Html.HiddenFor(a => a.SablonGrupItem.Id)
+            @Html.HiddenFor(a => a.SablonGrupItem.SablonGrupId)
+
+
+            <div class="row">
+                @foreach (var grup in Model.KomponentTanimGrups)
+                {
+                    var liStyle = "display:none";
+
+
+                    string liClass = "li" + grup.Id;
+
+
+                    string chkClass = "chk" + grup.Id;
+                    <div class="col-md-12 ">
+                        <div class="form-group ">
+                            <div class="row">
+
+                                <div class="col-md-6">
+
+                                    <h6 class="text-left">  <a href="javascript:" class="btn btn-dark" onclick="toggleCreate('@liClass','.')">  ±</a> <b class="siyah">@grup.KomponentTanimGrupAdi</b></h6>
+                                </div>
+
+                            </div>
+
+                            <div class="row @liClass" style="@liStyle">
+                               
+
+                                @foreach (var komp in Model.KomponentTanims.Where(a => a.KomponentTanimGrupId == grup.Id).ToList())
+                                {
+                                    
+
+                                    <div class="col-md-2">
+                                        <label> @Html.RadioButtonFor(a => a.SablonGrupItem.KomponentTanimId,komp.Id) @komp.KomponentTanimAdi </label>
+                                    </div>
+
+                                 
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-block btn-secondary">KAYDET</button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="modal-footer ">
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+    </div>
+</div>
+

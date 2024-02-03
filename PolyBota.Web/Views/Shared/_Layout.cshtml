@@ -1,0 +1,252 @@
+﻿@using PolyBota.Web.Models
+
+@{
+    Layout = null;
+    var mmodel = (LayoutModel)ViewBag.LayoutModel;
+
+    string themeTipi = "nav-md";
+    if (TempData["theme"]!=null)
+    {
+        themeTipi = "nav-sm";
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - WEB PORTAL</title>
+    <!-- Bootstrap -->
+    <link href="~/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/vendors/font-awesome/css/all.min.css" rel="stylesheet" />
+    <link href="~/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+   
+    <!-- NProgress -->
+    <link href="~/vendors/nprogress/nprogress.css" rel="stylesheet">
+
+    <link href="~/vendors/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <!-- Custom Theme Style -->
+    <link href="~/build/css/custom.css" rel="stylesheet">
+
+    <link href="~/vendors/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/vendors/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/vendors/jquery-ui/jquery-ui.css" rel="stylesheet" />
+
+    <style>
+        .pull-right {
+            float: right !important;
+        }
+
+        .pull-left {
+            float: left !important;
+        }
+
+        .beyaz {
+            color: #ffffff !important;
+        }
+
+        .siyah {
+            color: #000 !important;
+        }
+        .custom-scale >* {
+            transform: scale(1);
+            transition-duration: 400ms;
+        }
+
+
+            .custom-scale > *:hover {
+                transform: scale(1.05) !important;
+                transition-duration: 200ms !important;
+                z-index: 9999 !important;
+                cursor: pointer;
+            }
+        .text-black {
+            color: #000000 !important;
+            font-weight: bold !important;
+        }
+    </style>
+
+
+    @RenderSection("Styles", required: false)
+
+    <link href="~/vendors/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/vendors/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+</head>
+<body class="@themeTipi footer_fixed">
+    <div class="container body ">
+        <div class="main_container">
+            @Html.Partial("_LeftSide", mmodel)
+            @Html.Partial("_Topbar", mmodel)
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    @if (TempData["Msg"] != null)
+                    {
+                        <div class="alert alert-@TempData["class"] ziplat" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+
+                            <b>@Html.Raw(TempData["Msg"])</b>
+                        </div>
+                    }
+                    <div id="hizli-arama" class="">
+                    </div> 
+                    @RenderBody()
+                </div>
+
+
+
+            </div>
+            <!-- /page content -->
+
+
+
+
+        </div>
+    </div>
+
+
+
+    <!-- jQuery -->
+    <script src="~/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/vendors/nprogress/nprogress.js"></script>
+
+    <script src="~/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+
+
+    <!-- Custom Theme Scripts -->
+    <script src="~/build/js/custom.js"></script>
+
+    <script src="~/vendors/sweetalert2/sweetalert2.all.min.js"></script>
+    <script>
+        function toggleCreate(id, ek) {
+            var tnm = ek + id;
+
+            $(tnm).toggle();
+        }
+
+        function TumunuToggle(id, ek, state) {
+
+            var tnm = ek + id;
+            if (state == 0) {
+                $(tnm).show();
+            } else {
+                $(tnm).hide();
+            }
+
+
+
+        }
+
+        function checkAll(id,ek,state) {
+
+            var tnm = ek + id;
+            console.log(tnm);
+            if (state==0) {
+                $(tnm).prop('checked', true);
+            } else {
+                $(tnm).prop('checked', false);
+            }
+        }
+        function Yenile() {
+            $('td').addClass('text-center');
+            $('th').addClass('text-center');
+            $("select").select2({
+                theme: "bootstrap4",
+
+                width: '100%'
+            });
+        }
+    </script>
+  
+
+    <script src="~/vendors/select2/js/select2.full.min.js"></script>
+    
+    <script src="~/vendors/jquery-ui/jquery-ui.js"></script>
+<script>
+
+    Yenile();
+
+    $(".selectClass").select2({
+        theme: "bootstrap4",
+
+        width: '100%'
+    });
+
+
+    setInterval(function() {
+            $(".bounceEffect").toggle("bounce", { times: 3 }, "fast");
+        },
+        1000);
+
+    setInterval(function () {
+        $(".ziplat").toggle("bounce", { times: 1 }, "fast");
+    },
+        3000);
+
+
+
+    
+    function hizliArama() {
+        kel = $("#txthizli").val();
+        alan = $("#hizli-arama");
+        alan.empty();
+        if (kel.length) {
+            var url = "/UserHome/HizliArama/";
+            url += "?kel=" + kel;
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+           
+          
+    }
+
+    function menuKapat() {
+
+        $(document).ready(function () {
+            $("#menu_toggle").trigger("click");
+        });
+       
+    }
+
+    function BildirimKontrol() {
+        var url = "/UserHome/BildirimKontrol";
+        var alan = $("#bildirim-link");
+        alan.empty();
+        $.get(url,
+            function (data) {
+
+                alan.empty();
+                alan.append(data);
+                Yenile();
+            });
+    }
+
+
+    setInterval(function() {
+            BildirimKontrol();
+        },
+        60000);
+
+    BildirimKontrol();
+</script>
+
+@RenderSection("Scripts", required: false)
+</body>
+</html>

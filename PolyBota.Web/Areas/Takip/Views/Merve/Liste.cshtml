@@ -1,0 +1,28 @@
+﻿@model PolyBota.Web.Areas.Takip.Models.MerveModel
+
+@{
+    ViewBag.Title = "Liste";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Liste</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model.DropItems) {
+    <tr>
+        <td><b class="siyah">@item.Tanim</b></td>
+        
+        <td>
+            <a href="@Url.Action("Detay","Merve",new{id=item.Id})" class="btn btn-info">Düzenle</a>
+        </td>
+    </tr>
+}
+
+</table>

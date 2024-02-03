@@ -1,0 +1,70 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaArizaModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.ArizaTechizatGrubuTanim.Id == 0 ? "YENİ KAYIT" : "KAYIT DÜZENLE")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+
+    @using (Html.BeginForm("ArizaTechGrubuTanimEkleDuzenle", "ArizaTemel"))
+    {
+        @Html.HiddenFor(a => a.ArizaTechizatGrubuTanim.Id)
+
+        <div class="modal-body">
+            <div class="row">
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <b>Grup Tanım Adı</b>
+                        @Html.TextBoxFor(a => a.ArizaTechizatGrubuTanim.ArizaTechizatGrubuAdi, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <b>Gerekli Techizatlar</b>
+
+                        <div class="row">
+                            @{
+                                int h = -1;
+                                foreach (var tech in Model.TechizatTuruTanims)
+                                {
+                                    h++;
+                                    <div class="col-md-4">
+                                        @Html.HiddenFor(a => a.ArizaTechizatItemTanims[h].Id)
+                                        @Html.HiddenFor(a => a.ArizaTechizatItemTanims[h].TechizatTuruId)
+                                        <label>
+                                            @Html.CheckBoxFor(a => a.ArizaTechizatItemTanims[h].SeciliMi) @tech.TechizatTuruTanimAdi
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+
+                    <button type="submit" class="btn btn-block btn-success">KAYDET</button>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer ">
+            <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+        </div>
+    }
+
+
+
+</div>
+

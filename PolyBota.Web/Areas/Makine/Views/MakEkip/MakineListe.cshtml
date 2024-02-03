@@ -1,0 +1,106 @@
+﻿@model PolyBota.Web.Areas.Makine.Models.MakineEkipmanModel
+
+@{
+    ViewBag.Title = "MakineListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>Makine Ekipman Tanım Liste</h3>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary beyaz btn-sm" href="/Tanimlamalar/Bolum/BolumListe/@Model.Departman.Id"><i class="fa fa-reply"></i> Geri</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/Tanimlamalar/Departman/DepartmanListe">@Model.Departman.DepartmanAdi</a></li>
+                    <li class="breadcrumb-item"><a href="/Tanimlamalar/Bolum/BolumListe/@Model.Departman.Id">@Model.Bolum.BolumAdi</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Makine Ekipman Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="alert alert-light alert-dismissible " role="alert"
+             style="border-left: 5px solid #1abb9c">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <strong>Sayfa Kullanımı</strong><br />
+            @foreach (var item in Model.Bolums)
+            {
+                @item.BolumAdi
+                if (item != Model.Bolums.Last())
+                {
+                    @Html.Raw(" >> ")
+                }
+            }
+            bölümü için makine ekipman ekleyebilir ve güncelleyebilirsiniz
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Makine Ekipman Listesi
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+                      
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Makine Ekipman</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{
+                                int t= 0;
+                                foreach (var item in Model.MakineEkipmans)
+                                {
+                                    t++;
+                                    <tr>
+                                        <td>@t</td>
+                                        <td>@item.MakineEkipmanAdi</td>
+                                        <td><a href="@Url.Action("MakineEkipmanDetay","MakEkip",new{id=item.Id})" class="btn btn-success">Düzenle</a></td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

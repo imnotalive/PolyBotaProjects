@@ -1,0 +1,28 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartStokModel
+
+
+
+<form id="frm-sablon">
+    @Html.HiddenFor(a => a.StokKart.Id)
+    @Html.HiddenFor(a => a.tabId)
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>@Model.KomponentTanim.KomponentTanimAdi</b>
+                @Html.DropDownListFor(a => a.StokKart.SablonGrupId, Model.StokKarts.Select(a => new SelectListItem()
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.StokTanimAdi
+                }), new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>&nbsp;</b>
+                <a href="javascript:" class="btn btn-info btn-block" onclick="frmSerialize('#frm-sablon', 22)">Şablonu Güncelle</a>
+            </div>
+        </div>
+    </div>
+</form>
+

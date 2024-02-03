@@ -1,0 +1,321 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    ViewBag.Title = "ArizaTechizataGoreArizaSecimi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    <style>
+        .thumbnail {
+            position: relative;
+        }
+
+        .ustune {
+            position: absolute;
+            top: 45%;
+            left: 0;
+            width: 100%;
+            color: #000000;
+            font-size: 1.5em;
+        }
+    </style>
+}
+
+
+@Html.HiddenFor(a=>a.ArizaTechizatGrubuTanim.Id, new{id= "arizaTechizatGrubuId" })
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h6> @Model.ArizaTechizatGrubuTanim.ArizaTechizatGrubuAdi Kayıdı</h6>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary btn-sm" href="@Url.Action("ArizaTechizatListe","ArizaKayit")"><i class="fa fa-reply"></i> Listeye Dön</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("ArizaTechizatListe","ArizaKayit")">Arıza Grubu Seçimi</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">@Model.ArizaTechizatGrubuTanim.ArizaTechizatGrubuAdi Arıza Kayıdı </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Arıza Kayıdı
+
+
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                <form id="frm-ariza">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>MAKİNE/EKİPMAN SEÇİMİ</b>
+                                @Html.DropDownListFor(a => a.PotaKartId,
+                                    new SelectList(Model.PotaKarts, "Id", "PotaKartAdi", Model.ArizaTanimId),
+                                    new { @class = "form-control input-lg", @onchange = "PkSecimineGoreArizalar()",
+                                        id = "selectId" })
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="alan-arizaTanim">
+
+                        </div>
+                    </div>
+                    
+                </form>
+
+
+                <div id="alan-ozet">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+
+        function PkveArizayaGoreKayit() {
+
+            var id = $("#selectId").val();
+            var arizaTechizatGrubuId = $("#arizaTechizatGrubuId").val();
+            var arizaId = $("#selectArizaId").val();
+            var alan = $("#alan-pkVeAr");
+            var url = "/Ariza/ArizaKayit/PkveArizayaGoreKayitHazirlik/" + id;
+            url += "?arizaTechizatGrubuId=" + arizaTechizatGrubuId;
+            url += "&arizaId=" + arizaId;
+
+            alan.empty();
+
+            $.get(url,
+                function(data) {
+
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+
+        function PkSecimineGoreArizalar() {
+
+            var id = $("#selectId").val();
+
+            var alan = $("#alan-arizaTanim");
+            var arizaTechizatGrubuId = $("#arizaTechizatGrubuId").val();
+            var url = "/Ariza/ArizaKayit/PkSecimineGoreArizaGetir/" + id;
+
+            url += "?arizaTechizatGrubuId=" + arizaTechizatGrubuId;
+
+            alan.empty();
+
+            $.get(url,
+                function(data) {
+
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+        function ArizaSecimineGorePotaKart() {
+
+            var id = $("#selectId").val();
+
+            var alan = $("#alan-arizaTanim");
+
+            var url = "/Ariza/ArizaKayit/ArizaSecimineGorePotaKartlariGetir/" + id;
+
+
+            alan.empty();
+
+            $.get(url,
+                function(data) {
+
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+        function BilesenItemGetir(divId, selectId, indexId) {
+
+
+            var alan = $("#" + divId);
+            alan.empty();
+            var potakartId = $("#" + selectId).val();
+            if (potakartId != 0) {
+                var arizaId = $("#selectId").val();
+                var url = "/Ariza/ArizaKayit/PotaKartaGoreBilesenItemGetir/" + potakartId;
+                url += "?indexId=" + indexId;
+                url += "&arizaId=" + arizaId;
+                alan.empty();
+                $.get(url,
+                    function(data) {
+
+
+                        alan.empty();
+                        alan.append(data);
+                        Yenile();
+                    });
+            }
+
+
+        }
+
+        function frmSerizalize() {
+            var url = "/Ariza/ArizaKayit/ArizaSecimiGetir/";
+
+            var data = $("#frm-ariza").serialize();
+            var alan = $("#alan-ozet");
+            alan.empty();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(result) {
+
+                    alan.append(result);
+
+                },
+                error: function() {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+
+        function ArizaKaydet() {
+
+
+            var secimsizSay = 0;
+            $('.secimGerekir').each(function() {
+                var deger = $(this).val();
+
+                if (deger == 0) {
+                    secimsizSay++;
+                }
+            });
+            console.log(secimsizSay);
+            if (secimsizSay == 0) {
+
+                var arizaTechizatGrubuId = $("#arizaTechizatGrubuId").val();
+                var url = "/Ariza/ArizaKayit/ArizaKaydet/" + arizaTechizatGrubuId;
+
+                var data = $("#frmFinal").serialize();
+
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: data,
+                    success: function(result) {
+
+                        if (result.state == 0) {
+                            Swal.fire({
+                                icon: result.icon,
+                                title: result.title
+
+                            });
+                        }
+                        if (result.state == 1) {
+                            window.location.href = "/Ariza/ArizaDurum/ArizaDurumListe";
+                        }
+                        if (result.state == 2) {
+                            Swal.fire({
+                                icon: "success",
+                                title: "Bilgiler Güncellenmiştir. Yeni Arıza Açabilirsiniz"
+
+                            });
+                          
+                        }
+                     
+
+                    },
+                    error: function() {
+                        alert("hata oluştu");
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Lütfen Bilgileri Eksiksiz Giriniz ?',
+                    icon: 'warning',
+                });
+            }
+
+        }
+
+        function PotaBilesenItemGetir(IdOzel, indexId, ArizaTanimArizaTechizatGrubuId) {
+            var potaKartId = $("#" + IdOzel).val();
+            var alan = $("#" + IdOzel + "-alan");
+            alan.empty();
+            if (potaKartId != 0) {
+
+
+                var url = "/Ariza/ArizaKayit/PotaKartaGoreBilesenItemGetir/" + potaKartId;
+                url += "?indexId=" + indexId;
+                url += "&arzId=" + ArizaTanimArizaTechizatGrubuId;
+
+                alan.empty();
+                $.get(url,
+                    function(data) {
+
+
+                        alan.empty();
+                        alan.append(data);
+                        Yenile();
+                    });
+            }
+
+
+        }
+
+        function ArizaKaydet2() {
+            var url = "/Ariza/ArizaKayit/ArizaKaydet/";
+
+            var data = $("#frmFinal").serialize();
+
+            console.log(data);
+
+        }
+    </script>
+}

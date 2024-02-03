@@ -1,0 +1,310 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+@{
+    ViewBag.Title = "PotaKartAgacBilgi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+
+    <link href="~/vendors/TreeView/treeView.css" rel="stylesheet" />
+
+
+}
+
+
+@helper RecTreeGetir(int id, int seviye)
+{
+    var btnbg = "btn-info";
+
+    if (seviye == 0)
+    {
+        btnbg = "btn-secondary";
+    }
+    if (seviye == 1)
+    {
+        btnbg = "btn-primary";
+    }
+    if (seviye == 2)
+    {
+        btnbg = "btn-danger";
+    }
+    if (seviye == 4)
+    {
+        btnbg = "btn-success";
+    }
+    if (seviye > 4)
+    {
+        seviye = -1;
+    }
+    var idler = Model.PotaKartAgacs.Where(a => a.PotaKartIdParent == id).Select(a => a.PotaKartIdChild).ToList();
+
+    if (idler.Any())
+    {
+        var lst = Model.PotaKarts.Where(a => idler.Any(b => b == a.Id)).OrderBy(a => a.PotaKartAdi).ToList();
+        if (lst.Any())
+        {
+
+
+
+
+            foreach (var item in lst)
+            {
+
+                <li>
+                    <label class="tree_label" for="c1">
+
+                        <a href="javascript:" class="btn btn-sm @btnbg" data-toggle="modal" data-target="#modal2" onclick="ModaliHazirla(@item.Id)">  @item.PotaKartAdi - (@item.PotaKodu)</a>
+
+                    </label>
+                    <ul style="list-style: none">
+                        @RecTreeGetir(item.Id, seviye + 1)
+
+                    </ul>
+                </li>
+
+              
+            }
+
+        }
+
+    }
+}
+
+<input type="hidden" value="@Model.PotaKart.Id" id="pkId" />
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>POTA Kart Ağaç Bilgileri</h3>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary beyaz btn-sm" href="@Url.Action("PotaKartListe","KartPota",new{katId=Model.PotaKart.KomponentTanimGrupId})"><i class="fa fa-reply"></i> Listeye Dön</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("StokKartListe","Stok",new{katId=Model.PotaKart.KomponentTanimGrupId})">POTA Kart Liste</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bölüm Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bars"></i> @Model.PotaKart.PotaKartAdi</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @Html.Partial("_PotaKartTab")
+                <div class="tab-content" id="myTabContent">
+
+                    <div class="row">
+                        <h3>agac</h3>
+
+
+                    </div>
+                    <div class="tab-pane fade active show">
+                        <div class="row">
+                            <div class="col-md-12 table-responsive">
+                                <div class="col-md-12">
+                                    <ul class="tree" style="list-style: none">
+                                        <li>
+                                            <label class="tree_label" for="c1">
+
+                                                <a href="javascript:" class="btn  btn-outline-success" data-toggle="modal" data-target="#modal2" onclick="ModaliHazirla(0)">  @Model.PotaKart.PotaKartAdi (@Model.PotaKart.PotaKodu) </a>
+
+                                            </label>
+                                            <ul style="list-style: none">
+                                                @RecTreeGetir(0, 0)
+
+                                            </ul>
+                                        </li>
+
+                                    
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.PotaKart.PotaKartAdi</h4>
+
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <div id="arama-alan">
+                    @using (Html.BeginForm("PotaKartTechizatBilgi", "KartPota"))
+                    {
+                        @Html.HiddenFor(a => a.PotaKart.Id)
+
+                        <input type="hidden" id="parentId" />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control input-lg" placeholder="KOD VEYA TANIM ARA" onkeyup="StokAra()" id="txtSearch" autocomplete="Off" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="alan-summary">
+
+                        </div>
+
+                    }
+                </div>
+                <div id="karar-alan">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="javascript:" class="btn btn-success btn-block" onclick="ModaliGoster()">ALTINA EKLE</a>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="javascript:" class="btn btn-danger btn-block" onclick="IslemiYap(0,0)">Ağaçtan Kaldır</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts
+{
+    <script>
+        function ModaliHazirla(id) {
+
+            var kararAlan = $("#karar-alan");
+            var aramaAlan = $("#arama-alan");
+            $("#parentId").val(id);
+            aramaAlan.hide();
+            kararAlan.show();
+        }
+
+        function ModaliGoster() {
+            var kararAlan = $("#karar-alan");
+            var aramaAlan = $("#arama-alan");
+            var alan = $("#alan-summary");
+            alan.empty();
+
+
+            aramaAlan.show();
+            kararAlan.hide();
+
+        }
+
+        function StokAra() {
+            var id = $("#txtSearch").val();
+            var alan = $("#alan-summary");
+            alan.empty();
+            var url = "/Kart/KartPota/PotaKartAra?str=" + id;
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+
+        function IslemiYap(childId, state) {
+
+            var id = $("#pkId").val();
+            var parentId = $("#parentId").val();
+            if (state == 0) {
+                childId = parentId;
+
+                parentId = -1;
+            }
+
+            var url = "/Kart/KartPota/PotaKartAgacOlustur/?";
+            url += "id=" + id;
+            url += "&childId=" + childId;
+            url += "&parentId=" + parentId;
+
+            window.location.href = url;
+
+        }
+    </script>
+
+    <script>
+        function isNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
+        }
+
+        function setFontSize(el) {
+            var fontSize = el.val();
+
+            if (isNumber(fontSize) && fontSize >= 0.5) {
+                $('body').css({ fontSize: fontSize + 'em' });
+            } else if (fontSize) {
+                el.val('1');
+                $('body').css({ fontSize: '1em' });
+            }
+        }
+
+        $(function () {
+
+            $('#fontSize')
+                .bind('change', function () { setFontSize($(this)); })
+                .bind('keyup', function (e) {
+                    if (e.keyCode == 27) {
+                        $(this).val('1');
+                        $('body').css({ fontSize: '1em' });
+                    } else {
+                        setFontSize($(this));
+                    }
+                });
+
+            $(window)
+                .bind('keyup', function (e) {
+                    if (e.keyCode == 27) {
+                        $('#fontSize').val('1');
+                        $('body').css({ fontSize: '1em' });
+                    }
+                });
+
+        });
+    </script>
+}

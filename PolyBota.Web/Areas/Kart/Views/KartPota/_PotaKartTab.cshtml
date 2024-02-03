@@ -1,0 +1,38 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+
+
+<ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link @Html.Raw(Model.tabId==1 ? "active":"")" href="@Url.Action("PotaKartTemelBilgi","KartPota",new{id=Model.PotaKart.Id})">Sicil Bilgileri</a>
+    </li>
+    @if (Model.PotaKart.Id != 0)
+    {
+        <li class="nav-item">
+            <a class="nav-link @Html.Raw(Model.tabId==2 ? "active":"")" href="@Url.Action("PotaKartTechizatBilgi","KartPota",new{id=Model.PotaKart.Id})">Techizat Bileşenleri</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @Html.Raw(Model.tabId==7 ? "active":"")" href="@Url.Action("PotaKartEntegreKartlar","KartPota",new{id=Model.PotaKart.Id})">Entegre PotaKartlar</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link @Html.Raw(Model.tabId==4 ? "active":"")" href="@Url.Action("PotaKartDosyaListe","KartPota",new{id=Model.PotaKart.Id})">Dosyalar</a>
+        </li>
+
+        @*<li class="nav-item">
+            <a class="nav-link @Html.Raw(Model.tabId==3 ? "active":"")" href="@Url.Action("PotaKartAgacBilgi","KartPota",new{id=Model.PotaKart.Id})">Pota Kart Ağacı</a>
+        </li>*@
+
+
+        <li class="nav-item">
+            <a class="nav-link @Html.Raw(Model.tabId==5 ? "active":"")" href="@Url.Action("PotaKartOperasyon","KartPota",new{id=Model.PotaKart.Id})">Pota Kart Operasyon</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @Html.Raw(Model.tabId==6 ? "active":"")" href="@Url.Action("PotaKartDurus","KartPota",new{id=Model.PotaKart.Id})">Pota Kart Duruş</a>
+        </li>
+        
+    }
+
+
+
+</ul>

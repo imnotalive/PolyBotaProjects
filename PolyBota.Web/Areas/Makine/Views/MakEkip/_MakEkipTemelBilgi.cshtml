@@ -1,0 +1,57 @@
+﻿@model PolyBota.Web.Areas.Makine.Models.MakineEkipmanModel
+
+
+<form id="frm-mak2">
+    @Html.HiddenFor(a=>a.MakineEkipman.Id)
+    @Html.HiddenFor(a=>a.tabId)
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Makine Ekipman Adı</b>
+                @Html.TextBoxFor(a => a.MakineEkipman.MakineEkipmanAdi, new {@class = "form-control"})
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>&nbsp;</b>
+                <a href="javascript:" onclick="frmKaydet()" class="btn btn-block btn-secondary">KAYDET</a>
+            </div>
+       
+        </div>
+        @if (Model.MakineEkipman.Id != 0)
+        {
+            <div class="col-md-12">
+                <div class="form-group">
+                    <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal2" onclick="ModelSicilGoster()">Sicil Bilgilerini Düzenle</a>
+               
+                    <hr/>
+                </div>
+            </div>
+
+            <div class="col-md-12 ">
+            <div class="row">
+                @foreach (var item in Model.SicilOzellikTanims)
+                {
+                    if (Model.MakineEkipmanSicilOzelliks.Any(b=>b.SicilOzellikId==item.Id))
+                    {
+                        var str = Model.MakineEkipmanSicilOzelliks.First(b => b.SicilOzellikId == item.Id).OzellikDegeri;
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>@item.SicilOzellikTanimAdi :</label> <b class="siyah">@str</b>
+                            
+                            </div>
+                        </div>
+                    }
+                  
+                }
+            </div>
+            </div>
+        }
+  
+    
+    </div>
+</form>
+
+
+

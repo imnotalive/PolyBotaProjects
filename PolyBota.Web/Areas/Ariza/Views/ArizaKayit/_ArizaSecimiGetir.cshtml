@@ -1,0 +1,25 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    var indexId = Model.indexId;
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <hr/>
+    </div>
+    @if (Model.indexId == 0)
+    {
+        <div class="col-md-12">
+
+            <h5 class="text-center text-danger"><b class="text-center ">Lütfen Seçimlerinizi Kontrol Ediniz</b></h5>
+            <hr/>
+        </div>
+
+    }
+    else
+    {
+        <h5 class="">Sorun yok</h5>
+    }
+</div>

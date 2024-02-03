@@ -1,0 +1,117 @@
+﻿@model PolyBota.Web.Areas.Takvim.Model.TakvimOperasyonModel
+<div class="row">
+    <div class="col-md-12">
+
+
+        <div class="btn btn-group float-right" role="group">
+
+            <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('21', '.', 0)">
+                <i class="fa fa-check-square"></i>
+            </a>
+            <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('21', '.', 1)">
+                <i class="fa fa-times"></i>
+            </a>
+            <a href="javascript:" class="btn btn-sm btn-secondary" onclick="toggleCreate('alan2', '.')">
+                <i class="fas fa-shoe-prints"></i> Göster/Gizle
+            </a>
+        </div>
+    </div>
+    <div class="alan2">
+        <form id="frm-analiz">
+            @Html.HiddenFor(a => a.SecimDurumu)
+            @{
+                int t = -1;
+                foreach (var item in Model.PotaKarts)
+                {
+                    t++;
+                    @Html.HiddenFor(a => a.PotaKarts[t].Id)
+                    <div class="col-md-3">
+                        <h7>
+                            <label>
+                                @Html.CheckBoxFor(a => a.PotaKarts[t].SeciliMi, new { @class = "21" })
+                                @item.PotaKartAdi
+
+                            </label>
+                        </h7>
+
+                    </div>
+                }
+            }
+            <div class="col-md-12">
+                <hr />
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <b> Başlangıç Tarihi </b>
+                    @Html.TextBoxFor(x => x.BaslangisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                    {
+                        @class = "form-control",
+
+                        @type = "datetime-local"
+                    })
+
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <b> Bitiş Tarihi </b>
+                    @Html.TextBoxFor(x => x.BitisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                    {
+                        @class = "form-control",
+
+                        @type = "datetime-local"
+                    })
+
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <b> Gösterim Şekli </b>
+                    <div class="row">
+
+                        @foreach (var gosterim in Model.GosterimList)
+                        {
+                            <div class="col-md-4">
+                                <label>@Html.RadioButtonFor(a => a.GosterimSekli, gosterim.Id) @gosterim.Tanim </label>
+                            </div>
+                        }
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <b> Listeleme Şekli </b>
+                    <div class="row">
+
+                       
+                            <div class="col-md-6">
+                                <label>@Html.RadioButtonFor(a => a.ListelemeSekli, 0) Tablo </label>
+                            </div>
+                        <div class="col-md-6">
+                            <label>@Html.RadioButtonFor(a => a.ListelemeSekli, 1) Liste </label>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <b> &nbsp; </b>
+                    <a href="javascript:" class="btn btn-secondary btn-block" onclick="frmAnaliz('#frm-analiz',2)">Takvimi Göster</a>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+

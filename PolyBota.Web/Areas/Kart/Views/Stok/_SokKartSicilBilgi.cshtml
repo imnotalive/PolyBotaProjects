@@ -1,0 +1,313 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartStokModel
+
+@{
+    string bolumAdi = "Bölüm-Lokasyon Seçiniz";
+
+    if (Model.DropItems.Any(a=>a.Id==Model.StokKart.BolumId.ToString()))
+    {
+        bolumAdi = Model.DropItems.First(a => a.Id == Model.StokKart.BolumId.ToString()).Tanim;
+
+    }
+
+    string kompAdi = "Stok Grubu Seçiniz";
+
+
+    if (Model.KomponentTanims.Any(a => a.Id == Model.StokKart.KomponentTanimId))
+    {
+        kompAdi = Model.KomponentTanims.First(a => a.Id == Model.StokKart.KomponentTanimId).KomponentTanimAdi;
+    }
+
+}
+<form id="frm-siciltemel">
+    @Html.HiddenFor(a => a.StokKart.Id)
+    @Html.HiddenFor(a => a.tabId)
+    @Html.HiddenFor(a => a.StokKart.KomponentTanimId, new {id = "kmpId"})
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>POTA ID</b>
+                @Html.TextBoxFor(a => a.StokKart.PotaId, new { @class = "form-control" })
+            </div>
+        </div>
+       
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>LOGO ID</b>
+                @Html.TextBoxFor(a => a.StokKart.LogoId, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+
+                <div class="form-group">
+                    <b>Alt Stok Grubu</b>
+                    <a href="javascript:" class="btn btn-block btn-success" data-toggle="modal" data-target="#modal4" id="kmpBtn"> @kompAdi</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            @if (Model.StokKart.Id != 0)
+            {
+                <div class="form-group">
+
+                    <b>Bölüm-Lokasyon Seçimi</b>
+                    <a href="javascript:" class="btn btn-block btn-secondary" data-toggle="modal" data-target="#modal3">@bolumAdi</a>
+                </div>
+            }
+
+
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Sicil No</b>
+                @Html.TextBoxFor(a => a.StokKart.SicilNo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Seri No</b>
+                @Html.TextBoxFor(a => a.StokKart.SeriNo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <b>Stok Kodu</b>
+                @Html.TextBoxFor(a => a.StokKart.StokKodu, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <b>LOT NO</b>
+                @Html.TextBoxFor(a => a.StokKart.LotNo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <b>Stok Tanım</b>
+                @Html.TextBoxFor(a => a.StokKart.StokTanimAdi, new { @class = "form-control" })
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12">
+            <a href="javascript:" class="btn btn-block btn-secondary" onclick="frmSerialize('#frm-siciltemel', 10)">KAYDET</a>
+        </div>
+
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <hr/>
+    </div>
+    <div class="col-md-4">
+        <a href="javascript:" class="btn btn-block btn-info" data-toggle="modal" data-target="#modal2" >Sicil Özel Bilgileri</a>
+      
+      
+    </div>
+  
+    <div class="col-md-12">
+        <hr/>
+    </div>
+    @foreach (var item in Model.SicilOzellikTanims.Where(a=>a.SeciliMi).ToList())
+    {
+        <div class="col-md-3">
+            <label>@item.SicilOzellikTanimAdi</label>
+        </div>
+        <div class="col-md-3">
+            <b class="text-info">@item.BaseValue</b>
+        </div>
+    }
+</div>
+
+@if (Model.StokKart.Id!=0)
+{
+    @Html.Partial("_StokKartMedya",Model)
+}
+
+
+<div class="modal fade" id="modal2" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.StokKart.StokTanimAdi</h4>
+                
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+             
+
+               
+                    <form id="frm-sicil">
+                        @Html.HiddenFor(a => a.StokKart.Id)
+
+                        @foreach (var sicilHeader in Model.SicilOzellikHeaderTanims)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b class="siyah"> @sicilHeader.SicilOzellikHeaderTanimAdi</b>
+                                </div>
+
+
+                                @foreach (var komp in Model.SicilOzellikTanims.Where(a => a.SicilOzellikHeaderTanimId == sicilHeader.Id).OrderBy(a => a.SicilOzellikTanimAdi).ToList())
+                                {
+                                    var i = Model.SicilOzellikTanims.IndexOf(komp);
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class=""> @Html.CheckBoxFor(a => a.SicilOzellikTanims[i].SeciliMi) @komp.SicilOzellikTanimAdi </label>
+                                            @Html.TextBoxFor(a => a.SicilOzellikTanims[i].BaseValue, new {@class = "form-control"})
+                                        </div>
+                                    </div>
+
+                                    @Html.HiddenFor(a => a.SicilOzellikTanims[i].Id)
+                                }
+
+                                <div class="col-md-12">
+                                    <hr/>
+
+                                </div>
+                            </div>
+                        }
+
+                    </form>
+               
+                <a href="javascript:" class="btn btn-info btn-block" onclick="frmSerialize('#frm-sicil', 11)">KAYDET</a>
+            </div>
+            
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="modal fade" id="modal3" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.StokKart.StokTanimAdi</h4>
+
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                <form id="frm-bolum">
+                    @Html.HiddenFor(a => a.StokKart.Id)
+
+                    <div class="row">
+                       
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class=""> Bölüm Seçimi </label>
+                                @Html.DropDownListFor(a => a.StokKart.BolumId,Model.DropItems.Select(a=>new SelectListItem()
+                                {
+                                    Text = a.Tanim,
+                                    Value = a.Id
+                                }), new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr />
+
+                        </div>
+                    </div>
+                   
+
+                </form>
+                <a href="javascript:" class="btn btn-info btn-block" onclick="frmSerialize('#frm-bolum',12)">KAYDET</a>
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="modal fade" id="modal4" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Komponent Tanımı</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+
+
+                    <div class="col-md-12" id="div-komp">
+
+                        @foreach (var item in Model.KomponentTanimGrups)
+                        {
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <b>@item.KomponentTanimGrupAdi</b>
+                                </div>
+                                @foreach (var komp in Model.KomponentTanims.Where(a => a.KomponentTanimGrupId == item.Id))
+                                {
+                                    int i = Model.KomponentTanims.IndexOf(komp);
+
+
+                                    <div class="col-md-3">
+                                        <label id="@komp.Id"><input type="radio" name="rdKomp" value="@komp.Id" /> @komp.KomponentTanimAdi</label>
+                                    </div>
+
+                                }
+
+                                <div class="col-md-12">
+                                    <hr />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+
+
+                    <div class="col-md-12">
+
+                        <button type="submit" class="btn btn-block btn-success" onclick="rdKaydet()" data-dismiss="modal">KAYDET</button>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+
+
+
+
+        </div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>

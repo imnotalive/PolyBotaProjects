@@ -1,0 +1,82 @@
+﻿@model PolyBota.Web.Areas.Talep.Models.TalepAmbarModel
+
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+    </div>
+</div>
+@if (Model.StokKarts.Any())
+{
+    <div class="row">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-4">
+            <div class="btn btn-group float-right" role="group">
+
+                <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('11', '.', 0)">
+                    <i class="fa fa-check-square"></i>
+                </a>
+                <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('11', '.', 1)">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <form id="frm-ambar">
+
+
+        <div class="row">
+            @{ int k = -1;
+                foreach (var item in Model.StokKarts)
+                {
+                    k++;
+
+                    <div class="col-md-6">
+                        @Html.HiddenFor(a => a.StokKarts[k].Id)
+
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label>
+                                    @Html.CheckBoxFor(a => a.StokKarts[k].SeciliMi, new { @class = "11" }) <b>@item.StokTanimAdi </b>
+                                </label>
+                            </div>
+                            <div class="col-md-2">
+                                <b class="badge badge-success">@item.StokKodu</b>
+
+                            </div>
+                            <div class="col-md-2 ">
+                                <b class="badge badge-info text-right">LOT: @item.LotNo</b>
+                            </div>
+                         
+                            <div class="col-md-12">
+                                <hr />
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <hr />
+                <a href="javascript:" onclick="frmSerialize()" class="btn btn-dark btn-block">Seçili Stokları Getir</a>
+            </div>
+        </div>
+    </form>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h4  class="text-center">STOK BULUNAMADI</h4>
+        </div>
+    </div>
+}
+
+

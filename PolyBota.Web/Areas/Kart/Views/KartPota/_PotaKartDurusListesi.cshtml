@@ -1,0 +1,65 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+<div class="row">
+
+    <div class="col-md-12">
+        <hr />
+    </div>
+    <div class="col-md-4">
+        <a href="javascript:" class="btn btn-success" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@Model.PotaKart.Id, 0)">Yeni Kayıt</a>
+    </div>
+    <div class="col-md-8">
+
+    </div>
+    <div class="col-md-12">
+        <hr />
+    </div>
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th></th>
+                    @foreach (var head in Model.TableHeaderlar)
+                    {
+                        <th>@head.Tanim</th>
+                    }
+                </tr>
+            </thead>
+
+            <tbody>
+                @for (int i = 0; i < Model.ArrtTable.GetLength(0); i++)
+                {
+                    <tr>
+                        <td>@Model.PotaKart.PotaKartAdi</td>
+                        @for (int j = 0; j < Model.ArrtTable.GetLength(1); j++)
+                        {
+                            string kompAdi = null;
+                            string classAdi = "badge-secondary";
+                    <td>
+                        @for (int k = 0; k < Model.ArrtTable.GetLength(2); k++)
+                        {
+                            var idd = Model.ArrtTable[i, j, k];
+                            if (idd != 0)
+                            {
+                                var durus = Model.StokKartDurus.First(a => a.Id == idd);
+
+
+                                <a href="javascript:" class="badge @classAdi beyaz" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@Model.PotaKart.Id, @idd)">MD</a>
+
+                              
+
+                            }
+
+                        }
+                    </td>
+
+
+
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

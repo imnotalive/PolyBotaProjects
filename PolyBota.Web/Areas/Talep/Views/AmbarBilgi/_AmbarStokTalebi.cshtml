@@ -1,0 +1,72 @@
+﻿@model PolyBota.Web.Areas.Talep.Models.TalepAmbarModel
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">YEDEK PARÇA TALEBİ</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+
+    <form id="frm-talep">
+        @Html.HiddenFor(a => a.AmbarStokTalep.Id)
+        @Html.HiddenFor(a => a.AmbarStokTalep.StokKartId)
+        @Html.HiddenFor(a => a.AmbarStokTalep.TalepEdilenAmbarId)
+        <div class="modal-body">
+            <div class="row">
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>Stok Adı</b>
+                        @Html.TextBoxFor(a => a.StokKart.StokTanimAdi, new { @class = "form-control",@readonly=true })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>Talep Edilen Ambar</b>
+                        @Html.TextBoxFor(a => a.Ambar.AmbarAdi, new { @class = "form-control", @readonly = true })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>Aktarılacak Ambar</b>
+                        @Html.DropDownListFor(a => a.AmbarStokTalep.AktarilacakAmbarId, Model.Ambars.Select(a=> new SelectListItem()
+                        {
+                            Text = a.AmbarAdi,
+                            Value = a.Id.ToString()
+                        }), new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <b>Miktar</b>
+                        @Html.DropDownListFor(a => a.AmbarStokTalep.Miktar, Model.DropItems.Select(a=> new SelectListItem()
+                        {
+                            Text = a.Tanim,
+                            Value = a.Id
+                        }), new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-12">
+
+                    <a href="javascript:"  class="btn btn-block btn-success" onclick="frmTalep()">KAYDET</a>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer ">
+            <button type="button" class="btn btn-default btn-danger" data-dismiss="modal" id="modalKapat">KAPAT</button>
+
+        </div>
+   </form>
+
+
+
+</div>

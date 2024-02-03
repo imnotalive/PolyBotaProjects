@@ -1,0 +1,151 @@
+﻿@using PolyBota.DAL
+@using PolyBota.Helpers
+@model PolyBota.Web.Areas.Yonetim.Models.TanimlamaModel
+
+@{
+    ViewBag.Title = "ModulListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-save"></i>
+                    Yönetim Modülü
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <blockquote>
+                    <p>Kullanıcı Rolleri</p>
+                </blockquote>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="pull-right m-1">
+
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-0">
+                    Kullanıcı Ekle
+                </button>
+                @Html.Partial("~/Areas/Yonetim/Views/Tanimlamalar/_UserEkle.cshtml", new User())
+            </div>
+            <div class="card-body">
+
+                <table class="table table-bordered" id="table_id">
+                    <thead>
+                        <tr>
+                            <th colspan="7">
+                                <input type="text" id="myInput" onkeyup="AramaYap()" placeholder="Id Username Name" title="Id Username Name" class="form-control text-center">
+                            </th>
+                        </tr>
+
+                        <tr>
+
+                            <th>İSİM SOYİSİM</th>
+                            <th>KULLANICI ADI</th>
+                            <th>PERSONEL KODU</th>
+                            <th>ŞİFRE</th>
+                            <th>YETKİLER</th>
+
+                            <th colspan="2">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.UserList)
+                        {
+                            <tr araKel="@string.Format("{0} {1} {2}",item.Name,item.UserName,item.Id)">
+                                <td>@item.Name</td>
+                                <td>@item.UserName</td>
+                                <td>@item.PersonelCode</td>
+                                <td>@item.Password</td>
+                                <td>
+
+                                    @foreach (var b in item.UserRoleIds.StrArrayeCevir("-"))
+                                    {
+                                        if (b != "")
+                                        {
+                                            if (Model.RoleTanimListe.Any(a => a.Id == Convert.ToInt32(b)))
+                                            {
+                                                var role = Model.RoleTanimListe.First(a => a.Id == Convert.ToInt32(b));
+                                                <label class="badge badge-success">@role.RoleTanimAdi</label>
+                                            }
+                                        }
+
+                                    }
+                                </td>
+                                <td class="text-center">
+                                    <a href="@Url.Action("UserRoleDetay","Tanimlamalar",new{id=item.Id})" class="btn btn-info btn-block"> İncele</a>
+                                </td>
+                                <td>
+                                    <a href="javascript:" class="btn btn-danger btn-block" onclick="ItemSil(@item.Id)">
+                                        Sil
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function AramaYap() {
+            var input, filter, table, tr, td;
+            input = document.getElementById("myInput");
+            filter = input.value.toLowerCase();
+            table = document.getElementById("table_id");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+
+                var arakel = tr[i].getAttribute("arakel");
+
+                if (arakel) {
+
+                    if (arakel.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+
+            }
+        }
+
+        function ItemSil(id) {
+
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.location.href = "/Yonetim/Tanimlamalar/UserSil/" + id;
+                }
+            });
+
+        }
+    </script>
+}

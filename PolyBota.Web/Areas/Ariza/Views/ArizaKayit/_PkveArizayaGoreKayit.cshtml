@@ -1,0 +1,69 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    var indexId = Model.indexId;
+
+}
+
+@*<div class="col-md-12">
+    <b>Arıza Id: @Model.ArizaTanim.Id</b>
+    <b>Index Id: @indexId</b>
+</div>*@
+
+<form id="frmFinal">
+<div class="row m-1 border">
+    <div class="col-md-12">
+        <small class="text-center">GEREKLİ BİLGİLER</small>
+        <h5 class="text-center text-danger">@Model.ArizaTanim.ArizaTanimAdi</h5>
+    </div>
+    @Html.HiddenFor(a=>a.ArizaTanimId)
+   
+    @{
+        int i = -1;
+        foreach (var araModel in Model.ArizaPotaKartSecimModels)
+        {
+           
+            i++;
+            string IdOzel = "slctPota" + i;
+
+            Model.indexId = i;
+            <div class="col-md-6">
+                <div class="form-group">
+                    <b>@araModel.TechizatTuruTanim.TechizatTuruTanimAdi</b>
+
+                    @Html.HiddenFor(a=>a.ArizaPotaKartSecimModels[i].i)
+                    @Html.DropDownListFor(a => a.ArizaPotaKartSecimModels[i].PotaKartId,
+                        new SelectList(araModel.PotaKarts, "Id", "PotaKartAdi", araModel.PotaKartId),
+                        new { @class = "form-control secimGerekir", @id= IdOzel,@onchange=string.Format("PotaBilesenItemGetir('{0}',{1}, {2})",IdOzel,i,araModel.ArizaTanimArizaTechizatGrubuId)  })
+                    <div id="@IdOzel-alan">
+                        @Html.Partial("_PkveArizayaGoreKayitItem", Model)
+                    </div>
+                   
+                </div>
+            </div>
+        }}
+
+    <div class="col-md-12">
+
+        <div class="form-group">
+            <hr/>
+            <b>Arıza Notu</b>
+            @Html.TextAreaFor(a => a.ArizaNotu, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <hr/>
+            <b>Sayfa Yönlendirme Durumu</b>
+            <br/>
+            <div class="btn-group">
+                <label class="btn btn-secondary">@Html.RadioButtonFor(a=>a.YonlendirmeDurumu, 0) Sayfadan Ayrıl</label>
+                <label class="btn btn-info">@Html.RadioButtonFor(a=>a.YonlendirmeDurumu, 1) Sayfada Kal</label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <a href="javascript:" onclick="ArizaKaydet()" class="btn btn-block btn-danger">KAYDET</a>
+    </div>
+</div>
+</form>

@@ -1,0 +1,249 @@
+﻿@model PolyBota.Web.Areas.Raporlama.Models.RaporlamaArizaModel
+
+@{
+    ViewBag.Title = "MakineArizaSonuclari";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+
+    <style>
+        td {
+            font-size: 14px !important;
+        }
+
+        
+    </style>
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>Makine Arıza Bildirim Rapor</h3>
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </Div>
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Makine Arıza Bildirim Rapor</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h5>
+                    Makine  Arıza Bildirim Rapor
+                </h5>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <form id="frm-alan">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <b> Tarih Aralığı </b>
+                                <div class="btn-group w-100">
+                                    @Html.TextBoxFor(x => x.BaslangicTarihi, "{0:yyyy-MM-dd}", new
+                                    {
+                                        @class = "form-control",
+
+                                        @type = "date"
+                                    })
+                                    @Html.TextBoxFor(x => x.BitisTarihi, "{0:yyyy-MM-dd}", new
+                                    {
+                                        @class = "form-control",
+
+                                        @type = "date"
+                                    })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr />
+                        </div>
+                        <div class="col-sm-12">
+
+                            <b>Arıza Durumu</b>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="btn btn-group float-right" role="group">
+
+                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('03', '.', 0)">
+                                            <i class="fa fa-check-square"></i>
+                                        </a>
+                                        <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('03', '.', 1)">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                @for (int i = 0; i < Model.DropArizaDurumus.Count; i++)
+                                {
+                                    var item = Model.DropArizaDurumus[i];
+
+                                    @Html.HiddenFor(a => a.DropArizaDurumus[i].IdInt)
+                                    <div class="col-md-4">
+                                        <label>@Html.CheckBoxFor(a => a.DropArizaDurumus[i].SeciliMi, new { @class = "03" }) @item.Tanim</label>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr />
+                        </div>
+                        <div class="col-sm-12">
+
+                            <b>Sorumlu Departmanlar</b>
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="btn btn-group float-right" role="group">
+
+                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('02', '.', 0)">
+                                            <i class="fa fa-check-square"></i>
+                                        </a>
+                                        <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('02', '.', 1)">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                @for (int i = 0; i < Model.DropSorumluDepartmans.Count; i++)
+                                {
+                                    var item = Model.DropSorumluDepartmans[i];
+
+                                    @Html.HiddenFor(a => a.DropSorumluDepartmans[i].IdInt)
+                                    <div class="col-md-4">
+                                        <label>@Html.CheckBoxFor(a => a.DropSorumluDepartmans[i].SeciliMi, new { @class = "02" }) @item.Tanim</label>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <hr />
+                        </div>
+                        <div class="col-sm-12">
+
+                            <div class="form-group">
+                                <b>Pota Kart</b>
+                                @Html.DropDownListFor(a => a.RaporlamaMakineBazliAnalizPk.PotaKart.Id, Model.DropItems.Select(a => new SelectListItem { Value = a.Id, Text = a.Tanim }), new { @onchange = "SecimYap()", @id = "dropSecim" })
+                            </div>
+                        </div>
+                        <div class="col-sm-12" id="secim-summary">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="javascript:" onclick="frmAnaliz()" class="btn btn-outline-success w-100"><i class="fas fa-analytics"></i> Analiz Yap</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="x_content" id="result-alan">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        function SecimYap() {
+            var id = $("#dropSecim").val();
+            var alan = $("#secim-summary");
+            alan.empty();
+            var url = "/Raporlama/Ariza/MakineArizaPkyaGoreAnalizHazirla/" + id;
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+        function frmAnaliz() {
+            var data = $("#frm-alan").serialize();
+            var url = "/Raporlama/Ariza/MakineArizaPkyaGoreAnalizYap";
+            var alan = $("#result-alan");
+
+            alan.empty();
+            alan.append("<h2>Analiz Yapılıyor Bekleyiniz</h2>");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.empty();
+                    alan.append("<h2>Analiz Yapılıyor Bekleyiniz</h2>");
+                    alan.empty();
+                    alan.append(result);
+                    Yenile();
+                    $(window).scrollTop(alan.offset().top);
+
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+        //frmAnaliz();
+        menuKapat();
+
+        function CiktiAl(divId) {
+            //var url = "/Ariza/ArizaMudahale/ArizaMudahaleCikti/";
+
+            //var alan = $("#" + divId);
+
+            window.setTimeout(function () {
+                var divToPrint = document.getElementById(divId);
+
+                var newWin = window.open('', 'Print-Window');
+
+                newWin.document.open();
+
+                newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
+
+                newWin.document.close();
+            }, 1000);
+
+        }
+    </script>
+}

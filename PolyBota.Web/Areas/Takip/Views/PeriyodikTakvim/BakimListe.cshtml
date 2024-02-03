@@ -1,0 +1,247 @@
+﻿@model PolyBota.Web.Areas.Takip.Models.TakvimBakimModel
+
+@{
+    ViewBag.Title = "BakimListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h5>Bakım Onarım Takvim </h5>
+               
+
+            </div>
+            <div class="clearfix">
+
+            </div>
+            <div class="x_content">
+                <form id="frm-analiz">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="javascript:" class="btn btn-block btn-outline-secondary" onclick="toggleCreate('bolumMakine', '.')">
+                                Bölüm Makineleri
+                            </a>
+
+
+                        </div>
+                    </div>
+                    <div class="row bolumMakine" style="display: none">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        @{
+                            int t = -1;
+                            int itemSay = 0;
+                            foreach (var bolumStok in Model.BolumStoklar)
+                            {
+                                t++;
+                                int y = -1;
+                                if (bolumStok.ItemValues.Any())
+                                {
+                                    itemSay++;
+                                    <div class="col-md-4" >
+                                        <div class="form-group" style="border-right: 1px dashed">
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-8">
+
+                                                    <b>@bolumStok.Tanim</b>
+                                                
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="btn btn-group float-right" role="group">
+
+                                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('@bolumStok.Id', '.', 0)">
+                                                            <i class="fa fa-check-square"></i>
+                                                        </a>
+                                                        <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('@bolumStok.Id', '.', 1)">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <hr />
+                                                </div>
+                                                @foreach (var mak in bolumStok.ItemValues)
+                                                {
+                                                    y++;
+                                                    <div class="col-md-4">
+                                                        <label>
+                                                            @Html.CheckBoxFor(a => a.BolumStoklar[t].ItemValues[y].SeciliMi, new { @class = bolumStok.Id }) @mak.Text
+                                                        </label>
+                                                    </div>
+
+                                                }
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+
+                                if (itemSay == 3)
+                                {
+
+                                    itemSay = 0;
+                                    <div class="col-md-12">
+                                        <hr/>
+                                    </div>
+                                   
+                                }
+
+                            }
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-12">
+                            <a href="javascript:" class="btn btn-block btn-outline-secondary" onclick="toggleCreate('talimatTip', '.')">
+                                Talimat Tipleri
+                            </a>
+
+
+                        </div>
+                    </div>
+
+                    <div class="row talimatTip" style="display: none">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        @{
+                             t = -1;
+                             itemSay = 0;
+                            foreach (var periyotTipi in Model.DropPeriyotlar)
+                            {
+                                t++;
+                                int y = -1;
+                                if (periyotTipi.ItemValues.Any())
+                                {
+                                    itemSay++;
+                                    <div class="col-md-4" style="border-right: 1px dashed">
+                                        <div class="form-group">
+
+                                            <div class="row">
+
+
+                                                <div class="col-md-10">
+
+                                                    <b>@periyotTipi.Tanim</b>
+                                                    <hr />
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="btn btn-group float-right" role="group">
+
+                                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('@periyotTipi.Id', '.', 0)">
+                                                            <i class="fa fa-check-square"></i>
+                                                        </a>
+                                                        <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('@periyotTipi.Id', '.', 1)">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                                @foreach (var mak in periyotTipi.ItemValues)
+                                                {
+                                                    y++;
+                                                    <div class="col-md-4">
+                                                        <label>
+                                                            @Html.CheckBoxFor(a => a.DropPeriyotlar[t].ItemValues[y].SeciliMi, new { @class = periyotTipi.Id }) @mak.Text
+                                                        </label>
+                                                    </div>
+
+                                                }
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+
+                                if (itemSay % 3 == 0)
+                                {
+                                    <div class="clearfix">
+
+                                    </div>
+                                }
+
+                            }
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b>Seçilen Yıl</b>
+                                @Html.DropDownListFor(a => a.SecilenYil, Model.Yillar.Select(a => new SelectListItem()
+                                {
+                                    Value = a.ToString(),
+                                    Text = a.ToString()
+                                }), new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b>Başlangıç Haftası</b>
+                                @Html.TextBoxFor(a => a.BaslangicHafta, new { @class = "form-control", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b>Bitiş Haftası</b>
+                                @Html.TextBoxFor(a => a.BitisHafta, new { @class = "form-control", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> &nbsp; </b>
+                                <a href="javascript:" class="btn btn-info btn-block" onclick="frmSerialize()">Takvimi Güncelle</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="alan-summary">
+                  
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/TableExport.js"></script>
+    <script>
+        function frmSerialize() {
+            var data = $("#frm-analiz").serialize();
+            var url = "/Takip/PeriyodikTakvim/BakimAnaliz";
+
+            var alan = $("#alan-summary");
+
+            alan.empty();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.append(result);
+                    Yenile();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+    </script>
+}

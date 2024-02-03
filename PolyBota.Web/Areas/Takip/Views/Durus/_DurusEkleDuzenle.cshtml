@@ -1,0 +1,121 @@
+﻿@model PolyBota.Web.Areas.Takip.Models.DurusStokKartModel
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.Id == 0 ? "YENİ KAYIT" : "KAYIT DÜZENLE")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+
+   
+        <form id="frm-durusDuzenle">
+        @Html.HiddenFor(a => a.StokKartDuru.Id)
+        @Html.HiddenFor(a => a.StokKart.Id)
+
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Makine</b>
+                        @Html.TextBoxFor(x => x.StokKart.StokTanimAdi, new
+                        {
+                            @class = "form-control",
+
+                          
+                        })
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Duruş Başlangıç</b>
+                        @Html.TextBoxFor(x => x.StokKartDuru.DurusBaslangic, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                        {
+                            @class = "form-control",
+
+                            @type = "datetime-local"
+                        })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Duruş Bitiş</b>
+                        @Html.TextBoxFor(x => x.StokKartDuru.DurusBitis, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                        {
+                            @class = "form-control",
+
+                            @type = "datetime-local"
+                        })
+                    </div>
+                </div>
+                
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <hr/>
+                            </div>
+                            @foreach (var durusGrup in Model.DurusGrubuTanims)
+                            {
+                                if (Model.DurusTipiTanims.Any(a => a.DurusGrubu == durusGrup.Id))
+                                {
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <b>@durusGrup.DurusGrubuTanimAdi</b>
+                                               
+                                            </div>
+                                       
+                                        @foreach (var item in Model.DurusTipiTanims.Where(a => a.DurusGrubu == durusGrup.Id))
+                                        {
+                                            <div class="col-md-6">
+                                                <label>@Html.RadioButtonFor(a => a.StokKartDuru.DurusTipi, item.Id) @item.DurusTipi</label>
+                                            </div>
+                                        }
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        </div>
+
+                    </div>
+                </div>
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <b>Bakım Operasyonları Öteleme Durumu</b>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>@Html.RadioButtonFor(a=>a.SecimId, 0) ÖTELEME YAPILSIN</label>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-danger">@Html.RadioButtonFor(a=>a.SecimId, 1) ÖTELEME YAPILMASIN</label>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+                    <div class="col-md-12">
+
+                        <a href="javascript:" class="btn btn-block btn-success beyaz" onclick="frmDurusDuzenle()">KAYDET</a>
+
+                    </div>
+                </div>
+
+
+        </div>
+        <div class="modal-footer ">
+            <button type="button" class="btn btn-default btn-danger" data-dismiss="modal" id="mdlKapat">KAPAT</button>
+
+        </div>
+        </form>
+
+
+
+</div>

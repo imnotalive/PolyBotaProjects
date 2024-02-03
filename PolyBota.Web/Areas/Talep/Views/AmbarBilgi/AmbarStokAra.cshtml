@@ -1,0 +1,156 @@
+﻿@model PolyBota.Web.Areas.Talep.Models.TalepAmbarModel
+
+@{
+    ViewBag.Title = "AmbarStokBilgi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>Stok Ambar Arama</h3>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Stok Ambar Arama</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Stok Ambar Arama
+
+
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <input type="text" class="form-control" placeholder="STOK ADI VEYA STOK KODU ARAYINIZ" onkeyup="StokAra()" id="txtSearch" />
+                </div>
+                <div id="alan-summary">
+
+                </div>
+                <div id="frm-summary">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts
+{
+    <script>
+        function StokAra() {
+            var id = $("#txtSearch").val();
+            var alan = $("#alan-summary");
+            alan.empty();
+            var url = "/Talep/AmbarBilgi/StokAra?str=" + id;
+            $.get(url,
+                function(data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+        function frmSerialize() {
+            var data = $("#frm-ambar").serialize();
+            var url = "/Talep/AmbarBilgi/AmbarStokAramaSonuc";
+
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(result) {
+                    var alan = $("#alan-summary");
+                    alan.empty();
+                    alan.append(result);
+                },
+                error: function() {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+        function ModalGoster(id, ambarId) {
+            var url = "/Talep/AmbarBilgi/AmbarStokTalebi/" + id;
+            url += "?ambarId=" + ambarId;
+
+            $.get(url,
+                function(data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+
+        function frmTalep() {
+            var data = $("#frm-talep").serialize();
+            var url = "/Talep/AmbarBilgi/AmbarStokTalebi";
+
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(result) {
+                    if (result.state != 0) {
+                        $("#modalKapat").click();
+                    }
+
+                    Swal.fire({
+                        title: result.title,
+                        icon: result.icon
+                    });
+                },
+                error: function() {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+    </script>
+}

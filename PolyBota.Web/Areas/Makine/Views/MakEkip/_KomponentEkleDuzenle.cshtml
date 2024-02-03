@@ -1,0 +1,86 @@
+﻿@model PolyBota.Web.Areas.Makine.Models.MakineEkipmanModel
+
+
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.MakineEkipmanKomponent.Id == 0 ? "YENİ KAYIT" : "")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+<div class="modal-body">
+    <form id="frm-mak">
+        @Html.HiddenFor(a => a.tabId)
+        @Html.HiddenFor(a => a.MakineEkipmanKomponent.BagliOlduguId)
+        @Html.HiddenFor(a => a.MakineEkipmanKomponent.MakineEkipmanId)
+
+
+        <div class="row">
+            @foreach (var grup in Model.KomponentTanimGrups)
+            {
+                var liStyle =  "display:none";
+
+
+                string liClass = "li" + grup.Id;
+
+
+                string chkClass = "chk" + grup.Id;
+                <div class="col-md-12 ">
+                    <div class="form-group ">
+                        <div class="row">
+                          
+                            <div class="col-md-6">
+
+                                <h6 class="text-left">  <a href="javascript:" class="btn btn-dark" onclick="toggleCreate('@liClass','.')">  ±</a> <b class="siyah">@grup.KomponentTanimGrupAdi</b></h6>
+                            </div>
+                          
+                        </div>
+
+                        <div class="row @liClass" style="@liStyle">
+                            <div class="col-md-12">
+                                <div class="btn btn-group float-right" role="group">
+                                   
+                                    <a href="javascript:" onclick="checkAll('@chkClass', '.', 0)" class="btn btn-success btn-sm beyaz">Tümünü Seç</a>
+                                    <a href="javascript:" onclick="checkAll('@chkClass', '.', 1)" class="btn btn-danger btn-sm beyaz">Seçimleri Kaldır</a>
+                                  
+                                </div>
+                            </div>
+
+                            @foreach (var komp in Model.KomponentTanims.Where(a => a.KomponentTanimGrupId == grup.Id).ToList())
+                            {
+                                var i = Model.KomponentTanims.IndexOf(komp);
+                             
+                                <div class="col-md-2">
+                                    <label> @Html.CheckBoxFor(a => a.KomponentTanims[i].SeciliMi, new { @class = chkClass }) @komp.KomponentTanimAdi </label>
+                                </div>
+
+                                @Html.HiddenFor(a => a.KomponentTanims[i].Id)
+                            }
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <hr />
+                    </div>
+                </div>
+
+            }
+
+        </div>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <a href="javascript:" onclick="frmKaydet()" class="btn btn-block btn-secondary" data-dismiss="modal">KAYDET</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+    <div class="modal-footer ">
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+    </div>
+</div>

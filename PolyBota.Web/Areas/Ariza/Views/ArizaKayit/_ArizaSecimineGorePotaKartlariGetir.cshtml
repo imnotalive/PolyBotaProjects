@@ -1,0 +1,42 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    var indexId = Model.indexId;
+
+}
+
+<div class="row">
+    @{
+        int p = -1;
+        foreach (var item in Model.ArizaPotaKartSecimModels)
+        {
+            p++;
+
+            string divId = "apksm-" + p;
+            string selectId = "sel-" + p;
+
+            <div class="col-12">
+                @Html.HiddenFor(a => a.ArizaPotaKartSecimModels[p].TechizatTuruTanim.Id)
+                @Html.HiddenFor(a => a.ArizaPotaKartSecimModels[p].BilesenVarMi)
+                <div class="form-group">
+                    <b class="text-danger">@item.TechizatTuruTanim.TechizatTuruTanimAdi</b>
+
+                    @Html.DropDownListFor(a => a.ArizaPotaKartSecimModels[p].PotaKartId,
+                        new SelectList(item.PotaKarts, "Id", "PotaKartAdi", item.PotaKartId),
+                        new {@class = "form-control", @onchange = item.BilesenVarMi ? string.Format("BilesenItemGetir('{0}','{1}',{2})", divId, selectId, p) : "", id = selectId})
+
+
+                </div>
+                <div id="@divId">
+
+                </div>
+            </div>
+
+        }
+    }
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <a href="javascript:" onclick="ArizaKaydet()" class="btn btn-danger btn-block"><i class="fa fa-exclamation-triangle"></i> Arıza Bildir !</a>
+    </div>
+</div>

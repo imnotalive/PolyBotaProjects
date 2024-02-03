@@ -1,0 +1,46 @@
+﻿@model PolyBota.Web.Areas.Takip.Models.DurusStokKartModel
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Stok Kart</th>
+                <th>Sok Kodu</th>
+                <th>Stok Grubu</th>
+               
+            </tr>
+            </thead>
+            <tbody>
+            @{
+              
+                foreach (var item in Model.DropStokKarts)
+                {
+                  
+                    <tr>
+                        <td><label>@Html.RadioButtonFor(a => a.Id, item.Id, new { @class = "rdSecim" })
+                                SEÇ </label>
+                        </td>
+                        <td>@item.Tanim1</td>
+                        <td>@item.Tanim2</td>
+                        <td>@item.Tanim3</td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+    
+  
+</div>
+<div class="row">
+ 
+    <div class="col-md-12">
+        <a href="javascript:" class="btn btn-danger btn-block" onclick="SeciliRadioYonlendir()">Seçili Stok Kartı Duruşları Göster</a>
+    </div>
+</div>

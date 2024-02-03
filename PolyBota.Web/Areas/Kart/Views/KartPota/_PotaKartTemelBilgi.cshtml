@@ -1,0 +1,159 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+<div class="row">
+    <div class="col-md-6" style="border-right: 1px solid">
+        <form id="frm-siciltemel">
+            @Html.HiddenFor(a => a.PotaKart.Id)
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <b>Pota Tanım</b>
+                        @Html.TextBoxFor(a => a.PotaKart.PotaKartAdi, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <b>Pota Kodu</b>
+                        @Html.TextBoxFor(a => a.PotaKart.PotaKodu, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+
+                        <div class="form-group">
+                            LOKASYON <b class="text-danger"> (BU NEREDE DURUYOR ??)</b>
+                            @Html.DropDownListFor(a => a.PotaKart.BolumId, Model.DropBolumler.Select(a => new SelectListItem()
+                            {
+                                Text = a.Tanim,
+                                Value = a.Id.ToString()
+                            }), new { @class = "form-control", @id = "lokasyon" })
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+
+                        <div class="form-group">
+                            TEÇHİZAT TÜRÜ  <b class="text-success">(KANAL/FIRIN/TARAF/POZİSYON/ NEYE İHTİYAÇ OLACAK ??)</b>
+                            @Html.DropDownListFor(a => a.PotaKart.TechizatTuruId, Model.TechizatTuruTanims.Select(a => new SelectListItem()
+                            {
+                                Text = a.TechizatTuruTanimAdi,
+                                Value = a.Id.ToString()
+                            }), new { @class = "form-control" })
+                        </div>
+
+                    </div>
+                </div>
+
+          
+
+                <div class="col-md-12">
+                    <a href="javascript:" class="btn btn-block btn-info" onclick="frmSerialize('#frm-siciltemel', 10)">KAYDET</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        @if (Model.PotaKart.Id != 0)
+        {
+            <div class="row">
+               
+                <div class="col-md-12 ">
+                    <a href="javascript:" class="btn btn-info pull-right" data-toggle="modal" data-target="#modal2">Sicil Özel Bilgileri</a>
+
+
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                </div>
+                @foreach (var item in Model.SicilOzellikTanims.Where(a => a.SeciliMi).ToList())
+                {
+                    <div class="col-md-6">
+                        <label>@item.SicilOzellikTanimAdi</label>
+                    </div>
+                    <div class="col-md-6">
+                        <b class="text-info">@item.BaseValue</b>
+                    </div>
+                }
+            </div>
+
+
+
+        }
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="modal fade" id="modal2" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.PotaKart.PotaKartAdi</h4>
+
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                @using (Html.BeginForm("PotaKartSicilBilgi", "KartPota"))
+                {
+
+                    @Html.HiddenFor(a => a.PotaKart.Id)
+
+                    foreach (var sicilHeader in Model.SicilOzellikHeaderTanims)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <b class="siyah"> @sicilHeader.SicilOzellikHeaderTanimAdi</b>
+                            </div>
+
+
+                            @foreach (var komp in Model.SicilOzellikTanims.Where(a => a.SicilOzellikHeaderTanimId == sicilHeader.Id).OrderBy(a => a.SicilOzellikTanimAdi).ToList())
+                            {
+                                var i = Model.SicilOzellikTanims.IndexOf(komp);
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class=""> @Html.CheckBoxFor(a => a.SicilOzellikTanims[i].SeciliMi) @komp.SicilOzellikTanimAdi </label>
+                                        @Html.TextBoxFor(a => a.SicilOzellikTanims[i].BaseValue, new { @class = "form-control" })
+                                    </div>
+                                </div>
+
+                                @Html.HiddenFor(a => a.SicilOzellikTanims[i].Id)
+                            }
+
+                            <div class="col-md-12">
+                                <hr />
+
+                            </div>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-info btn-block">KAYDET</button>
+                }
+
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>

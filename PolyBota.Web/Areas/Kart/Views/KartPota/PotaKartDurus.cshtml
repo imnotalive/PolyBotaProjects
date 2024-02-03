@@ -1,0 +1,202 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+@{
+    ViewBag.Title = "PotaKartDurus";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<input type="hidden" value="@Model.PotaKart.Id" id="pkId" />
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>POTA Kart Duruş Bilgileri</h3>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary beyaz btn-sm" href="@Url.Action("PotaKartListe","KartPota",new{katId=Model.PotaKart.TechizatTuruId})"><i class="fa fa-reply"></i> Listeye Dön</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("StokKartListe","Stok",new{katId=Model.PotaKart.KomponentTanimGrupId})">POTA Kart Liste</a></li>
+
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bars"></i> @Model.PotaKart.PotaKartAdi</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @Html.Partial("_PotaKartTab")
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show">
+                        <form id="frm-operasyon">
+                            <div class="row">
+
+
+                                @Html.HiddenFor(a => a.PotaKart.Id)
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b> Başlangıç Tarihi </b>
+                                        @Html.TextBoxFor(x => x.BaslangisTarihi, "{0:yyyy-MM-dd}", new
+                                        {
+                                            @class = "form-control",
+
+                                            @type = "date"
+                                        })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b> Bitiş Tarihi </b>
+                                        @Html.TextBoxFor(x => x.BitisTarihi, "{0:yyyy-MM-dd}", new
+                                        {
+                                            @class = "form-control",
+
+                                            @type = "date"
+                                        })
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b> Gösterim Şekli </b>
+                                        <div class="row">
+
+                                            @foreach (var gosterim in Model.GosterimList)
+                                            {
+                                                <div class="col-md-4">
+                                                    <label>@Html.RadioButtonFor(a => a.GosterimSekli, gosterim.Id) @gosterim.Tanim </label>
+                                                </div>
+                                            }
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <b>&nbsp; </b>
+                                        <a href="javascript:" class="btn btn-danger btn-block" onclick="frmSerialize()">Listeyi Göster</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div id="alan-summary">
+                            @Html.Partial("_PotaKartDurusListesi", Model)
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+@section Scripts
+{
+    <script>
+        function ModalGoster(id, ItemId) {
+            var url = "/Kart/KartPota/DurusEkleDuzenle/" + id;
+            url += "?ItemId=" + ItemId;
+
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+
+
+ 
+
+        function frmSerialize() {
+            var data = $("#frm-operasyon").serialize();
+            var url = "/Kart/KartPota/PotaKartDurusListesi/";
+
+            var alan = $("#alan-summary");
+            alan.empty();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.append(result);
+                    Yenile();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+        function frmDurusDuzenle() {
+            var data = $("#frm-durusDuzenle").serialize();
+            var url = "/Kart/KartPota/DurusEkleDuzenle";
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+
+                    var title = "Güncelleme İşlemi Yapılmıştır";
+                    var icon = "success";
+                    if (result.state == 0) {
+                        icon = "warning";
+                        title = "Bilgileri Kontrol Ediniz";
+                    } else {
+                        frmSerialize();
+                        $("#mdlKapat").click();
+                    }
+
+
+                    Swal.fire({
+                        title: title,
+                        icon: icon
+                    });
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+    </script>
+}

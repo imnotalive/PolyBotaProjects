@@ -1,0 +1,104 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Yonetim.Models.TanimlamaModel
+
+@{
+    ViewBag.Title = "ModulListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-save"></i>
+                    Yönetim Modülü
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <blockquote>
+                    <p>Base Link Tanımları</p>
+                </blockquote>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            
+     
+
+            <div class="card-body">
+
+                <div class="">
+                    <div class="col-md-12">
+                        <b>Link Durumu</b>
+                        <br />
+                        <p>
+                            <b>0:</b><b class="text-danger"> Link Olarak Gösterilebilir</b> &nbsp;
+                            <b>1:</b><b class="text-danger"> Link Olarak gösterilmesin</b> &nbsp;
+
+                        </p>
+                    </div>
+                    @using (@Html.BeginForm("LinkListeGuncelle", "Tanimlamalar"))
+                    {
+                        <div class="row ">
+                            <table class="table  table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Link Grup Adı</th>
+                                        <th>Tanım Adı</th>
+                                        <th>Tanım Adı Eng</th>
+                                        <th>Link Durumu</th>
+                                        <th>Area</th>
+                                        <th>Controller</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        int i = -1;
+                                        foreach (var item in Model.BaseUrlLinkler)
+                                        {
+                                            i++;
+                                            <tr>
+                                                @Html.HiddenFor(a => a.BaseUrlLinkler[i].Id)
+
+
+                                                <td>
+                                                    @Html.DropDownListFor(model => Model.BaseUrlLinkler[i].LinkGrupTanimId, new SelectList(Model.GenelDropItemList1, "IdInt", "Tanim", Model.BaseUrlLinkler[i].LinkGrupTanimId), "Seçiniz", new { @class = "form-control" })
+                                                </td>
+
+                                                <td>@Html.TextBoxFor(a => a.BaseUrlLinkler[i].LinkTanimAdi, new { @class = "form-control" })</td>
+                                                <td>@Html.TextBoxFor(a => a.BaseUrlLinkler[i].LinkTanimAdiEng, new { @class = "form-control" })</td>
+
+                                                <td>@Html.TextBoxFor(a => a.BaseUrlLinkler[i].DetayLinkDurumu, new { @class = "form-control" })</td>
+                                                <td>@item.AreaName</td>
+                                                <td>@item.ControllerName</td>
+                                                <td>@item.ActionName</td>
+
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-block">KAYDET</button>
+                    }
+
+                </div>
+            </div>
+         
+        </div>
+    </div>
+</div>
+
+

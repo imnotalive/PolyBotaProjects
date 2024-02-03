@@ -1,0 +1,42 @@
+﻿
+@model PolyBota.DAL.SystemModul
+
+
+<div class="modal fade" id="modal-@Model.Id" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modül</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+               @using (Html.BeginForm("ModulEkleGuncelle", "Tanimlamalar"))
+                {
+                    @Html.HiddenFor(a => a.Id)
+
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label"><b>ROL ADI </b></label>
+                                    <div class="input-icon right">
+                                        @Html.TextBoxFor(a => a.ModulTanim, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="submit" class="btn green">KAYDET</button>
+                        <button type="button" class="btn dark btn-outline" data-dismiss="modal">KAPAT</button>
+                    </div>
+                }
+          
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>

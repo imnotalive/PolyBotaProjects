@@ -1,0 +1,29 @@
+﻿@model PolyBota.Web.Areas.Raporlama.Models.RaporlamaArizaModel
+
+
+<div class="row">
+   
+    @for (int k = 0; k < Model.RaporlamaMakineBazliAnalizPk.DropBilesenHeaderItems.Count; k++)
+    {
+        var itemValues = Model.RaporlamaMakineBazliAnalizPk.DropBilesenHeaderItems[k].ItemValues;
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.HiddenFor(a=>a.RaporlamaMakineBazliAnalizPk.DropBilesenHeaderItems[k].IdInt)
+                        <b class="text-primary">@Html.CheckBoxFor(a => a.RaporlamaMakineBazliAnalizPk.DropBilesenHeaderItems[k].SeciliMi) @Model.RaporlamaMakineBazliAnalizPk.DropBilesenHeaderItems[k].Tanim</b>
+
+                        @Html.ListBoxFor(a => a.RaporlamaMakineBazliAnalizPk.DropBilesenHeaderItems[k].IntList, itemValues.Select(a => new SelectListItem()
+                        {
+                            Text = a.Text,
+                            Value = a.IdInt.ToString()
+                        }))
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+              
+        

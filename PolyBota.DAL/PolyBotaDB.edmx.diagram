@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a5108193608d44838c29755f14cdb672" Name="Diagram1" ShowGrid="true" DisplayType="false" ZoomLevel="71">
+        <EntityTypeShape EntityType="POTA_BOTAModel.SystemBaseUrlLink" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SystemLinkGrupTanim" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SystemModul" Width="1.5" PointX="0.75" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SystemRoleBaseUrlLink" Width="1.5" PointX="2.75" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SystemRoleTanim" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.User" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.Bolum" Width="1.5" PointX="4.75" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.Departman" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PeriyotTanim" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PeriyotTipiTanim" Width="1.5" PointX="6.75" PointY="2.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.KomponentTanim" Width="2.875" PointX="2.75" PointY="6.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.KomponentTanimGrup" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.TalimatGrupTanim" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.TalimatTanim" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SicilOzellikHeaderTanim" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SicilOzellikTanim" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SablonGrup" Width="1.5" PointX="9.375" PointY="5.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.SablonGrupItem" Width="1.5" PointX="9.375" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKart" Width="1.5" PointX="11.375" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKartKomponent" Width="1.5" PointX="5.375" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.KomponentTalimatGrup" Width="1.5" PointX="11.375" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.KomponentTalimat" Width="1.5" PointX="3.375" PointY="11.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKartOperasyon" Width="1.5" PointX="5.375" PointY="11.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKartOperasyonDurumTanim" Width="1.5" PointX="11.375" PointY="7.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.Medya" Width="1.5" PointX="7.375" PointY="11.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.BilesenCinsi" Width="1.5" PointX="9.375" PointY="11.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.BilesenCinsiGrup" Width="1.5" PointX="11.375" PointY="10.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKartBilesenCinsi" Width="1.5" PointX="13.375" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKartHatirlatma" Width="1.5" PointX="13.375" PointY="3.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.Ambar" Width="1.5" PointX="13.375" PointY="7.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.DurusTipiTanim" Width="1.5" PointX="13.375" PointY="10.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKartDuru" Width="1.5" PointX="11.375" PointY="13.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.DurusGrubuTanim" Width="1.5" PointX="13.375" PointY="13.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ViewEksikAmbarListe" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ViewEksikListeStokKart" Width="1.5" PointX="7.375" PointY="14.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.AmbarStokKart" Width="1.5" PointX="15.375" PointY="0.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.AmbarStokKartAdre" Width="3.75" PointX="15.375" PointY="3.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.AmbarStokKartHareket" Width="1.5" PointX="3.375" PointY="15.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.AmbarTipiTanim" Width="1.5" PointX="15.375" PointY="6.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.AmbarStokTalepDurumuTanim" Width="1.5" PointX="15.375" PointY="13.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.StokKartOperasyonKullanilanMalzeme" Width="1.5" PointX="13.375" PointY="16.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.AmbarHareketTipiTanim" Width="1.5" PointX="15.375" PointY="8.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.AmbarStokTalep" Width="1.5" PointX="9.375" PointY="15.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.BilesenHeader" Width="1.5" PointX="15.375" PointY="10.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.BilesenItem" Width="1.5" PointX="15.375" PointY="15.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.TechizatTuruBilesenHeader" Width="1.5" PointX="5.75" PointY="16.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.TechizatTuruTanim" Width="1.5" PointX="17.75" PointY="0.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PotaKart" Width="1.5" PointX="0.75" PointY="16.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PotaKartSicilOzellik" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PotaKartBilesenItem" Width="1.5" PointX="17.375" PointY="5.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PotaKartAgac" Width="1.5" PointX="17.375" PointY="8.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PotaKlasorKlasor" Width="1.5" PointX="8.375" PointY="17.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTechizatGrubuTanim" Width="1.5" PointX="10.375" PointY="17.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTechizatItemTanim" Width="1.5" PointX="17.375" PointY="11.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ViewKokDepartmanBagimsiz" Width="1.5" PointX="17.375" PointY="14.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ViewKokDepartmanlar" Width="1.5" PointX="17.375" PointY="17.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaSorumluDepartman" Width="1.5" PointX="12.375" PointY="18.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTanim" Width="1.5" PointX="14.375" PointY="18.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTanimGerekliBilesenHeader" Width="1.5" PointX="3.375" PointY="19.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTanimGerekliTechizatTuru" Width="1.5" PointX="19.375" PointY="5.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaBildirimHeader" Width="1.5" PointX="5.375" PointY="19.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaBildirimItem" Width="1.5" PointX="19.375" PointY="8.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaDurumuTanim" Width="1.5" PointX="19.375" PointY="12.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaAcilabilecekDepartman" Width="1.5" PointX="19.375" PointY="15.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTanimGrup" Width="1.5" PointX="19.375" PointY="18.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTanimCozum" Width="1.5" PointX="20.375" PointY="0.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.PotaKartEntegreKart" Width="1.5" PointX="0.75" PointY="20.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaTanimArizaTechizatGrubu" Width="1.5" PointX="7.375" PointY="20.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaBildirimHareket" Width="1.5" PointX="9.375" PointY="20.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.UserDepartman" Width="1.5" PointX="16.375" PointY="20.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaBildirimCozum" Width="1.5" PointX="21.375" PointY="3.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.KomponentTalimatGrupDepartman" Width="1.5" PointX="21.375" PointY="6.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.KomponentTalimatGrupBilgiDepartman" Width="1.5" PointX="21.375" PointY="9.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ViewArizaGuncelDurum" Width="1.5" PointX="11.375" PointY="21.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ZamanEtuduHeader" Width="1.5" PointX="21.375" PointY="12.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ZamanEtuduItem" Width="1.5" PointX="13.375" PointY="21.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ZamanEtuduItemDeger" Width="1.5" PointX="21.375" PointY="15.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ZamanEtuduItemDetail" Width="1.5" PointX="21.375" PointY="18.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ZamanEtuduKategori" Width="1.5" PointX="18.375" PointY="21.75" />
+        <EntityTypeShape EntityType="POTA_BOTAModel.ArizaBildirimHeaderKullanilanMalzeme" Width="1.5" PointX="22.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

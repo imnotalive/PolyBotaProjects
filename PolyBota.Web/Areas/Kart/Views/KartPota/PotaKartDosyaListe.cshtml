@@ -1,0 +1,326 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+@{
+    ViewBag.Title = "PotaKartDosyaListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@helper ListOlustur(int id)
+{
+    var liStyle = id == 0 ? "" : "display:none";
+
+
+    string liClass = "li" + id;
+    string acClass = id == 0 ? "" : "ulAc";
+
+    var lst = Model.PotaKlasorKlasors.Where(a => a.BagliOlduguKlasorId == id).OrderBy(a => a.KlasorAdi).ToList();
+    if (lst.Any())
+    {
+        <ul class="list-group @liClass  @acClass" style="@liStyle">
+            @foreach (var item in lst)
+            {
+                var medyalar = Model.Medyas.Where(a => a.BagliOlduguId == item.Id).ToList();
+
+                liClass = "li" + item.Id;
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="javascript:" class="btn btn-outline-dark" onclick="toggleCreate('@liClass','.')">  ±</a> <b class="siyah"> @item.KlasorAdi</b>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn btn-group float-right" role="group">
+                                <a class="btn btn-success btn-sm beyaz" data-toggle="modal" data-target="#modalKlasor" onclick="ModalGosterKlasor(0, @item.Id,'')"><i class="fa fa-plus"></i> Klasor Ekle</a>
+
+                                
+                                
+                                <a class="btn btn-info btn-sm beyaz" data-toggle="modal" data-target="#modalDosya" onclick="ModalGosterDosya(@item.Id)"><i class="fa fa-file"></i> Dosya Ekle</a>
+                        
+
+                                <a class="btn btn-warning btn-sm beyaz" data-toggle="modal" data-target="#modalKlasor" onclick="ModalGosterKlasor(@item.Id, @item.BagliOlduguKlasorId, '@item.KlasorAdi')"><i class="fa fa-pencil-alt"></i> Düzenle</a>
+                                <a class="btn btn-danger btn-sm beyaz" onclick="KlasorSil(@item.Id)"><i class="fa fa-trash"></i> Klasör Sil</a>
+
+                            </div>
+                        </div>
+                        @if (medyalar.Any())
+                        {
+                            <div class="col-md-12">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Dosya</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @{
+                                        int p = 0;
+                                        foreach (var medya in medyalar)
+                                        {
+                                            p++;
+                                            <tr>
+                                                <td>@p</td>
+                                                <td><a href="@Url.Content(medya.FileName)" target="_blank" class="btn btn-secondary btn-block">@medya.MedyaAdi</a></td>
+                                                <td><a href="javasript:" onclick="StokKartMedyaSil(@medya.Id)" class="btn btn-danger btn-block">Sil</a></td>
+                                            </tr>
+                                        }
+
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                     
+                    </div>
+                    @ListOlustur(item.Id)
+                </li>
+            }
+        </ul>
+    }
+
+}
+
+<input type="hidden" value="@Model.PotaKart.Id" id="makId" />
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>POTA Kart Dosyaları</h3>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary beyaz btn-sm" href="@Url.Action("PotaKartListe","KartPota",new{katId=Model.PotaKart.TechizatTuruId})"><i class="fa fa-reply"></i> Listeye Dön</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("PotaKartDosyaListe","KartPota",new{katId=Model.PotaKart.KomponentTanimGrupId})">POTA Kart Liste</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Bölüm Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-bars"></i> @Model.PotaKart.PotaKartAdi</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                @Html.Partial("_PotaKartTab")
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade active show" id="alan-summary">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <b>Pota Tanım</b>
+                                    @Html.TextBoxFor(a => a.PotaKart.PotaKartAdi, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <b>Pota Kodu</b>
+                                    @Html.TextBoxFor(a => a.PotaKart.PotaKodu, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a class="btn btn-info beyaz" data-toggle="modal" data-target="#modalKlasor" onclick="ModalGosterKlasor(0, 0, '')">
+                                   Yeni Kayıt
+                                </a>
+
+                                
+
+                                @ListOlustur(0)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="modalKlasor" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.PotaKart.PotaKartAdi</h4>
+
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                @using (Html.BeginForm("PotaKartDosyaEkleDuzenle", "KartPota"))
+                {
+
+                    @Html.HiddenFor(a => a.PotaKart.Id)
+                    @Html.HiddenFor(a => a.PotaKlasorKlasor.Id, new { id = "klasorId" })
+                    @Html.HiddenFor(a => a.PotaKlasorKlasor.BagliOlduguKlasorId, new { id = "bagliklasorId" })
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <b>Klasör Adı</b>
+                                @Html.TextBoxFor(a => a.PotaKlasorKlasor.KlasorAdi, new {@class = "form-control", @id = "klasorAdi"})
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <button type="submit" class="btn btn-info btn-block">KAYDET</button>
+                }
+
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modalDosya" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">@Model.PotaKart.PotaKartAdi</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+                @using (Html.BeginForm("PotaKartMedyaEkle", "KartPota", FormMethod.Post, new
+                {
+                    enctype = "multipart/form-data",
+                    id = "frm-stokresim2"
+                }))
+                {
+                    @Html.HiddenFor(a => a.PotaKart.Id)
+                    @Html.HiddenFor(a => a.PotaKlasorKlasor.Id, new { id = "dosyaklasorId" })
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <b>Medya Adı</b>
+                                @Html.TextBoxFor(a => a.Medya.MedyaAdi, new {@class = "form-control"})
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <b>Dosya Seçimi</b>
+                                <input type="file" name="file" class="form-control" id="File"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <b>&nbsp;</b>
+                                <input type="submit" value="Dosya Ekle" class="btn btn-secondary btn-block"/>
+                            </div>
+                        </div>
+                       
+                    </div>
+                }
+
+            </div>
+
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+@section Scripts
+{
+    <script>
+        function ModalGosterKlasor(klasorId, bagliklasorId, klasorAdi) {
+            $("#klasorId").val(klasorId);
+            $("#bagliklasorId").val(bagliklasorId);
+            $("#klasorAdi").val(klasorAdi);
+            
+
+            /*
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+            */
+        }
+        
+
+        function ModalGosterDosya(dosyaklasorId) {
+            $("#dosyaklasorId").val(dosyaklasorId);
+        }
+
+        function StokKartMedyaSil(id) {
+
+
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.location.href = "/Kart/KartPota/PotaKartMedyaSil/" + id;
+                }
+            });
+
+
+
+        }
+
+        function KlasorSil(id) {
+
+            
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.location.href = "/Kart/KartPota/PotaKartKlasorSil/" + id;
+                }
+            });
+            
+
+
+        }
+    </script>
+}

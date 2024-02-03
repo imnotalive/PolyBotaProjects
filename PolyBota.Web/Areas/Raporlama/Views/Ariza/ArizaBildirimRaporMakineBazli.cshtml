@@ -1,0 +1,181 @@
+﻿@model PolyBota.Web.Areas.Raporlama.Models.RaporlamaArizaModel
+
+@{
+    ViewBag.Title = "ArizaBildirimRaporMakineBazli";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>Arıza Bildirim Makine Bazlı Rapor</h3>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Arıza Bildirim Makine Bazlı Rapor</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h5>
+                    Arıza Bildirim Makine Bazlı Rapor
+                </h5>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+                <form id="frm-alan">
+
+
+                    <div class="row">
+
+                        @for (int i = 0; i < Model.RaporlamaMakineBazliAnalizItems.Count; i++)
+                        {
+                            var analizItem = Model.RaporlamaMakineBazliAnalizItems[i];
+                            <div class="col-sm-12">
+                                <hr />
+                            </div>
+
+                            <div class="col-sm-12">
+
+                                <b>@analizItem.TechizatTuruTanim.TechizatTuruTanimAdi</b>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="btn btn-group float-right" role="group">
+
+                                            <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('@analizItem.TechizatTuruTanim.Id', '.', 0)">
+                                                <i class="fa fa-check-square"></i>
+                                            </a>
+                                            <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('@analizItem.TechizatTuruTanim.Id', '.', 1)">
+                                                <i class="fa fa-times"></i>
+                                            </a>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            for (int j = 0; j < analizItem.PkList.Count; j++)
+                            {
+                                var pkModel = analizItem.PkList[j];
+
+                                <div class="col-md-4">
+                                 
+
+                                            <div class="form-group">
+                                                <label class="text-success">@Html.CheckBoxFor(a => a.RaporlamaMakineBazliAnalizItems[i].PkList[j].PotaKart.SeciliMi, new { @class = @analizItem.TechizatTuruTanim.Id })<b> @pkModel.PotaKart.PotaKartAdi</b></label>
+                                                <ul>
+                                                    @for (int k = 0; k < pkModel.DropBilesenHeaderItems.Count; k++)
+                                                    {
+                                                        var itemValues = pkModel.DropBilesenHeaderItems[k].ItemValues;
+
+                                                        <li>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <b class="text-primary">@Html.CheckBoxFor(a => a.RaporlamaMakineBazliAnalizItems[i].PkList[j].DropBilesenHeaderItems[k].SeciliMi) @pkModel.DropBilesenHeaderItems[k].Tanim</b>
+                                                                        
+                                                                        @Html.ListBoxFor(a=>a.RaporlamaMakineBazliAnalizItems[i].PkList[j].DropBilesenHeaderItems[k].IntList, itemValues.Select(a=> new SelectListItem()
+                                                                        {
+                                                                            Text = a.Text,
+                                                                            Value = a.IdInt.ToString()
+                                                                        }))
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                </ul>
+
+
+                                            </div>
+                                    
+
+                                </div>
+                            }
+                        }
+
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="javascript:" onclick="frmAnaliz()" class="btn btn-outline-success w-100"><i class="fas fa-analytics"></i> Analiz Yap</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="x_content" id="result-alan">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+{
+    <script>
+        function frmAnaliz() {
+            var data = $("#frm-alan").serialize();
+            var url = "/Raporlama/Ariza/ArizaBildirimAnalizYap";
+            var alan = $("#result-alan");
+
+            alan.empty();
+            alan.append("<h2>Analiz Yapılıyor Bekleyiniz</h2>");
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.empty();
+                    alan.append("<h2>Analiz Yapılıyor Bekleyiniz</h2>");
+                    alan.empty();
+                    alan.append(result);
+                    Yenile();
+                    $(window).scrollTop(alan.offset().top);
+
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+        //frmAnaliz();
+        menuKapat();
+    </script>
+}

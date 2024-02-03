@@ -1,0 +1,170 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    ViewBag.Title = "ArizaTechizataGoreSecim";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles
+{
+    <style>
+        .thumbnail {
+            position: relative;
+        }
+
+        .ustune {
+            position: absolute;
+            top: 45%;
+            left: 0;
+            width: 100%;
+            color: #000000;
+            font-size: 1.5em;
+        }
+    </style>
+}
+
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h6> @Model.ArizaTechizatGrubuTanim.ArizaTechizatGrubuAdi Kayıdı</h6>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <a class="btn btn-secondary btn-sm" href="@Url.Action("ArizaTechizatListe","ArizaKayit")"><i class="fa fa-reply"></i> Listeye Dön</a>
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("ArizaTechizatListe","ArizaKayit")">Arıza Grubu Seçimi</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">@Model.ArizaTechizatGrubuTanim.ArizaTechizatGrubuAdi Arıza Kayıdı </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="clearfix"></div>
+
+
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>
+                    Arıza Kayıdı
+
+
+                </h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+
+
+                <form id="frm-ariza">
+
+                    <div class="row">
+                        @{
+                            int p = -1;
+                            foreach (var item in Model.ArizaPotaKartSecimModels)
+                            {
+                                p++;
+
+                                string divId = "apksm-" + p;
+                                string selectId = "sel-" + p;
+
+                                <div class="col-12">
+
+                                    <div class="form-group">
+                                        <b class="text-danger">@item.TechizatTuruTanim.TechizatTuruTanimAdi</b>
+
+                                        @Html.DropDownListFor(a => a.ArizaPotaKartSecimModels[p].PotaKartId,
+                                            new SelectList(item.PotaKarts, "Id", "PotaKartAdi", item.PotaKartId),
+                                            new { @class = "form-control", @onchange = string.Format("BilesenItemGetir('{0}','{1}',{2})", divId, selectId, p), id = selectId })
+
+
+                                    </div>
+                                    <div id="@divId">
+
+                                    </div>
+                                </div>
+
+                            }
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-block btn-secondary" href="javascript:" onclick="frmSerizalize()">SEÇİMLERİ KAYDET</a>
+                        </div>
+                    </div>
+                </form>
+                
+                
+                <div id="alan-ozet">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function BilesenItemGetir(divId, selectId, indexId) {
+
+            var alan = $("#" + divId);
+
+            var potakartId = $("#" + selectId).val();
+
+            var url = "/Ariza/ArizaKayit/PotaKartaGoreBilesenItemGetir/" + potakartId;
+            url += "?indexId=" + indexId;
+            alan.empty();
+            $.get(url,
+                function(data) {
+
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+        function frmSerizalize() {
+            var url = "/Ariza/ArizaKayit/ArizaSecimiGetir/";
+
+            var data = $("#frm-ariza").serialize();
+            var alan = $("#alan-ozet");
+            alan.empty();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+
+                    alan.append(result);
+
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+    </script>
+}

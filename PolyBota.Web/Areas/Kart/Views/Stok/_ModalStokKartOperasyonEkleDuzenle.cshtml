@@ -1,0 +1,48 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartStokModel
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.StokKartOperasyon.Id == 0 ? "YENİ KAYIT" : "KAYIT DÜZENLE")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="frm-bakim">
+
+            @Html.HiddenFor(a=>a.StokKart.Id)
+            @Html.HiddenFor(a=>a.StokKartOperasyon.Id)
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Planlanan Tarih</b>
+                        @Html.TextBoxFor(a => a.StokKartOperasyon.PlanlananTarih, "{0:yyyy-MM-dd}", new { @class = "form-control ", @autocomplete = "OFF", @type = "date" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Operasyon Şablonu</b>
+                        @Html.DropDownListFor(a => a.StokKartOperasyon.KomponentTalimatGrupId
+                            ,Model.KomponentTalimatGrups.Select(a=> new SelectListItem()
+                            {
+                                Text = a.KomponentTalimatGrupAdi,
+                                Value = a.Id.ToString()
+                            }), new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>&nbsp;</b>
+                        <a href="javascript:" class="btn btn-info btn-block" onclick="frmSerialize('#frm-bakim', 31)">Kaydet</a>
+                    </div>
+                </div>
+  
+            </div>
+
+        </form>
+    </div>
+
+    <div class="modal-footer ">
+        <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+    </div>
+</div>

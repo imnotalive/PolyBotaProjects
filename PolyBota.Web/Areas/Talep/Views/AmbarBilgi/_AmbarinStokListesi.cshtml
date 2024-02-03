@@ -1,0 +1,72 @@
+﻿@model PolyBota.Web.Areas.Talep.Models.TalepAmbarModel
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+        <a href="javascript:" onclick="exportTableToExcel('tblAmbar', 'AMBAR-@DateTime.Now.ToString()')" class="btn btn-info">Excel olarak İndir</a>
+
+    </div>
+</div> 
+<div class="row">
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered" id="tblAmbar">
+            <thead>
+            <tr>
+                <th>#</th>
+                <td>Bota Kayıt Durumu</td>
+                <th>Stok Tanım</th>
+                <th>Stok Kodu</th>
+                <th>Lot</th>
+                <th>Miktar</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                @{
+                    int t = 0;
+                    foreach (var item in Model.AmbarStokKarts)
+                    {
+                        t++;
+                                <tr>
+                                    <td>@t</td>
+                                    <td>
+                                        @if (item.StokKart.Id == 0)
+                                        {
+                                            <a href="javascript:" class="btn btn-danger btn-block beyaz">Tanımsız</a>
+                                        }
+                                        else
+                                        {
+                                            {
+                                                <a href="javascript:" class="btn btn-success btn-block beyaz">Diğer Ambarlarda Gör</a>
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @item.StokKart.StokTanimAdi
+
+                                    </td>
+                                    <td>
+                                        @item.StokKart.StokKodu
+
+                                    </td>
+                                    <td>
+                                        @item.StokKart.LotNo
+                                    </td>
+                                    @foreach (var ambarStokKart in item.PTKSAmbarStokKarts)
+                                    {
+
+
+                                        <td>
+                                            @ambarStokKart.ToplamMiktar.ToString("F1")
+                                        </td>
+
+                                    }
+
+
+
+                                </tr>
+                    } }
+            </tbody>
+        </table>
+    </div>
+</div>
+

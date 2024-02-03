@@ -1,0 +1,83 @@
+﻿@model PolyBota.Web.Models.LayoutModel
+<div class="col-md-3 left_col menu_fixed">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+            <a href="@Url.Action("Index","Home",new{@Area=""})" class="site_title">
+             
+                   <img src="~/Resimler/logo.svg" style="height: 3rem" />
+               
+              
+                <span >POLY - BOTA</span>
+            </a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- menu profile quick info -->
+        <div class="profile clearfix">
+            <div class="profile_pic">
+                @if (Model.ResimUrl != null)
+                {
+                    <img src="@Url.Content(Model.ResimUrl)" class="img-circle profile_img" />
+                }
+                else
+                {
+                    <img src="~/Resimler/logo.svg" class="img-circle profile_img" />
+                }
+
+            </div>
+            <div class="profile_info">
+                <span>@Model.User.Title</span>
+                <h2>@Model.User.Name</h2>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <!-- /menu profile quick info -->
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+            <div class="menu_section">
+                <ul class="nav side-menu">
+
+                    @foreach (var item in Model.UserHeaderItemListe)
+                    {
+                        if (item.UserLinkList.Any(a => a.DetayLinkDurumu == 0))
+                        {
+
+                            <li>
+                                <a>
+                                    <i class="@item.LinkGrupTanim.IclassName"></i>
+                                    @Html.Raw(Model.LangShortDef == "en" ? item.LinkGrupTanim.LinkGrupTanimAdiEng : item.LinkGrupTanim.LinkGrupTanimAdi)
+
+                                    <span class="fa fa-chevron-down"></span>
+                                </a>
+                                <ul class="nav child_menu">
+                                    @foreach (var userLink in item.UserLinkList.Where(a => a.DetayLinkDurumu == 0).ToList())
+                                    {
+                                        <li>
+                                            <a href="@Url.Action(userLink.ActionName, userLink.ControllerName, new {@Area = userLink.AreaName})">
+                                                @Html.Raw(Model.LangShortDef == "en" ? userLink.LinkTanimAdiEng : userLink.LinkTanimAdi)
+                                            </a>
+                                        </li>
+                                    }
+
+
+                                </ul>
+                            </li>
+
+                        }
+                    }
+
+                 
+
+
+                </ul>
+            </div>
+
+
+        </div>
+       
+    </div>
+</div>

@@ -1,0 +1,228 @@
+﻿@model PolyBota.Web.Areas.Takip.Models.MakineTakipModel
+
+@{
+    ViewBag.Title = "MakineListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        @foreach (var bread in Model.DropBreadCrumbs)
+                        {
+                            <li class="breadcrumb-item"><a href="@Url.Action("MakineListe","Makine",new{id=bread.Id})">@bread.Tanim</a></li>
+                        }
+                        <li class="breadcrumb-item">@Model.Bolum.BolumAdi</li>
+
+                    </ol>
+                </nav>
+
+            </div>
+            <div class="clearfix">
+
+            </div>
+            <div class="x_content">
+                <form id="frm-analiz">
+
+                    <div class="row">
+
+
+
+
+                        <div class="col-md-8">
+                            <b>@Model.Bolum.BolumAdi</b>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="btn btn-group float-right" role="group">
+
+                                <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('11', '.', 0)">
+                                    <i class="fa fa-check-square"></i>
+                                </a>
+                                <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('11', '.', 1)">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        @{
+                            int t = -1;
+                            foreach (var mak in Model.StokKarts)
+                            {
+                                t++;
+                                @Html.HiddenFor(a => a.StokKarts[t].Id)
+                                <div class="col-md-3">
+                                    <h5>
+                                        <label>
+                                            @Html.CheckBoxFor(a => a.StokKarts[t].SeciliMi, new { @class = "11" })
+                                            @mak.StokTanimAdi
+                                        </label>
+                                    </h5>
+                                </div>
+
+                            }
+                        }
+
+                    </div>
+                    @foreach (var prGrup in Model.PeriyotTipiTanims)
+                    {
+                <div class="row">
+                    <div class="col-md-12">
+                        <hr/>
+                        <b>@prGrup.PeriyotTipiAdi</b>
+                        <div class="btn btn-group float-right" role="group">
+
+                            <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('@prGrup.Id', '.', 0)">
+                                <i class="fa fa-check-square"></i>
+                            </a>
+                            <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('@prGrup.Id', '.', 1)">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    @foreach (var item in Model.PeriyotTanims.Where(a => a.PeriyotTipi == prGrup.Id))
+                    {
+                        var h = Model.PeriyotTanims.IndexOf(item);
+                        @Html.HiddenFor(a => a.PeriyotTanims[h].Id)
+                        <div class="col-md-2">
+                            <label>
+                                @Html.CheckBoxFor(a => a.PeriyotTanims[h].SeciliMi,new{@class= prGrup.Id }) @item.PeriyotTanimAdi
+                            </label>
+                        </div>
+
+                    }
+                </div>
+                    }
+                    <div class="row">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> Başlangıç Tarihi </b>
+                                @Html.TextBoxFor(x => x.BaslangisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                                {
+                                    @class = "form-control",
+
+                                    @type = "datetime-local"
+                                })
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> Bitiş Tarihi </b>
+                                @Html.TextBoxFor(x => x.BitisTarihi, "{0:yyyy-MM-ddTHH:mm:ss}", new
+                                {
+                                    @class = "form-control",
+
+                                    @type = "datetime-local"
+                                })
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> Gösterim Şekli </b>
+                                <div class="row">
+
+                                    @foreach (var gosterim in Model.GosterimList)
+                                    {
+                                        <div class="col-md-4">
+                                            <label>@Html.RadioButtonFor(a => a.GosterimSekli, gosterim.Id) @gosterim.Tanim </label>
+                                        </div>
+                                    }
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> &nbsp; </b>
+                                <a href="javascript:" class="btn btn-secondary btn-block" onclick="frmAnaliz()">Takvimi Göster</a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="alan-summary">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/Scripts/TableExport.js"></script>
+    <script>
+        function frmAnaliz() {
+            var data = $("#frm-analiz").serialize();
+            var url = "/Takip/Makine/MakineBolumAnaliz";
+
+            var alan = $("#alan-summary");
+
+            alan.empty();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function (result) {
+                    alan.append(result);
+                    Yenile();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+        function Yonlendir(id, tip) {
+
+            var url = "";
+            var mesaj = "";
+
+            if (tip == 1) {
+                mesaj = "Makine Bakım Takvimine Yönlendirilmesini Onaylıyor musunuz ?";
+                url = "/Kart/Operasyon/KartOperasyonlar/" + id;
+            }
+            if (tip == 2) {
+                mesaj = "Makine Duruşlarına Yönlendirilmesini Onaylıyor musunuz ?";
+                url = "/Takip/Durus/MakineDurus/" + id;
+            }
+            Swal.fire({
+                title: mesaj,
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.open(url, '_blank');
+
+
+                }
+            });
+
+        }
+    </script>
+}

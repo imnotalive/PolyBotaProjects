@@ -1,0 +1,30 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+@{
+    var i = Model.indexId;
+
+}
+@Html.HiddenFor(a=>a.ArizaPotaKartSecimModels[i].BilesenVarMi)
+@if (Model.ArizaPotaKartSecimModels[i].PotaKartId != 0 && Model.ArizaPotaKartSecimModels[i].BilesenVarMi)
+{
+    int j = -1;
+    <div class="row">
+        <div class="col-md-12">
+          
+        </div>
+        @foreach (var araModelItem in Model.ArizaPotaKartSecimModels[i].PotaKartBilesenModels)
+        {
+            j++;
+
+            <div class="col-md-12">
+                <div class="form-group">
+                    <b>@araModelItem.BilesenHeader.BilesenHeaderAdi</b>
+                    @Html.DropDownListFor(a => a.ArizaPotaKartSecimModels[i].PotaKartBilesenModels[j].SecilenBilesenItemId,
+                        new SelectList(araModelItem.DropPotaKartBilesenItems, "Id", "Tanim", araModelItem.SecilenBilesenItemId),
+                        new {@class = "form-control secimGerekir"})
+                </div>
+            </div>
+        }
+    </div>
+
+}

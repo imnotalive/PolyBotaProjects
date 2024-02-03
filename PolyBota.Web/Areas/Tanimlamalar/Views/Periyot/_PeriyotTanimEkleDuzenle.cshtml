@@ -1,0 +1,88 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaPeriyotModel
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.Id == 0 ? "YENİ KAYIT" : "KAYIT DÜZENLE")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+
+    @using (Html.BeginForm("PeriyotTanimEkleDuzenle", "Periyot"))
+    {
+        @Html.HiddenFor(a => a.PeriyotTanim.Id)
+       
+        <div class="modal-body">
+            <div class="row">
+
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Tanım Adı</b>
+                        @Html.TextBoxFor(a => a.PeriyotTanim.PeriyotTanimAdi, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Periyot Dönemi (Hafta)</b>
+                        @Html.TextBoxFor(a => a.PeriyotTanim.PeriyotDonemi, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <b>Bildirim Dönemi (Hafta)</b>
+                        @Html.TextBoxFor(a => a.PeriyotTanim.BildirimDonemi, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="row">
+                            @foreach (var item in Model.PeriyotTipiTanims)
+                            {
+                                <div class="col-md-4">
+                                    <label>@Html.RadioButtonFor(a => a.PeriyotTanim.PeriyotTipi, item.Id) @item.PeriyotTipiAdi</label>
+                                </div>
+                            }
+                        </div>
+                     
+                    </div>
+                </div>
+              
+              
+            
+             
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <b>Renk Seçimi</b>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.TextBoxFor(a => a.PeriyotTanim.RenkSecimi, new {@class = "form-control renk", @style= "background-color:"+Model.PeriyotTanim.RenkSecimi })
+                            </div>
+                        </div>
+                       
+                      
+                    </div>
+                </div>
+                <div class="col-md-12">
+
+                    <button type="submit" class="btn btn-block btn-success">KAYDET</button>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer ">
+            <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+        </div>
+    }
+
+
+
+</div>

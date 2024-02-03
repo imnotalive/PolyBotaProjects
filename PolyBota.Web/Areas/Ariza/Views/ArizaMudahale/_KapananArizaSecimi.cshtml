@@ -1,0 +1,11 @@
+﻿
+@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+<div class="form-group">
+    <b>PotaKart Seçimi</b>
+    @Html.DropDownListFor(a => a.DropItem.IdInt,
+
+        new SelectList(Model.PotaKarts, "Id", "PotaKartAdi"),
+
+            new { @class = "form-control",  id = "potakartId", onchange = "KapananArizaVePkSecimi()" })
+</div>

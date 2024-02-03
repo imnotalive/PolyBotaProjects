@@ -1,0 +1,65 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaArizaModel
+
+
+
+<div class="modal-body">
+    @using (Html.BeginForm("ArizaTanimAlternatifEkleDuzenle", "ArizaTemel"))
+    {
+        @Html.HiddenFor(a=>a.ArizaTanim.Id)
+        @Html.HiddenFor(a=>a.ArizaTanimArizaTechizatGrubu.Id)
+        @Html.HiddenFor(a=>a.ArizaTanimArizaTechizatGrubu.ArizaTechizatGrubuId)
+        <div class="row">
+            <div class="col-md-12">
+                <h6 class="text-center">Gerekli Bilgiler</h6>
+                <hr />
+            </div>
+
+            @{
+                int k = -1;
+                foreach (var techizat in Model.DropBilesenHeader)
+                {
+                    k++;
+                    int t = -1;
+                    string chkClass = "chk" + techizat.IdInt;
+
+                    @Html.HiddenFor(a => a.DropBilesenHeader[k].IdInt)
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <ul>
+                                <li>
+                                    <b>
+                                        <label>
+                                            @Html.CheckBoxFor(a => a.DropBilesenHeader[k].SeciliMi, new { @class = chkClass })
+                                            @techizat.Tanim
+                                        </label>
+                                    </b>
+
+                                    <ul>
+                                        @foreach (var item in techizat.ItemValues)
+                                        {
+                                            t++;
+                                            string chkId = "chkId" + item.Id;
+                                            <li>
+                                                @Html.HiddenFor(a => a.DropBilesenHeader[k].ItemValues[t].IdInt)
+                                                @Html.HiddenFor(a => a.DropBilesenHeader[k].ItemValues[t].IdInt)
+                                                @Html.HiddenFor(a => a.DropBilesenHeader[k].ItemValues[t].Id)
+                                                <label>
+                                                    @Html.CheckBoxFor(a => a.DropBilesenHeader[k].ItemValues[t].SeciliMi, new { @onclick = string.Format("CheckDegistir('#{0}','.{1}')", chkId, chkClass), @id = chkId }) @item.Text
+                                                </label>
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                }}
+
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-info btn-block">KAYDET</button>
+            </div>
+        </div>
+    }
+
+</div>

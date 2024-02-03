@@ -1,0 +1,266 @@
+﻿@model PolyBota.Web.Areas.Raporlama.Models.RaporlamaOperasyonModel
+
+@{
+    ViewBag.Title = "PlanlananListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h3>Planlanan Operasyonlar</h3>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Raporlama</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12  ">
+        <div class="x_panel">
+            <div class="x_title">
+
+
+
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <form id="frm-alan">
+                    <div class="row">
+
+                        @{int i = -1;
+                            foreach (var item in Model.PeriyotTanimKomponentTalimatGrupModels)
+                            {
+                                i++;
+                                int j = -1;
+                                string alanId = "alan" + i;
+
+                                <div class="col-md-12">
+
+                                    <div class="row">
+                                        @if (i != 0)
+                                        {
+                                            <div class="col-md-12">
+                                                <hr />
+                                            </div>
+
+                                        }
+
+                                        <div class="col-md-12">
+
+                                            <div class="float-left">
+                                                <h5 class="text-center text-info">@item.PeriyotTipiTanim.PeriyotTipiAdi</h5>
+                                            </div>
+                                            <div class="btn btn-group float-right" role="group">
+                                                <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('@alanId', '.', 0)">
+                                                    <i class="fa fa-check-square"></i>
+                                                </a>
+                                                <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('@alanId', '.', 1)">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                                <a href="javascript:" class="btn btn-sm btn-secondary" onclick="@string.Format("toggleCreate('{0}', '.')",alanId)">
+                                                    <i class="fas fa-shoe-prints"></i> Göster/Gizle
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 @alanId ">
+                                            <hr />
+                                        </div>
+                                        @foreach (var itt in item.DropPeriyotTanimKompGrups)
+                                        {
+                                            j++;
+                                            int k = -1;
+                                            string alanId2 = "alan2" + i.ToString() + j;
+
+                                            @Html.HiddenFor(a => a.PeriyotTanimKomponentTalimatGrupModels[i].DropPeriyotTanimKompGrups[j].IdInt)
+                                            <div class="col-md-4  @alanId tumAlan">
+                                                <div class="form-group">
+
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+
+                                                            <div class="float-left">
+                                                                <h5>@itt.Tanim</h5>
+                                                            </div>
+                                                            <div class="btn btn-group float-right" role="group">
+                                                                <a href="javascript:" class="btn btn-sm btn-success" onclick="checkAll('@alanId2', '.', 0)">
+                                                                    <i class="fa fa-check-square"></i>
+                                                                </a>
+                                                                <a href="javascript:" class="btn btn-sm btn-danger" onclick="checkAll('@alanId2', '.', 1)">
+                                                                    <i class="fa fa-times"></i>
+                                                                </a>
+
+                                                            </div>
+                                                        </div>
+                                                        @foreach (var ii in itt.ItemValues)
+                                                        {
+                                                            k++;
+                                                            <div class="col-md-12 @alanId2">
+                                                                <label>
+                                                                    @Html.CheckBoxFor(a => a.PeriyotTanimKomponentTalimatGrupModels[i].DropPeriyotTanimKompGrups[j].ItemValues[k].SeciliMi, new { @class = string.Format("{0} {1}", alanId, alanId2) })
+
+                                                                    @ii.Text
+                                                                </label>
+                                                            </div>
+
+                                                            @Html.HiddenFor(a => a.PeriyotTanimKomponentTalimatGrupModels[i].DropPeriyotTanimKompGrups[j].ItemValues[k].Id)
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }}
+
+
+
+
+
+
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr/>
+                            <h5>OPERASYON DURUMU</h5>
+                        </div>
+                        @for (int t = 0; t < Model.DropOperasyonDurumlari.Count; t++)
+                        {
+                            var drop = Model.DropOperasyonDurumlari[t];
+                            @Html.HiddenFor(a=>a.DropOperasyonDurumlari[t].Id)
+                            <div class="col-md-4">
+                            <label >
+                                @Html.CheckBoxFor(a=>a.DropOperasyonDurumlari[t].SeciliMi)
+                                <b class="@drop.Tanim2">@drop.Tanim</b>
+
+                            </label>
+                            </div>
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr />
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> Başlangıç Tarihi </b>
+                                @Html.TextBoxFor(x => x.BaslangisTarihi, "{0:yyyy-MM-dd}", new
+                                {
+                                    @class = "form-control",
+
+                                    @type = "date"
+                                })
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> Bitiş Tarihi </b>
+                                @Html.TextBoxFor(x => x.BitisTarihi, "{0:yyyy-MM-dd}", new
+                                {
+                                    @class = "form-control",
+
+                                    @type = "date"
+                                })
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> Gösterim Şekli </b>
+                                <div class="row">
+
+                                    @foreach (var gosterim in Model.GosterimList)
+                                    {
+                                        <div class="col-md-4">
+                                            <label>@Html.RadioButtonFor(a => a.GosterimSekli, gosterim.Id) @gosterim.Tanim </label>
+                                        </div>
+                                    }
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <b> &nbsp; </b>
+                                <a href="javascript:" class="btn btn-secondary btn-block" onclick="frmAnaliz()">Takvimi Göster</a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div id="alan-summary">
+                    @Html.Partial("_PlanlananAnalizSonuc")
+                </div>
+             
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="~/Scripts/TableExport.js"></script>
+    <script>
+        function frmAnaliz() {
+
+            var data = $("#frm-alan").serialize();
+            var url = "/Raporlama/Operasyon/PlanlananListeAnalizSonuc";
+            var alan = $("#alan-summary");
+
+            alan.empty();
+            alan.append("<h2>ANALİZ YAPILIYOR BEKLEYİNİZ</h2>");
+            TumunuToggle("tumAlan", ".", 0); 
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+
+                success: function (result) {
+                    TumunuToggle("tumAlan", ".", 1); 
+                    alan.empty();
+                    alan.append(result);
+                    Yenile();
+                },
+                error: function () {
+                    alert("hata oluştu");
+                }
+            });
+        }
+
+    </script>
+}

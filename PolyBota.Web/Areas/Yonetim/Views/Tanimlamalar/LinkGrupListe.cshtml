@@ -1,0 +1,76 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Yonetim.Models.TanimlamaModel
+
+@{
+    ViewBag.Title = "ModulListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    <i class="fas fa-save"></i>
+                    Yönetim Modülü
+                </h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <blockquote>
+                    <p>Link Grup Tanımları</p>
+                </blockquote>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="card">
+            
+     
+            <div class="pull-right m-1">
+
+                <a href="@Url.Action("LinkGrupEkleDuzenle", "Tanimlamalar",new{id=0})" class="btn btn-info">Yeni Kayıt</a>
+            
+            </div>
+            <div class="card-body">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                            <th>Modül Adı</th>
+                            <th>Link Grup Adı</th>
+                            <th>Link Grup Adı Eng</th>
+                            <th>Class</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model.LinkGrupTanimListe)
+                    {
+                        <tr>
+                            <td>@item.ModulAdi</td>
+                            <td>@item.LinkGrupTanimAdi</td>
+                            <td>@item.LinkGrupTanimAdiEng</td>
+                            <td><i class="@item.IclassName"></i>
+                            <td><a href="@Url.Action("LinkGrupEkleDuzenle", "Tanimlamalar",new{id=item.Id})" class="btn btn-info">Düzenle</a></td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer clearfix">
+            </div>
+        </div>
+    </div>
+</div>
+
+

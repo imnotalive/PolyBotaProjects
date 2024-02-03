@@ -1,0 +1,135 @@
+﻿@model  PolyBota.Web.Areas.Takip.Models.MakineTakipModel
+
+
+<div class="row">
+    <div class="col-md-12">
+        <hr />
+    </div>
+    <div class="col-md-12">
+        <div class="btn btn-group pull-right" role="group">
+
+            <a href="javascript:" class="btn btn-sm btn-danger" onclick="toggleCreate('toggleRow','.')">
+                <i class="fa fa-asterisk"></i>   Renk Açıklamalarını Göster
+            </a>
+            <a href="javascript:" onclick="exportTableToExcel('tblBakim', 'BAKIM-@DateTime.Now.ToString()')" class="btn btn-sm btn-info">
+                <i class="fa fa-download"></i> Excel olarak İndir
+            </a>
+        </div>
+    </div>
+</div>
+
+@foreach (var periyotGrup in Model.PeriyotTipiTanims)
+{
+    <div class="row toggleRow" style="display: none">
+        <div class="col-md-12">
+            <hr />
+            <b>@periyotGrup.PeriyotTipiAdi</b>
+
+        </div>
+        @foreach (var itemPeriyotTanim in Model.PeriyotTanims.Where(a => a.PeriyotTipi == periyotGrup.Id))
+        {
+            <div class="col-md-3 text-center">
+                <div style="background-color: @itemPeriyotTanim.RenkSecimi; padding: 3px">
+                    <b class="text-center beyaz">@string.Format("{0} - ({1} Hafta)", itemPeriyotTanim.PeriyotTanimAdi, itemPeriyotTanim.PeriyotDonemi)</b>
+                </div>
+            </div>
+        }
+    </div>
+
+}
+
+<div class="row">
+
+
+
+
+
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered" id="tblBakim">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th>Makine</th>
+                    @foreach (var sutun in Model.TableHeaderlar)
+                    {
+                        <th>@sutun.Tanim</th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var satir in Model.TakipTakvimModels)
+                {
+                    <tr>
+
+                        @foreach (var sutun in satir)
+                        {
+                            if (sutun == satir.First())
+                            {
+                                <td>
+                                    <a href="javascript:" class="badge badge-warning beyaz" onclick="Yonlendir(@sutun.StokKart.Id, 2)">
+                                        <i class="fa fa-stop"></i>
+                                    </a>
+                                    <a href="javascript:" class="badge badge-success" onclick="Yonlendir(@sutun.StokKart.Id, 1)">
+                                        <i class="fa fa-tools"></i>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    @sutun.StokKart.StokTanimAdi
+
+                                </td>
+                            }
+                            else
+                            {
+
+                                <td>
+
+
+                                    @foreach (var operasyon in sutun.StokKartOperasyons)
+                                    {
+
+                                        string badgeClass = "secondary";
+
+                                        if (operasyon.OperasyonDurumu == 2)
+                                        {
+                                            badgeClass = "success";
+                                        }
+                                        if (operasyon.Id != 0)
+                                        {
+                                            if (Model.KomponentTalimatGrups.Any(a => a.Id == operasyon.KomponentTalimatGrupId))
+                                            {
+                                                var talimatGrup = Model.KomponentTalimatGrups.First(a => a.Id == operasyon.KomponentTalimatGrupId);
+
+                                                var periyot = Model.PeriyotTanims.First(a => a.Id == talimatGrup.PeriyotTanimId);
+
+                                                <a href="javascript:" class="btn btn-sm beyaz" onclick="Yonlendir(@operasyon.StokKartId, 1)" style="background-color: @periyot.RenkSecimi;"> @periyot.PeriyotTanimAdi</a>
+                                            }
+
+                                        }
+
+                                    }
+
+                                    @foreach (var durus in sutun.StokKartDurus)
+                                    {
+                                        if (durus.Id != 0)
+                                        {
+                                            var durusAdi = Model.DurusTipiTanims.First(a => a.Id == durus.DurusTipi).DurusTipi;
+                                            <a href="javascript:" class="btn btn-sm btn-warning beyaz" onclick="Yonlendir(@durus.StokKartId, 2)"> MD</a>
+
+
+                                        }
+                                    }
+                                </td>
+                            }
+
+                        }
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Ariza.Models.ArizaMudahaleModel
+
+<div class="row">
+    <div class="col-sm-12">
+
+
+        <b class="text-right float-right">Son Güncelleme: @DateTime.Now</b>
+    </div>
+
+</div>
+
+<form id="thFiltre">
+    <div class="row w-100">
+        <div class="col-md-12 table-responsive">
+            <table class="table table-bordered table-sm" id="tblBakim">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Durumu</th>
+                        <th>Kayıt Tarihi</th>
+                        <th>Arıza Grubu</th>
+                        <th>Arıza Tanımı</th>
+
+                        <th>Arıza Detayları</th>
+
+
+                        <th>Not</th>
+
+                    </tr>
+
+                    <tr>
+
+
+
+
+                        <th>
+                            <a href="javascript:" onclick="CiktiAl('tblCikti')" class="btn btn-sm btn-warning">
+                                <i class="fa fa-download"></i>Çıktı Al
+                            </a>
+
+                        </th>
+                        <th></th>
+                        <th>
+                            @Html.ListBoxFor(a => a.DropFiltreKullanici.IntList, Model.DropFiltreKullanici.ItemValues.Select(a => new SelectListItem()
+                            {
+                                Text = a.Text,
+                                Value = a.IdInt.ToString()
+                            }), new { @onchange = "FiltreDegistir()" })
+                        </th>
+                        <th>
+                            @Html.ListBoxFor(a => a.DropFiltreArizaGrubu.IntList, Model.DropFiltreArizaGrubu.ItemValues.Select(a => new SelectListItem()
+                            {
+                                Text = a.Text,
+                                Value = a.IdInt.ToString()
+                            }), new { @onchange = "FiltreDegistir()" })
+                        </th>
+                        <th>
+                            @Html.ListBoxFor(a => a.DropFiltreArizaTanimi.IntList, Model.DropFiltreArizaTanimi.ItemValues.Select(a => new SelectListItem()
+                            {
+                                Text = a.Text,
+                                Value = a.IdInt.ToString()
+                            }), new { @onchange = "FiltreDegistir()" })
+                        </th>
+                        <th>
+                            @Html.ListBoxFor(a => a.DropFiltrePotaKart.IntList, Model.DropFiltrePotaKart.ItemValues.Select(a => new SelectListItem()
+                            {
+                                Text = a.Text,
+                                Value = a.IdInt.ToString()
+                            }), new { @onchange = "FiltreDegistir()" })
+                        </th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody class="" id="tableFiltre">
+                    @Html.Partial("_ArizaMudahaleTbody", Model)
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</form>
+
+
+

@@ -1,0 +1,300 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaArizaModel
+
+@{
+    ViewBag.Title = "ArizaTanimListeArizaTechizataGore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<input type="hidden" value="@Model.PagedListSrcn.CurrentPage" id="currentPage" />
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Arıza Tanım Techizata Göre  Liste</h5>
+
+        </div>
+        <div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+                <a class="btn btn-warning btn-sm" href="@Url.Action("ArizaTanimListe")"><i class="fa fa-exclamation-circle"></i> Arıza Tanım Grubuna Göre Listele</a>
+               
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Arıza Tanım Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href="@Url.Action("ArizaTanimEkleDuzenle")" class="btn btn-info">Yeni Kayıt</a>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h2>
+                            Arıza Tanım Techizata Göre Listesi
+                        </h2>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="ARIZA TANIM ARA" onkeyup="ArizaTanimAra()" id="txtSearch" autocomplete="OFF" />
+                        
+                        <div id="tanim-ara">
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-3">
+                        <b>Arıza Techizat Grubu</b>
+                        @Html.DropDownListFor(a => a.KatId, Model.ArizaTechizatGrubuTanims.Select(a => new SelectListItem()
+                        {
+                            Text = a.ArizaTechizatGrubuAdi.ToString(),
+                            Value = a.Id.ToString()
+                        }), new { @class = "form-control", @id = "pageKatId", @onchange = "KategoriDegistir()" })
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="">
+
+
+                            <b>&nbsp;</b>
+                            <ul class="pagination d-flex justify-content-center">
+                                <li class="page-item">
+                                    <a href="@Url.Action("ArizaTanimListeArizaTechizataGore", "ArizaTemel", new {@CurrentPage = 1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" aria-label="Previous" class="page-link">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                @foreach (var i in Model.PagedListSrcn.PageNumberList)
+                                {
+                                    string aktifClass = "";
+                                    if (i == Model.PagedListSrcn.CurrentPage)
+                                    {
+                                        aktifClass = "active";
+                                    }
+                                    <li class="page-item @aktifClass"><a href="@Url.Action("ArizaTanimListeArizaTechizataGore", "ArizaTemel", new {@CurrentPage = i, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" class="page-link">@i</a></li>
+
+                                }
+
+                                <li class="page-item">
+                                    <a href="@Url.Action("ArizaTanimListeArizaTechizataGore", "ArizaTemel", new {@CurrentPage = -1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" aria-label="Next" class="page-link">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-3">
+                        <b>Gösterim Sayısı</b>
+                        @Html.DropDownListFor(a => a.PagedListSrcn.PageShowCount,
+
+                            Model.PagedListSrcn.PageSizeSelectList.Select(a => new SelectListItem() { Text = a.Tanim.ToString(), Value = a.Tanim.ToString() }),
+                            new { @class = "form-control", @id = "pageshowCount", onchange = string.Format("GosterimDegistir({0})", Model.KatId) })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+
+                        <table class="table table-sm table-bordered">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Arıza Techizat Grubu</th>
+                                    <th>Arıza Tanım Grubu</th>
+                                    <th>Arıza Tanımı</th>
+                                 
+                                    <th></th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int t = 0;
+                                    if (Model.PagedListSrcn.CurrentPage > 1)
+                                    {
+                                        t = (Model.PagedListSrcn.CurrentPage-1) * (Model.PagedListSrcn.PageShowCount);
+                                    }
+
+                                    foreach (var item in Model.DropItems2)
+                                    {
+                                        t++;
+
+                                      
+
+                                    
+
+                                        <tr>
+
+                                            <td>@t</td>
+                                            <td class="">
+                                              
+                                                <b class="badge badge-danger">@item.Tanim1</b>
+                                            </td>
+                                            <td>
+                                              
+                                                @item.Tanim2
+                                            </td>
+                                            <td>
+                                               
+                                                <b class="text-primary">
+                                                    @item.Tanim3
+                                                </b>
+
+                                            </td>
+                                         
+                                        
+
+
+                                            <td>
+                                                <a href="@Url.Action("ArizaTanimEkleDuzenle","ArizaTemel",new{id=item.Id})" class="btn btn-info">Düzenle</a>
+                                            </td>
+                                           
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script>
+        function SayfayiYonlendir(PageshowCount, CurrentPage, katId) {
+
+
+            var url = "/Tanimlamalar/ArizaTemel/ArizaTanimListeArizaTechizataGore?";
+            url += "CurrentPage=" + CurrentPage;
+            url += "&PageShowCount=" + PageshowCount;
+            url += "&katId=" + katId;
+
+            window.location.href = url;
+
+        }
+
+        function GosterimDegistir(katId) {
+
+            var PageshowCount = $("#pageshowCount").val();
+
+            SayfayiYonlendir(PageshowCount, 1, katId);
+        }
+        function KategoriDegistir() {
+
+            var katId = $("#pageKatId").val();
+            var PageshowCount = $("#pageshowCount").val();
+
+            SayfayiYonlendir(PageshowCount, 1, katId);
+        }
+
+        function StokAra() {
+            var id = $("#txtSearch").val();
+            var alan = $("#stok-ara");
+            alan.empty();
+            var url = "/Kart/KartPota/PotaKartAra2?str=" + id;
+            $.get(url,
+                function (data) {
+
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+
+        }
+
+
+        function ModalGoster(id) {
+            var url = "/Tanimlamalar/ArizaTemel/ArizaTanimEkleDuzenle/" + id;
+
+            $.get(url,
+                function (data) {
+
+                    var alan = $("#modal-summary");
+                    alan.empty();
+                    alan.append(data);
+                    Yenile();
+                });
+        }
+
+        
+
+        function ArizaTanimSil(id) {
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    var url = "/Tanimlamalar/ArizaTemel/ArizaTanimSil/" + id;
+                    window.location.href = url;
+                }
+            });
+        }
+
+        function ArizaTanimAra() {
+            var id = $("#txtSearch").val();
+            var alan = $("#tanim-ara");
+            alan.empty();
+            if (id.length) {
+                var url = "/Tanimlamalar/ArizaTemel/ArizaTanimAra";
+
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {"id":id},
+                    success: function (result) {
+                        alan.empty();
+                        alan.append(result);
+                        Yenile();
+
+                    },
+                    error: function () {
+                        alert("hata oluştu");
+                    }
+                });
+            }
+            
+        }
+    </script>
+}
+

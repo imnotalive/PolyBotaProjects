@@ -1,0 +1,154 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaTechizatTuruModel
+
+@{
+    ViewBag.Title = "TechizatTuruDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@helper ListOlustur(int id)
+{
+    var lst = Model.DropTechizatTuruTanims.Where(a => a.BagliOlduguId == id).ToList();
+    if (lst.Any())
+    {
+        <ul>
+            @foreach (var item in lst)
+            {
+            <li>
+                <div class="row">
+                    <div class="col-md-6">
+                        @item.Tanim
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn btn-group btn-group-sm float-right" role="group">
+                            <a class="btn btn-success btn-sm beyaz"><i class="fa fa-plus"></i></a>
+                            <a class="btn btn-info btn-sm beyaz"><i class="fas fa-level-up-alt"></i></a>
+                            <a class="btn btn-warning btn-sm beyaz"><i class="fa fa-pencil-alt"></i></a>
+                            <a class="btn btn-danger btn-sm beyaz"><i class="fa fa-trash"></i></a>
+
+                        </div>
+                    </div>
+                </div>
+                @ListOlustur(item.IdInt)
+            </li>
+            }
+          
+        </ul>
+    }
+}
+
+    <div class="page-title">
+        <div class="col-md-8 col-sm-12">
+            <div class="col-md-6">
+                <h5>Techizat Türü Tanım Detay</h5>
+
+            </div>
+            <Div class="col-md-6">
+                <div class="btn btn-group" role="group">
+                    <a class="btn btn-secondary btn-sm" href="@Url.Action("TechizatTuruListe")"><i class="fa fa-reply-all"></i> Geri</a>
+                    <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+              
+
+                </div>
+            </Div>
+
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+
+                        <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                        <li class="breadcrumb-item active" aria-current="page">Techizat Türü Tanım Detay</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+            <div class="x_panel">
+
+                <div class="x_content">
+                 
+                    <div class="row">
+                      
+                        <div class="col-md-6">
+                          @using (Html.BeginForm("TechizatTuruDetay", "TanimlamaTechizatTuru"))
+                          {
+                              @Html.HiddenFor(a=>a.TechizatTuruTanim.Id)
+
+                              <div class="form-group">
+                                  <b>Bağlı Olduğu Tanım</b>
+                                  @Html.DropDownListFor(a=>a.TechizatTuruTanim.BagliOlduguId,Model.DropTechizatTuruTanims.Select(a=> new SelectListItem()
+                                  {
+                                      Text = a.Tanim,
+                                      Value = a.Id
+                                  }), new {@class="form-control"})
+                              </div>
+
+                              <div class="form-group">
+                                  <b>Tanım Adı</b>
+                                  @Html.TextBoxFor(a=>a.TechizatTuruTanim.TechizatTuruTanimAdi, new {@class="form-control"})
+                              </div>
+
+                              <div class="form-group">
+                                  <b>Gerekli Bileşenler</b>
+                                  <div class="row">
+                                      @for (int i = 0; i < Model.BilesenHeaders.Count; i++)
+                                      {
+                                          <div class="col-md-6">
+                                              @Html.HiddenFor(a=>a.BilesenHeaders[i].Id)
+                                          
+                                              <label>
+                                                  @Html.CheckBoxFor(a => a.BilesenHeaders[i].SeciliMi)
+
+                                                  @Model.BilesenHeaders[i].BilesenHeaderAdi
+                                              </label>
+                                          </div>
+                                      }
+                                
+                                  </div>
+                              </div>
+
+                              <div class="form-group">
+                               <button type="submit" class="btn btn-block btn-info">KAYDET</button>
+                              </div>
+                          }
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul>
+                                        @{
+                                            var tanim = "Ana Tanım";
+                                            if (Model.DropTechizatTuruTanims.Any(a => a.IdInt == Model.TechizatTuruTanim.BagliOlduguId))
+                                            {
+                                                tanim = Model.DropTechizatTuruTanims.First(a => a.IdInt == Model.TechizatTuruTanim.BagliOlduguId).Tanim;
+                                            }
+                                        }
+                                        <li><b class="text-danger">@tanim</b>
+                                            
+                                            <ul>
+                                                <li>
+                                                    <b class="text-info"> @Model.TechizatTuruTanim.TechizatTuruTanimAdi</b>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        
+                                       
+                                    </ul>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

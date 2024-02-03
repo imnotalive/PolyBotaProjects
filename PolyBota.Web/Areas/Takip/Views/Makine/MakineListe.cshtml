@@ -1,0 +1,72 @@
+﻿@model PolyBota.Web.Areas.Takip.Models.MakineTakipModel
+
+@{
+    ViewBag.Title = "MakineListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+            
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        @foreach (var bread in Model.DropBreadCrumbs)
+                        {
+                            <li class="breadcrumb-item"><a href="@Url.Action("MakineListe","Makine",new{id=bread.Id})">@bread.Tanim</a></li>
+                        }
+
+                       
+                      
+                    </ol>
+                </nav>
+
+            </div>
+            <div class="clearfix">
+
+            </div>
+            <div class="x_content">
+                @if (Model.Departmans.Any())
+                {
+                    <div class="row">
+                        @foreach (var dept in Model.Departmans)
+                        {
+                            <div class="col-md-2">
+                                <a href="@Url.Action("MakineListe", "Makine", new {id = dept.Id})" class="btn">
+
+                                    <img src="~/Resimler/file.png" class="img-thumbnail img-responsive" style="width:100%" />
+
+                                    <b class="text-center">  @dept.DepartmanAdi</b>
+                                </a>
+                            </div>
+                        }
+                      
+                    </div>
+                }
+                else
+                {
+                    if (Model.Bolums.Any())
+                    {
+                        <div class="row">
+                            @foreach (var bolum in Model.Bolums)
+                            {
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("MakineBolumListe", "Makine", new {id = bolum.Id})" class="btn">
+
+                                        <img src="~/Resimler/file.png" class="img-thumbnail img-responsive" style="width:100%" />
+
+                                        <b class="text-center">  @bolum.BolumAdi</b>
+                                    </a>
+                                </div>
+                            }
+                      
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+

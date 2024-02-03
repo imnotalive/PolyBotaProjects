@@ -1,0 +1,58 @@
+﻿@model PolyBota.Web.Models.LayoutModel
+
+
+
+
+@foreach (var item in Model.DropBildirimLinkler)
+{
+
+    <li class="nav-item">
+        <a href="@item.Id" class="user-profile nav-link">
+            <img src="@Url.Content(item.Tanim)" class="bounceEffect" />
+        </a>
+    </li>
+}
+
+
+
+
+
+<li class="nav-item dropdown">
+    <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-bell"></i>
+        <span class="user-profile dropdown-toggle navbar-badge" style="color: #000;">
+            @if (Model.ResimUrl != null)
+            {
+                <img src="@Url.Content(Model.ResimUrl)" />
+            }
+            else
+            {
+                <img src="~/Resimler/logo.svg" />
+            }
+            @Model.User.Name
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+       
+        <a href="/UserHome/KisiselBilgi" class="dropdown-item">Kişisel Bilgilerim</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/User/LogOut"><i class="fa fa-sign-out pull-right"></i> Çıkış Yap</a>
+
+    </div>
+</li>
+
+@*
+    <li class="nav-item">
+        <a href="/UserHome/Bildirim" class="user-profile nav-link">
+            <img src="~/Resimler/red-belly.png" class="bounceEffect" />
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/UserHome/Bildirim" class="user-profile nav-link ">
+            <img src="~/Resimler/fail.svg" class="bounceEffect text-danger" />
+        </a>
+
+
+    </li>
+
+*@

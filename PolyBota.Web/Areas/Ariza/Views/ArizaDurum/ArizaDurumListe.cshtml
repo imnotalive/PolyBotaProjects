@@ -1,0 +1,341 @@
+﻿@using PolyBota.DAL
+@model PolyBota.Web.Areas.Ariza.Models.ArizaDurumModel
+
+@{
+    ViewBag.Title = "ArizaDurumListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int kapatmaOnayiBekleyenDurumId = 3;
+    int tamamlandiDurumId = 5;
+}
+
+<input type="hidden" value="@Model.PagedListSrcn.CurrentPage" id="currentPage" />
+
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Arıza Durumları</h5>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Arıza Durumları</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+
+
+                    <div class="col-md-3">
+                        <h2>
+                            Arıza Durumları
+                        </h2>
+                    </div>
+
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    @*@foreach (var item in Model.ArizaDurumuTanims)
+                        {
+                            <div class="col-md-3">
+                                <a href="javascreipt:" class="btn btn-danger btn-block">@item.ArizaDurumuAdi</a>
+                            </div>
+                        }*@
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <b>Arıza Durumu</b>
+                        @Html.DropDownListFor(a => a.KatId, Model.ArizaDurumuTanims.Select(a => new SelectListItem()
+                        {
+                            Text = a.ArizaDurumuAdi.ToString(),
+                            Value = a.Id.ToString()
+                        }), new { @class = "form-control", @id = "pageKatId", @onchange = "KategoriDegistir()" })
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="">
+
+
+                            <b>&nbsp;</b>
+                            <ul class="pagination d-flex justify-content-center">
+                                <li class="page-item">
+                                    <a href="@Url.Action("ArizaDurumListe", "ArizaDurum", new {@CurrentPage = 1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" aria-label="Previous" class="page-link">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                @foreach (var i in Model.PagedListSrcn.PageNumberList)
+                                {
+                                    string aktifClass = "";
+                                    if (i == Model.PagedListSrcn.CurrentPage)
+                                    {
+                                        aktifClass = "active";
+                                    }
+                                    <li class="page-item @aktifClass"><a href="@Url.Action("ArizaDurumListe", "ArizaDurum", new {@CurrentPage = i, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" class="page-link">@i</a></li>
+
+                                }
+
+                                <li class="page-item">
+                                    <a href="@Url.Action("ArizaDurumListe", "ArizaDurum", new {@CurrentPage = -1, @PageShowCount = Model.PagedListSrcn.PageShowCount, @katId = Model.KatId})" aria-label="Next" class="page-link">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-3">
+                        <b>Gösterim Sayısı</b>
+                        @Html.DropDownListFor(a => a.PagedListSrcn.PageShowCount,
+                            Model.PagedListSrcn.PageSizeSelectList.Select(a => new SelectListItem() { Text = a.Tanim.ToString(), Value = a.Tanim.ToString() }),
+                            new { @class = "form-control", @id = "pageshowCount", onchange = string.Format("GosterimDegistir({0})", Model.KatId) })
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-12 table-responsive">
+
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Ariza No</th>
+                                    <th>Kayıt Tarihi</th>
+                                    <th>Arıza Tanımı</th>
+
+                                    <th>Arıza Detayları</th>
+
+                                    <th>Not</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int t = 0;
+                                    if (Model.PagedListSrcn.CurrentPage > 1)
+                                    {
+                                        t = Model.PagedListSrcn.CurrentPage * Model.PagedListSrcn.PageShowCount;
+                                    }
+
+                                    foreach (var item in Model.ArizaDurumModelItems)
+                                    {
+                                        t++;
+
+                                        string grup = "";
+
+                                        <tr>
+
+                                            <td>@t</td>
+                                            <td>@item.ArizaBildirimHeader.Id</td>
+                                            <td>
+                                                @item.ArizaBildirimHeader.KayitTarihi
+                                            <br />
+                                            <small>@item.User.Name</small>
+                                        </td>
+                                            <td>
+                                                @item.AcilanArizaTanim.ArizaTanimAdi
+                                                
+                                                @if (!string.IsNullOrWhiteSpace(item.ArizaBildirimHeader.AcilanArizaNotu))
+                                                {
+                                                    <br/>
+                                                    <small>
+                                                    (@item.ArizaBildirimHeader.AcilanArizaNotu)
+                                                    </small>
+                                                }
+
+                                            </td>
+                                        <td>
+                                            <ul>
+                                                @foreach (var ozet in item.ArizaBildirimItems)
+                                                {
+                                                    var techizat = "";
+                                                    var potaKart = "";
+                                                    var bilesenHeaderAdi = "";
+                                                    var bilesenItemAdi = "";
+                                                    var bilesenItem = new BilesenItem();
+
+                                                    if (ozet.TechizatTuruId != 0)
+                                                    {
+                                                        techizat = Model.TechizatTuruTanims.First(a => a.Id == ozet.TechizatTuruId).TechizatTuruTanimAdi;
+                                                    }
+                                                    if (ozet.PotaKartId != 0)
+                                                    {
+                                                        potaKart = Model.PotaKarts.First(a => a.Id == ozet.PotaKartId).PotaKartAdi;
+                                                    }
+
+                                                    if (ozet.BilesenHeaderId != 0)
+                                                    {
+                                                        bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == ozet.BilesenHeaderId).BilesenHeaderAdi;
+                                                    }
+                                                    if (ozet.BilesenItemId != 0)
+                                                    {
+
+                                                        bilesenItem = Model.BilesenItems.First(a => a.Id == ozet.BilesenItemId);
+                                                        bilesenItemAdi = bilesenItem.BilesenDegeri;
+                                                        if (string.IsNullOrEmpty(bilesenHeaderAdi))
+                                                        {
+                                                            bilesenHeaderAdi = Model.BilesenHeaders.First(a => a.Id == bilesenItem.BilesenHeaderId).BilesenHeaderAdi;
+                                                        }
+                                                        bilesenItemAdi = string.Format("{0}: <b class='text-danger'>{1}</b>", bilesenHeaderAdi, bilesenItemAdi);
+
+
+                                                    }
+
+                                                    <li>
+                                                        <div class="row">
+                                                            <div class="col-md-6 text-left"><b class="">@potaKart</b></div>
+                                                            <div class="col-md-6 text-left">@Html.Raw(bilesenItemAdi)</div>
+                                                        </div>
+                                                    </li>
+
+
+                                                }
+                                            </ul>
+
+                                        </td>
+                                       
+                                        <td>@item.ArizaBildirimHeader.KapananArizaNotu</td>
+                                            <td>
+
+                                                @if (item.ArizaBildirimHeader.ArizaDurumu == tamamlandiDurumId)
+                                                {
+                                                    <a href="javascript:" class="btn btn-success btn-block" onclick="arizaDurumDegistir(@item.ArizaBildirimHeader.Id, 1)">Arızayı Yeniden Aç</a>
+                                                }
+                                                else
+                                                {
+                                                    if (item.ArizaBildirimHeader.ArizaDurumu == kapatmaOnayiBekleyenDurumId)
+                                                    {
+                                                        <div class="btn-group w-100">
+                                                            
+                                                            <a href="javascript:" class="btn btn-success " onclick="arizaDurumDegistir(@item.ArizaBildirimHeader.Id, 5)"><i class="fa fa-check-circle"></i> Arıza Giderildi Yap</a>
+                                                            <a href="javascript:" class="btn btn-warning " onclick="arizaDurumDegistir(@item.ArizaBildirimHeader.Id, 1)"> <i class="fa fa-exclamation-circle"></i> Açık Arıza Olarak Güncelle</a>
+                                                        </div>
+                                                       
+                                                    }
+                                                    else
+                                                    {
+                                                        foreach (var arizaDurumuTanim in Model.ArizaDurumuTanims)
+                                                        {
+                                                            if (arizaDurumuTanim.Id == item.ArizaBildirimHeader.ArizaDurumu)
+                                                            {
+                                                                <label> @arizaDurumuTanim.ArizaDurumuAdi</label>
+                                                                break;
+
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+                                            </td>
+                                            <td>
+                                                @if (item.ArizaBildirimHeader.SilinsinMi == 0)
+                                                {
+                                                    <a href="javascript:" class="btn btn-sm btn-danger" onclick="SilmeTalebiGuncelle(@item.ArizaBildirimHeader.Id,2)">Silme Talebi Oluştur</a>
+                                                }
+
+                                                @if (item.ArizaBildirimHeader.SilinsinMi == 2)
+                                                {
+                                                    <div class="btn-group">
+                                                        <a href="javascript:" class="btn btn-sm btn-warning">Silme Talebi Oluşturuldu</a>
+                                                        <a href="javascript:" class="btn btn-sm btn-success" onclick="SilmeTalebiGuncelle(@item.ArizaBildirimHeader.Id,0)">Talebi İptal Et</a>
+                                                    </div>
+
+                                                }
+                                            </td>
+
+                                    </tr>
+                                }
+                                }
+                            </tbody>
+                        </table>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function SayfayiYonlendir(PageshowCount, CurrentPage, katId) {
+
+
+            var url = "/Ariza/ArizaDurum/ArizaDurumListe?";
+            url += "CurrentPage=" + CurrentPage;
+            url += "&PageShowCount=" + PageshowCount;
+            url += "&katId=" + katId;
+
+            window.location.href = url;
+
+        }
+
+        function GosterimDegistir(katId) {
+
+            var PageshowCount = $("#pageshowCount").val();
+
+            SayfayiYonlendir(PageshowCount, 1, katId);
+        }
+        function KategoriDegistir() {
+
+            var katId = $("#pageKatId").val();
+            var PageshowCount = $("#pageshowCount").val();
+
+            SayfayiYonlendir(PageshowCount, 1, katId);
+        }
+
+
+        function SilmeTalebiGuncelle(id, durumId) {
+            var url = "/Ariza/ArizaDurum/SilmeTalebiGuncelle?id=" + id + "&durumId=" + durumId;
+            $.get(url,
+                function (data) {
+                    location.reload();
+                });
+        }
+
+       
+        function arizaDurumDegistir(id, durumId) {
+            var url = "/Ariza/ArizaDurum/ArizaDurumDegistir?id=" + id + "&durumId=" + durumId;
+            $.get(url,
+                function (data) {
+                    location.reload();
+                });
+        }
+    </script>
+}

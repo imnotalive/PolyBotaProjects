@@ -1,0 +1,15 @@
+﻿@model PolyBota.Web.Areas.Endustri.Models.ZamanEtuduModel
+
+
+
+
+    <div class="form-group">
+        <b>Bileşen Seçimi</b>
+        @Html.DropDownListFor(a => a.ZamanEtuduModelItem.ZamanEtuduItem.BilesenItemId, Model.ZamanEtuduModelItem.DropItems.Select(a => new SelectListItem()
+        {
+            Text = a.Tanim,
+            Value = a.Id
+        }), new { @class = "form-control" })
+    </div>
+
+

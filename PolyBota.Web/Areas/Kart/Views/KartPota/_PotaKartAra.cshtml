@@ -1,0 +1,22 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartPotaModel
+
+
+
+<div class="row">
+    @if (Model.PotaKarts.Any())
+    {
+        foreach (var item in Model.PotaKarts)
+        {
+            <div class="col-md-6">
+                <a href="javascript:" class="btn btn-outline-info btn-block" onclick="IslemiYap(@item.Id, 1)">
+                    @item.PotaKartAdi - (@item.PotaKodu)
+
+                </a>
+            </div>
+        }
+    }
+    else
+    {
+        <h2>Stok Bulunamadı</h2>
+    }
+</div>

@@ -1,0 +1,30 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    var indexId = Model.indexId;
+
+}
+
+<div class="row">
+    @if (Model.ArizaPotaKartSecimModels[indexId].PotaKartBilesenModels.Any())
+    {
+        int g = -1;
+        foreach (var item in Model.ArizaPotaKartSecimModels[indexId].PotaKartBilesenModels)
+        {
+            g++;
+            <div class="col-6">
+                @Html.HiddenFor(a=>a.ArizaPotaKartSecimModels[indexId].PotaKartBilesenModels[g].BilesenHeader.Id)
+                <div class="form-group">
+                    <b>@item.BilesenHeader.BilesenHeaderAdi</b>
+                    @Html.DropDownListFor(a => a.ArizaPotaKartSecimModels[indexId].PotaKartBilesenModels[g].SecilenBilesenItemId,
+                        new SelectList(item.DropPotaKartBilesenItems, "Id", "Tanim", item.SecilenBilesenItemId),
+                        new {@class = "form-control", id = item.BilesenHeader.Id})
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h5>Lütfen Seçim Yapınız</h5>
+    }
+</div>

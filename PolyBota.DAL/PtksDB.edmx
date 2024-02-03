@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="POTA_PTKSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="StokAmbar">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+            <PropertyRef Name="LotNo" />
+            <PropertyRef Name="AmbarNo" />
+          </Key>
+          <Property Name="StokKodu" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="LotNo" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="AmbarNo" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="Miktar1" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Miktar2" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="Miktar3" Type="decimal" Precision="18" Scale="6" />
+          <Property Name="SonFiyat" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SonDovizBirimi" Type="char" MaxLength="8" />
+        </EntityType>
+        <EntityType Name="StokAmbarAdres">
+          <Key>
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="SiraNo" Type="int" Nullable="false" />
+          <Property Name="StokKodu" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="LotNo" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="AmbarNo" Type="char" MaxLength="20" Nullable="false" />
+          <Property Name="SeriNo" Type="char" MaxLength="40" />
+          <Property Name="X" Type="varchar" MaxLength="2" />
+          <Property Name="Y" Type="varchar" MaxLength="2" />
+          <Property Name="Z" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="Miktar1" Type="numeric" Precision="18" Scale="6" Nullable="false" />
+          <Property Name="Miktar2" Type="numeric" Precision="18" Scale="6" />
+          <Property Name="Miktar3" Type="numeric" Precision="18" Scale="6" />
+        </EntityType>
+        <EntityType Name="StokHareket">
+          <Key>
+            <PropertyRef Name="FisNo" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="FisNo" Type="int" Nullable="false" />
+          <Property Name="SiraNo" Type="int" Nullable="false" />
+          <Property Name="StokTuru" Type="char" MaxLength="30" />
+          <Property Name="StokKodu" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="LotNo" Type="char" MaxLength="40" Nullable="false" />
+          <Property Name="SeriNo" Type="char" MaxLength="40" />
+          <Property Name="Miktar1" Type="numeric" Precision="18" Scale="6" />
+          <Property Name="OlcuBirimi1" Type="char" MaxLength="8" />
+          <Property Name="Miktar2" Type="numeric" Precision="18" Scale="6" />
+          <Property Name="OlcuBirimi2" Type="char" MaxLength="8" />
+          <Property Name="Miktar3" Type="numeric" Precision="18" Scale="6" />
+          <Property Name="OlcuBirimi3" Type="char" MaxLength="8" />
+          <Property Name="Fiyat" Type="numeric" Precision="18" Scale="4" />
+          <Property Name="DovizBirimi" Type="char" MaxLength="8" />
+          <Property Name="SiparisNo" Type="char" MaxLength="30" />
+          <Property Name="SiparisSiraNo" Type="smallint" />
+          <Property Name="PartiNo" Type="char" MaxLength="40" />
+          <Property Name="IslemGrubu" Type="char" MaxLength="30" />
+          <Property Name="Aciklama" Type="char" MaxLength="50" />
+          <Property Name="SatinalmaSiparisNo" Type="char" MaxLength="30" />
+          <Property Name="SatinalmaSiparisSiraNo" Type="smallint" />
+          <Property Name="IslemSiraNo" Type="smallint" />
+          <Property Name="DaraTipNo" Type="char" MaxLength="8" />
+          <Property Name="KDVDahilmi" Type="varchar" MaxLength="50" />
+          <Property Name="KDVOrani" Type="numeric" Precision="18" Scale="4" />
+          <Property Name="BrutNetKatsayisi" Type="numeric" Precision="18" Scale="4" />
+          <Property Name="Kur" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="YerelFiyat" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PaletNo" Type="varchar" MaxLength="15" />
+          <Property Name="UretimSiraNo" Type="smallint" />
+          <Property Name="CariLotNo" Type="varchar" MaxLength="40" />
+          <Property Name="MaliyetMerkezNo" Type="varchar" MaxLength="20" />
+          <Property Name="Kabul" Type="varchar" MaxLength="1" />
+          <Property Name="BagliOlduguFisNo" Type="int" />
+          <Property Name="BagliOlduguSiraNo" Type="int" />
+          <Property Name="DokumSiraNo" Type="int" />
+          <Property Name="TanimlandigiTarih" Type="datetime" />
+          <Property Name="SevkIsEmriNo" Type="int" />
+          <Property Name="DokumTarihi" Type="smalldatetime" />
+          <Property Name="SevkiyatPlanNo" Type="int" />
+        </EntityType>
+        <EntityType Name="StokHareketAna">
+          <Key>
+            <PropertyRef Name="FisNo" />
+          </Key>
+          <Property Name="FisNo" Type="int" Nullable="false" />
+          <Property Name="Tarih" Type="smalldatetime" Nullable="false" />
+          <Property Name="FisTuru" Type="char" MaxLength="8" Nullable="false" />
+          <Property Name="GirisAmbarNo" Type="char" MaxLength="20" />
+          <Property Name="CikisAmbarNo" Type="char" MaxLength="20" />
+          <Property Name="CariNo" Type="char" MaxLength="40" />
+          <Property Name="Aciklama" Type="char" MaxLength="150" />
+          <Property Name="BelgeTuru" Type="char" MaxLength="30" />
+          <Property Name="BelgeNo" Type="char" MaxLength="30" />
+          <Property Name="BelgeTarihi" Type="smalldatetime" />
+          <Property Name="FisiDuzenleyen" Type="char" MaxLength="20" />
+          <Property Name="SevkYeri" Type="char" MaxLength="150" />
+          <Property Name="NakliyeFirmasi" Type="char" MaxLength="40" />
+          <Property Name="WayBill" Type="char" MaxLength="20" />
+          <Property Name="SevkSiparisNo" Type="char" MaxLength="30" />
+          <Property Name="SonKullanimTarihi" Type="smalldatetime" />
+          <Property Name="SonKullaniciKodu" Type="varchar" MaxLength="10" />
+          <Property Name="TanimlayanKullaniciKodu" Type="varchar" MaxLength="10" />
+          <Property Name="HareketKarakteri" Type="tinyint" />
+          <Property Name="BeyanEdilenMiktar" Type="float" />
+          <Property Name="OtomatikBelgeNo" Type="varchar" MaxLength="30" />
+          <Property Name="SayacKarakteri" Type="varchar" MaxLength="30" />
+          <Property Name="SonKayitNo" Type="int" Nullable="false" />
+          <Property Name="BeyanEdilenMiktar2" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BeyanEdilenMiktar3" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GidecegiAmbarNo" Type="varchar" MaxLength="20" />
+          <Property Name="SozlesmeNo" Type="varchar" MaxLength="30" />
+          <Property Name="TanimlandigiTarih" Type="datetime" />
+          <Property Name="LogoAktarim" Type="int" />
+          <Property Name="AktarimHataTarihSaat" Type="smalldatetime" />
+          <Property Name="AktarimHata" Type="varchar" MaxLength="400" />
+        </EntityType>
+        <EntityContainer Name="POTA_PTKSModelStoreContainer">
+          <EntitySet Name="StokAmbar" EntityType="Self.StokAmbar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokAmbarAdres" EntityType="Self.StokAmbarAdres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokHareket" EntityType="Self.StokHareket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StokHareketAna" EntityType="Self.StokHareketAna" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="POTA_PTKSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="StokAmbar">
+          <Key>
+            <PropertyRef Name="StokKodu" />
+            <PropertyRef Name="LotNo" />
+            <PropertyRef Name="AmbarNo" />
+          </Key>
+          <Property Name="StokKodu" Type="String" MaxLength="40" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LotNo" Type="String" MaxLength="40" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="AmbarNo" Type="String" MaxLength="20" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Miktar1" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Miktar2" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Miktar3" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="SonFiyat" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SonDovizBirimi" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+        </EntityType>
+        <EntityType Name="StokHareket">
+          <Key>
+            <PropertyRef Name="FisNo" />
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="FisNo" Type="Int32" Nullable="false" />
+          <Property Name="SiraNo" Type="Int32" Nullable="false" />
+          <Property Name="StokTuru" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="StokKodu" Type="String" MaxLength="40" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LotNo" Type="String" MaxLength="40" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SeriNo" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="Miktar1" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="OlcuBirimi1" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="Miktar2" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="OlcuBirimi2" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="Miktar3" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="OlcuBirimi3" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="Fiyat" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="DovizBirimi" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="SiparisNo" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="SiparisSiraNo" Type="Int16" />
+          <Property Name="PartiNo" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="IslemGrubu" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="SatinalmaSiparisNo" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="SatinalmaSiparisSiraNo" Type="Int16" />
+          <Property Name="IslemSiraNo" Type="Int16" />
+          <Property Name="DaraTipNo" Type="String" MaxLength="8" FixedLength="true" Unicode="false" />
+          <Property Name="KDVDahilmi" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="KDVOrani" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BrutNetKatsayisi" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Kur" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="YerelFiyat" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PaletNo" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="UretimSiraNo" Type="Int16" />
+          <Property Name="CariLotNo" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="MaliyetMerkezNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Kabul" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="BagliOlduguFisNo" Type="Int32" />
+          <Property Name="BagliOlduguSiraNo" Type="Int32" />
+          <Property Name="DokumSiraNo" Type="Int32" />
+          <Property Name="TanimlandigiTarih" Type="DateTime" Precision="3" />
+          <Property Name="SevkIsEmriNo" Type="Int32" />
+          <Property Name="DokumTarihi" Type="DateTime" Precision="0" />
+          <Property Name="SevkiyatPlanNo" Type="Int32" />
+        </EntityType>
+        <EntityType Name="StokHareketAna">
+          <Key>
+            <PropertyRef Name="FisNo" />
+          </Key>
+          <Property Name="FisNo" Type="Int32" Nullable="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FisTuru" Type="String" MaxLength="8" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="GirisAmbarNo" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="CikisAmbarNo" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="CariNo" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="Aciklama" Type="String" MaxLength="150" FixedLength="true" Unicode="false" />
+          <Property Name="BelgeTuru" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="BelgeNo" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="BelgeTarihi" Type="DateTime" Precision="0" />
+          <Property Name="FisiDuzenleyen" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="SevkYeri" Type="String" MaxLength="150" FixedLength="true" Unicode="false" />
+          <Property Name="NakliyeFirmasi" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="WayBill" Type="String" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="SevkSiparisNo" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="SonKullanimTarihi" Type="DateTime" Precision="0" />
+          <Property Name="SonKullaniciKodu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TanimlayanKullaniciKodu" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="HareketKarakteri" Type="Byte" />
+          <Property Name="BeyanEdilenMiktar" Type="Double" />
+          <Property Name="OtomatikBelgeNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SayacKarakteri" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="SonKayitNo" Type="Int32" Nullable="false" />
+          <Property Name="BeyanEdilenMiktar2" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BeyanEdilenMiktar3" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GidecegiAmbarNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="SozlesmeNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TanimlandigiTarih" Type="DateTime" Precision="3" />
+          <Property Name="LogoAktarim" Type="Int32" />
+          <Property Name="AktarimHataTarihSaat" Type="DateTime" Precision="0" />
+          <Property Name="AktarimHata" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="POTA_PTKSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="StokAmbars" EntityType="Self.StokAmbar" />
+          <EntitySet Name="StokHarekets" EntityType="Self.StokHareket" />
+          <EntitySet Name="StokHareketAnas" EntityType="Self.StokHareketAna" />
+          <EntitySet Name="StokAmbarAdres" EntityType="POTA_PTKSModel.StokAmbarAdre" />
+        </EntityContainer>
+        <EntityType Name="StokAmbarAdre">
+          <Key>
+            <PropertyRef Name="SiraNo" />
+          </Key>
+          <Property Name="SiraNo" Type="Int32" Nullable="false" />
+          <Property Name="StokKodu" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="LotNo" Type="String" Nullable="false" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="AmbarNo" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="false" />
+          <Property Name="SeriNo" Type="String" MaxLength="40" FixedLength="true" Unicode="false" />
+          <Property Name="X" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Y" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+          <Property Name="Z" Type="String" Nullable="false" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="Miktar1" Type="Decimal" Nullable="false" Precision="18" Scale="6" />
+          <Property Name="Miktar2" Type="Decimal" Precision="18" Scale="6" />
+          <Property Name="Miktar3" Type="Decimal" Precision="18" Scale="6" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="POTA_PTKSModelStoreContainer" CdmEntityContainer="POTA_PTKSEntities">
+          <EntitySetMapping Name="StokAmbars">
+            <EntityTypeMapping TypeName="POTA_PTKSModel.StokAmbar">
+              <MappingFragment StoreEntitySet="StokAmbar">
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="AmbarNo" ColumnName="AmbarNo" />
+                <ScalarProperty Name="Miktar1" ColumnName="Miktar1" />
+                <ScalarProperty Name="Miktar2" ColumnName="Miktar2" />
+                <ScalarProperty Name="Miktar3" ColumnName="Miktar3" />
+                <ScalarProperty Name="SonFiyat" ColumnName="SonFiyat" />
+                <ScalarProperty Name="SonDovizBirimi" ColumnName="SonDovizBirimi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokHarekets">
+            <EntityTypeMapping TypeName="POTA_PTKSModel.StokHareket">
+              <MappingFragment StoreEntitySet="StokHareket">
+                <ScalarProperty Name="FisNo" ColumnName="FisNo" />
+                <ScalarProperty Name="SiraNo" ColumnName="SiraNo" />
+                <ScalarProperty Name="StokTuru" ColumnName="StokTuru" />
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="SeriNo" ColumnName="SeriNo" />
+                <ScalarProperty Name="Miktar1" ColumnName="Miktar1" />
+                <ScalarProperty Name="OlcuBirimi1" ColumnName="OlcuBirimi1" />
+                <ScalarProperty Name="Miktar2" ColumnName="Miktar2" />
+                <ScalarProperty Name="OlcuBirimi2" ColumnName="OlcuBirimi2" />
+                <ScalarProperty Name="Miktar3" ColumnName="Miktar3" />
+                <ScalarProperty Name="OlcuBirimi3" ColumnName="OlcuBirimi3" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="DovizBirimi" ColumnName="DovizBirimi" />
+                <ScalarProperty Name="SiparisNo" ColumnName="SiparisNo" />
+                <ScalarProperty Name="SiparisSiraNo" ColumnName="SiparisSiraNo" />
+                <ScalarProperty Name="PartiNo" ColumnName="PartiNo" />
+                <ScalarProperty Name="IslemGrubu" ColumnName="IslemGrubu" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="SatinalmaSiparisNo" ColumnName="SatinalmaSiparisNo" />
+                <ScalarProperty Name="SatinalmaSiparisSiraNo" ColumnName="SatinalmaSiparisSiraNo" />
+                <ScalarProperty Name="IslemSiraNo" ColumnName="IslemSiraNo" />
+                <ScalarProperty Name="DaraTipNo" ColumnName="DaraTipNo" />
+                <ScalarProperty Name="KDVDahilmi" ColumnName="KDVDahilmi" />
+                <ScalarProperty Name="KDVOrani" ColumnName="KDVOrani" />
+                <ScalarProperty Name="BrutNetKatsayisi" ColumnName="BrutNetKatsayisi" />
+                <ScalarProperty Name="Kur" ColumnName="Kur" />
+                <ScalarProperty Name="YerelFiyat" ColumnName="YerelFiyat" />
+                <ScalarProperty Name="PaletNo" ColumnName="PaletNo" />
+                <ScalarProperty Name="UretimSiraNo" ColumnName="UretimSiraNo" />
+                <ScalarProperty Name="CariLotNo" ColumnName="CariLotNo" />
+                <ScalarProperty Name="MaliyetMerkezNo" ColumnName="MaliyetMerkezNo" />
+                <ScalarProperty Name="Kabul" ColumnName="Kabul" />
+                <ScalarProperty Name="BagliOlduguFisNo" ColumnName="BagliOlduguFisNo" />
+                <ScalarProperty Name="BagliOlduguSiraNo" ColumnName="BagliOlduguSiraNo" />
+                <ScalarProperty Name="DokumSiraNo" ColumnName="DokumSiraNo" />
+                <ScalarProperty Name="TanimlandigiTarih" ColumnName="TanimlandigiTarih" />
+                <ScalarProperty Name="SevkIsEmriNo" ColumnName="SevkIsEmriNo" />
+                <ScalarProperty Name="DokumTarihi" ColumnName="DokumTarihi" />
+                <ScalarProperty Name="SevkiyatPlanNo" ColumnName="SevkiyatPlanNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokHareketAnas">
+            <EntityTypeMapping TypeName="POTA_PTKSModel.StokHareketAna">
+              <MappingFragment StoreEntitySet="StokHareketAna">
+                <ScalarProperty Name="FisNo" ColumnName="FisNo" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="FisTuru" ColumnName="FisTuru" />
+                <ScalarProperty Name="GirisAmbarNo" ColumnName="GirisAmbarNo" />
+                <ScalarProperty Name="CikisAmbarNo" ColumnName="CikisAmbarNo" />
+                <ScalarProperty Name="CariNo" ColumnName="CariNo" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="BelgeTuru" ColumnName="BelgeTuru" />
+                <ScalarProperty Name="BelgeNo" ColumnName="BelgeNo" />
+                <ScalarProperty Name="BelgeTarihi" ColumnName="BelgeTarihi" />
+                <ScalarProperty Name="FisiDuzenleyen" ColumnName="FisiDuzenleyen" />
+                <ScalarProperty Name="SevkYeri" ColumnName="SevkYeri" />
+                <ScalarProperty Name="NakliyeFirmasi" ColumnName="NakliyeFirmasi" />
+                <ScalarProperty Name="WayBill" ColumnName="WayBill" />
+                <ScalarProperty Name="SevkSiparisNo" ColumnName="SevkSiparisNo" />
+                <ScalarProperty Name="SonKullanimTarihi" ColumnName="SonKullanimTarihi" />
+                <ScalarProperty Name="SonKullaniciKodu" ColumnName="SonKullaniciKodu" />
+                <ScalarProperty Name="TanimlayanKullaniciKodu" ColumnName="TanimlayanKullaniciKodu" />
+                <ScalarProperty Name="HareketKarakteri" ColumnName="HareketKarakteri" />
+                <ScalarProperty Name="BeyanEdilenMiktar" ColumnName="BeyanEdilenMiktar" />
+                <ScalarProperty Name="OtomatikBelgeNo" ColumnName="OtomatikBelgeNo" />
+                <ScalarProperty Name="SayacKarakteri" ColumnName="SayacKarakteri" />
+                <ScalarProperty Name="SonKayitNo" ColumnName="SonKayitNo" />
+                <ScalarProperty Name="BeyanEdilenMiktar2" ColumnName="BeyanEdilenMiktar2" />
+                <ScalarProperty Name="BeyanEdilenMiktar3" ColumnName="BeyanEdilenMiktar3" />
+                <ScalarProperty Name="GidecegiAmbarNo" ColumnName="GidecegiAmbarNo" />
+                <ScalarProperty Name="SozlesmeNo" ColumnName="SozlesmeNo" />
+                <ScalarProperty Name="TanimlandigiTarih" ColumnName="TanimlandigiTarih" />
+                <ScalarProperty Name="LogoAktarim" ColumnName="LogoAktarim" />
+                <ScalarProperty Name="AktarimHataTarihSaat" ColumnName="AktarimHataTarihSaat" />
+                <ScalarProperty Name="AktarimHata" ColumnName="AktarimHata" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StokAmbarAdres">
+            <EntityTypeMapping TypeName="POTA_PTKSModel.StokAmbarAdre">
+              <MappingFragment StoreEntitySet="StokAmbarAdres">
+                <ScalarProperty Name="Miktar3" ColumnName="Miktar3" />
+                <ScalarProperty Name="Miktar2" ColumnName="Miktar2" />
+                <ScalarProperty Name="Miktar1" ColumnName="Miktar1" />
+                <ScalarProperty Name="Z" ColumnName="Z" />
+                <ScalarProperty Name="Y" ColumnName="Y" />
+                <ScalarProperty Name="X" ColumnName="X" />
+                <ScalarProperty Name="SeriNo" ColumnName="SeriNo" />
+                <ScalarProperty Name="AmbarNo" ColumnName="AmbarNo" />
+                <ScalarProperty Name="LotNo" ColumnName="LotNo" />
+                <ScalarProperty Name="StokKodu" ColumnName="StokKodu" />
+                <ScalarProperty Name="SiraNo" ColumnName="SiraNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

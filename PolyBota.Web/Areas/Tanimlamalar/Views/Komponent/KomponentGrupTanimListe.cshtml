@@ -1,0 +1,133 @@
+﻿@model PolyBota.Web.Areas.Tanimlamalar.Models.TanimlamaKomponentModel
+
+@{
+    ViewBag.Title = "KomponentGrupTanimListe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Stok Grup Tanım Liste</h5>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+                <button class="btn btn-success btn-sm"><i class="fa fa-reply-all"></i> Anasayfa</button>
+              
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Stok Grup Listesi</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="alert alert-light alert-dismissible " role="alert"
+             style="border-left: 5px solid #1abb9c">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+            <strong>Sayfa Kullanımı</strong><br />
+            Stok Grup Tanım ve Güncelleme İşlemlerini Yapabilirsiniz
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Stok Grup Listesi</h2>
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="@Url.Action("KomponentGrupDetay")" class="btn btn-success">Yeni Kayıt</a>
+                    </div>
+                    <div class="col-md-12 table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Tanım</th>
+                                <th colspan="2"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @{
+                                int t = 0;
+                                foreach (var item in Model.KomponentTanimGrups)
+                                {
+                                    t++;
+                                    <tr>
+                                        <td>@t</td>
+                                        <td>@item.KomponentTanimGrupAdi</td>
+                                        <td><a href="@Url.Action("KomponentGrupDetay","Komponent",new{id=item.Id})" class="btn btn-dark btn-block">Düzenle</a></td>
+                                        <td><a href="javascript:" onclick="ItemSil(@item.Id)" class="btn btn-danger btn-block">Sil</a></td>
+                                    </tr>
+                                }
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div id="modal-summary"></div>
+
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+
+        function ItemSil(id) {
+
+
+            Swal.fire({
+                title: 'Silmek istediğinize emin misiniz ?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sil!'
+            }).then((result) => {
+
+                if (result.value) {
+                    window.location.href = "/Tanimlamalar/Komponent/KomponentGrupSil/" + id;
+                }
+            });
+
+
+
+        }
+    </script>
+}
+

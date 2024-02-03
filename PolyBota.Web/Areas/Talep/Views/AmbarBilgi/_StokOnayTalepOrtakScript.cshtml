@@ -1,0 +1,43 @@
+﻿
+<script>
+    function ModalGoster(id, tip) {
+        var url = "/Talep/AmbarBilgi/StokTalebiDuzenle/" + id;
+        url += "?tip=" + tip;
+
+        $.get(url,
+            function (data) {
+
+                var alan = $("#modal-summary");
+                alan.empty();
+                alan.append(data);
+                Yenile();
+            });
+    }
+
+    function frmTalepDuzenle() {
+        var data = $("#frm-talep").serialize();
+        var url = "/Talep/AmbarBilgi/StokTalebiDuzenle";
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: data,
+            success: function (result) {
+                if (result.state == 0) {
+                    Swal.fire({
+                        title: "Bir Hata Oluştu..",
+                        icon: "warning"
+                    });
+                }
+                else {
+                 
+                    location.reload(true);
+                }
+            },
+            error: function () {
+                alert("hata oluştu");
+            }
+        });
+    }
+</script>
+

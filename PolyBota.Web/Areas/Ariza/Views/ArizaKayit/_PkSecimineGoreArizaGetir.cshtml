@@ -1,0 +1,19 @@
+﻿@model PolyBota.Web.Areas.Ariza.Models.ArizaKayitModel
+
+@{
+    var indexId = Model.indexId;
+
+}
+
+<div class="form-group">
+    <b>ARIZA SEÇİMİ</b>
+    @Html.DropDownListFor(a => a.ArizaTanimId,
+        new SelectList(Model.ArizaTanims, "Id", "ArizaTanimAdi", Model.ArizaTanimId),
+        new { @class = "form-control input-lg",
+            @onchange = "PkveArizayaGoreKayit()",
+            id = "selectArizaId" })
+</div>
+
+<div id="alan-pkVeAr">
+
+</div>

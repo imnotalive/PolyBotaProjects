@@ -1,0 +1,55 @@
+﻿@model PolyBota.Web.Areas.Endustri.Models.ZamanEtuduModel
+
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">@Html.Raw(Model.ZamanEtuduModelItem.ZamanEtuduItem.Id == 0 ? "YENİ KAYIT" : "KAYIT DÜZENLE")</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+
+
+    @using (Html.BeginForm("ZamanEtuduItemEkleDuzenle", "ZamanEtudu"))
+    {
+        @Html.HiddenFor(a => a.ZamanEtuduModelItem.ZamanEtuduItem.Id)
+        @Html.HiddenFor(a => a.ZamanEtuduModelItem.ZamanEtuduItem.ZamanEtuduHeaderId)
+        <div class="modal-body">
+            <div class="row">
+
+
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <b>Pota Kart Seçimi</b>
+                        @Html.DropDownListFor(a => a.ZamanEtuduModelItem.ZamanEtuduItem.PotaKartId, Model.PotaKarts.Select(a=> new SelectListItem()
+                   {
+                       Text = a.PotaKartAdi,
+                       Value = a.Id.ToString()
+                   }), new { @class = "form-control", @onchange=string.Format("pkDegistir({0})",Model.ZamanEtuduModelItem.ZamanEtuduItem.Id),@id= "pkId" })
+                    </div>
+                </div>
+
+
+                <div class="col-md-12" id="bilesen-summary">
+                    @Html.Partial("_ZeItemBilesenGetir",Model)
+                </div>
+                <div class="col-md-12">
+
+                    <button type="submit" class="btn btn-block btn-success">KAYDET</button>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="modal-footer ">
+            <button type="button" class="btn btn-default btn-danger" data-dismiss="modal">KAPAT</button>
+
+        </div>
+    }
+
+
+
+</div>

@@ -1,0 +1,65 @@
+﻿@model PolyBota.Web.Areas.Kart.Models.KartStokModel
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="form-group">
+                <b>&nbsp;</b>
+                <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGoster(0,3,0)">Yeni Kayıt</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Hatırlatma Tarihi</th>
+                    <td>Hatırlatma Durumu</td>
+                    <td>Konu</td>
+                    <td></td>
+                </tr>
+
+
+            </thead>
+            <tbody>
+                @{
+                    int k = 0;
+                    foreach (var hatirlatma in Model.StokKartHatirlatmas)
+                    {
+                        k++;
+                        string hatDurum = "<b class='badge badge-danger'> ONAY BEKLENİYOR</b>";
+
+                        if (hatirlatma.HatirlatmaDurumu == 0)
+                        {
+
+                            if (hatirlatma.HatirlatmaTarihi.Date>= DateTime.Now.Date)
+                            {
+                                hatDurum = "<b class='badge badge-warning beyaz'> Tarih Bekleniyor</b>";
+                            }
+                        }
+                        else
+                            {
+                                hatDurum = "<b class='badge badge-success'> TAMAMLANDI</b>";
+                            }
+                      
+
+
+
+
+                        <tr>
+                            <td>@k</td>
+                            <td>@hatirlatma.HatirlatmaTarihi.ToShortDateString()</td>
+                            <td>
+                                @Html.Raw(hatDurum)
+                            </td>
+                            <td>@hatirlatma.Aciklama</td>
+                            <td>  <a href="javascript:" class="btn btn-info" data-toggle="modal" data-target="#modal" onclick="ModalGoster(@hatirlatma.Id,3,0)">Düzenle</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+

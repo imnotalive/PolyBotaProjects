@@ -1,0 +1,96 @@
+﻿
+@{
+    ViewBag.Title = "StokKartTaslak";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-title">
+    <div class="col-md-8 col-sm-12">
+        <div class="col-md-6">
+            <h5>Stok Kart Liste</h5>
+
+        </div>
+        <Div class="col-md-6">
+            <div class="btn btn-group" role="group">
+
+                <a class="btn btn-success btn-sm" href="/"><i class="fa fa-reply-all"></i> Anasayfa</a>
+
+
+            </div>
+        </Div>
+
+    </div>
+    <div class="col-md-4 col-sm-12">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+
+                    <li class="breadcrumb-item"><a href="/">Anasayfa</a></li>
+
+                    <li class="breadcrumb-item active" aria-current="page">Stok Kart Taslak Yükleme</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+
+</div>
+<div class="clearfix"></div>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+            <div class="x_title">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <a href="@Url.Action("StokKartTaslakExcel")" class="btn btn-danger">Taslak Excel</a>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>
+                            Stok Kart Listesi
+                        </h2>
+                    </div>
+                </div>
+
+
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        @using (Html.BeginForm("StokKartTaslak", "Stok", FormMethod.Post, new
+                        {
+                            enctype = "multipart/form-data",
+                            id = "frm-stokresim"
+                        }))
+                        {
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <b>Excel Seçimi</b>
+                                        <input type="file" name="file" class="form-control" id="File" />
+
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <b> &nbsp; </b>
+                                        <input type="submit" value="Kaydet" class="btn btn-secondary btn-block" />
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</div>
